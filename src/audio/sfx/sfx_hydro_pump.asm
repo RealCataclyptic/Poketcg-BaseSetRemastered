@@ -1,0 +1,123 @@
+Sfx_HydroPump_Ch1:
+	sfx_pan TRUE, TRUE
+	sfx_env 15, 6
+	sfx_freq $84
+	sfx_freq $81
+	sfx_freq $84
+	sfx_freq $11
+	sfx_freq $14
+	sfx_freq $51
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_env 12, 6
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $24
+	sfx_freq $21
+	sfx_env 6, -7
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_env 15, 6
+	sfx_freq $84
+	sfx_freq $81
+	sfx_freq $84
+	sfx_freq $11
+	sfx_freq $14
+	sfx_freq $51
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_env 8, 6
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_freq $54
+	sfx_freq $51
+	sfx_env 6, 6
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_freq $44
+	sfx_freq $41
+	sfx_env 4, 6
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_freq $34
+	sfx_freq $31
+	sfx_env 1, 6
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_freq $24
+	sfx_freq $21
+	sfx_end
