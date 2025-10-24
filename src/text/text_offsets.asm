@@ -3012,3 +3012,4 @@ TextOffsets::
 	textpointer InflictConfusionDescription
 	textpointer SwiftName
 	textpointer SwiftDescription
+	textpointer ChoiceTextDiscardForRecoil

@@ -63,7 +63,7 @@ Do20Plus2x10DamageEffectCommands:
 
 Discard1AttachedEnergyEffectCommands:
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Discard1AttachedEnergy_PlayerSelection
-	dbw EFFECTCMDTYPE_AI_SELECTION, Discard1AttachedFireEnergy_AISelection
+	dbw EFFECTCMDTYPE_AI_SELECTION, Discard1AttachedEnergy_AISelection
 	dbw EFFECTCMDTYPE_DISCARD_ENERGY, CardDiscardEffect
 	db  $00
 
@@ -71,6 +71,10 @@ UnaffectedByEverythingEffectCommands:
 	db  $00
 
 Do20RecoilUnlessFDiscardEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ArcanineDiscardEffect
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, PlayerChooseArcanineEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, Arcanine_AISelectEffect
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, ArcanineRecoilEffect
 	db  $00
 
 ;------------------------------------------------------------------------------------------------------

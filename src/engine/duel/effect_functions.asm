@@ -606,12 +606,48 @@ Discard1AttachedEnergy_PlayerSelection:
 	ldh [hTemp_ffa0], a
 	ret
 
-Discard1AttachedFireEnergy_AISelection:
+Discard1AttachedEnergy_AISelection:
 	xor a ; PLAY_AREA_ARENA
 	call CreateArenaOrBenchEnergyCardList
 	ld hl, wDuelTempList
 	ldh [hTemp_ffa0], a
 	ret
+
+PlayerChooseArcanineEffect:
+	bank1call DrawDuelMainScene 
+	ldtx hl, ChoiceTextDiscardForRecoil
+	call TwoItemHorizontalMenu 
+	ldh a, [hKeysHeld] ; loads the player's input
+	and PAD_B ; was the B button pressed?
+	jr nz, PlayerChooseArcanineEffect ; this forces the player to select either "Yes" or "No", can't exit
+	ldh a, [hCurMenuItem] ; stores the result in a
+	ldh [hTemp_ffa0], a ; loads what the player selected into hTemp_ffa0
+
+ArcanineDiscardEffect:
+	ldh a, [hTemp_ffa0]
+	or a
+	ret nz ; return if "No" was selected
+	call CreateListOfFireEnergyAttachedToActive
+	ld a, [wDuelTempList]
+	ldh [hTemp_ffa0], a
+	call PutCardInDiscardPile
+	xor a
+	ldh [hTemp_ffa0], a
+	ret
+
+ArcanineRecoilEffect:
+	ldh a, [hTemp_ffa0]
+	or a
+	ret z ; return if "Yes" was selected
+	; otherwise, the Attacking Pokémon does 30 damage to itself
+	ld a, 30
+	jp DealRecoilDamageToSelf
+
+Arcanine_AISelectEffect:
+	xor a ; Ai always chooses to discard
+	ldh [hTemp_ffa0], a
+	jp DiscardAttachedFireEnergy_AISelection
+
 
 
 ;---------------------------------------------------------------------------------

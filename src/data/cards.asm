@@ -1,6 +1,6 @@
 ; TODO: Make card data structures more compact and rearrange the fields for
 ; convenience once the meaning of all fields is figured out.
-; Incomplete cards: Kakuna, Beedrill, Metapod, Charmeleon, Ninetales
+; Incomplete cards: Kakuna, Beedrill, Metapod, Charmeleon, Ninetales, Arcanine
 ; On: Arcanine
 
 CardPointers::

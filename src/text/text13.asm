@@ -280,3 +280,9 @@ SwiftDescription:
 	line "powers, or any other effects on"
 	line "the defending Pokémon."
 	done
+
+ChoiceTextDiscardForRecoil:
+	text "Discard <FIRE> for no recoil?"
+	line "            Yes     No"
+	done
+
