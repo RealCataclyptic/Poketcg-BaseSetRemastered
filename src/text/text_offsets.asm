@@ -3013,3 +3013,6 @@ TextOffsets::
 	textpointer SwiftName
 	textpointer SwiftDescription
 	textpointer ChoiceTextDiscardForRecoil
+	textpointer WithdrawText
+	textpointer ReturnOppEnergyToHandDesc
+	textpointer ChooseReturnEnergyCardFromOpponentText

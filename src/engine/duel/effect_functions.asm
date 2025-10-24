@@ -648,6 +648,57 @@ Arcanine_AISelectEffect:
 	ldh [hTemp_ffa0], a
 	jp DiscardAttachedFireEnergy_AISelection
 
+WithdrawEffect:
+	ldtx de, WithdrawText
+	call TossCoin
+	jr c, .successful
+	jp ReduceBy10Effect
+
+.successful
+	jp ReduceBy30Effect
+
+ReturnEnergyDefendingPokemon_PlayerSelection:
+	rst SwapTurn
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	jr c, .no_energy
+
+	ldtx hl, ChooseReturnEnergyCardFromOpponentText
+	call DrawWideTextBox_WaitForInput
+	xor a ; PLAY_AREA_ARENA
+	bank1call DisplayEnergyDiscardScreen
+.loop_input
+	bank1call HandleEnergyDiscardMenuInput
+	jr c, .loop_input ; must choose, B button can't be used to exit
+
+	ldh [hTemp_ffa0], a ; store selected card to discard
+	jp SwapTurn
+
+.no_energy
+	ld a, -1
+	ldh [hTemp_ffa0], a
+	jp SwapTurn
+	
+DefendingPokemonEnergy_ReturnEffect:
+	call HandleNoDamageOrEffect
+	ret c ; return if the attack had no effect
+	
+	; check if an Energy card was chosen to discard
+	ldh a, [hTemp_ffa0]
+	cp -1
+	ret z ; return if none selected
+
+	; discard an Energy from the Defending Pokemon
+	; this doesn't update DUELVARS_ARENA_CARD_LAST_TURN_EFFECT
+	rst SwapTurn
+	call AddCardToHand
+
+	;ld a, DUELVARS_ARENA_CARD_LAST_TURN_EFFECT ; is this for mirror move??
+	;get_turn_duelist_var
+	;ld [hl], LAST_TURN_EFFECT_DISCARD_ENERGY
+	jp SwapTurn
+
+	
 
 
 ;---------------------------------------------------------------------------------
@@ -2285,6 +2336,10 @@ ReduceBy20Effect:
 	ld a, SUBSTATUS2_REDUCE_BY_20
 	jr ApplySubstatus2ToDefendingCard
 
+ReduceBy30Effect:
+	ld a, SUBSTATUS2_REDUCE_BY_30
+	jr ApplySubstatus2ToDefendingCard
+
 
 ; flips a coin, and if heads, the Defending Pokemon can't retreat during the next turn
 NoRetreat50PercentEffect:
@@ -3864,7 +3919,9 @@ WWaterGunEffect:
 
 WCWaterGunEffect:
 	lb bc, 1, 1
-	jr ApplyExtraWaterEnergyDamageBonus
+	call ApplyExtraWaterEnergyDamageBonus
+	call ATimes10
+	jp AddToDamage
 
 WWCWaterGunEffect:
 	lb bc, 2, 1
@@ -3881,7 +3938,8 @@ WWWHydroPumpEffect:
 ;	b = number of Water Energy listed in Attack Cost
 ;	c = number of Colorless Energy listed in Attack Cost
 ;	[hTempPlayAreaLocation_ff9d] = play area location offset of the Pokémon being checked
-ApplyExtraWaterEnergyDamageBonus:
+
+ApplyExtraWaterEnergyDamageBonus: ; CHANGED SUCH THAT IT NOW OUTPUTS A FOR EASE OF USE WITH THESE ATTACKS
 	ld a, [wMetronomeEnergyCost]
 	or a
 	jr z, .not_metronome
@@ -3921,11 +3979,14 @@ ApplyExtraWaterEnergyDamageBonus:
 	inc a ; reverse the result of the earlier "inc b" instruction
 
 ; a holds the number of Water Energy not used to pay for the cost of the attack
-	cp 3
+	cp 6 ; BLASTOISE LIMIT
 	jr c, .less_than_3
-	ld a, 2 ; cap this to 2 for bonus effect
+	ld a, 5 ; cap this to 2 for bonus effect
+	ret ; RETURN FINAL RESULT IN A
 .less_than_3
-	call ATimes10
+	ret ; RETURN FINAL RESULT IN A
+
+
 ;	fallthrough
 
 ; preserves all registers except af

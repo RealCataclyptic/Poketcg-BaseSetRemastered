@@ -7887,6 +7887,8 @@ ClearDamageReductionSubstatus2::
 	get_turn_duelist_var
 	or a
 	ret z ; return if the Active Pokémon isn't affected by any SUBSTATUS2 effects
+	cp SUBSTATUS2_REDUCE_BY_30
+	jr z, .zero
 	cp SUBSTATUS2_REDUCE_BY_20
 	jr z, .zero
 	cp SUBSTATUS2_REDUCE_BY_10

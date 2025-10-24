@@ -35,6 +35,8 @@ HandleDamageReduction::
 	call GetNonTurnDuelistVariable
 	or a
 	ret z
+	cp SUBSTATUS2_REDUCE_BY_30
+	jr z, ReduceDamageBy30
 	cp SUBSTATUS2_REDUCE_BY_20
 	jr z, ReduceDamageBy20
 	cp SUBSTATUS2_REDUCE_BY_10
@@ -63,6 +65,13 @@ ReduceDamageBy10::
 ;	de -= 20
 ReduceDamageBy20::
 	ld hl, -20
+	add hl, de
+	ld e, l
+	ld d, h
+	ret
+
+ReduceDamageBy30::
+	ld hl, -30
 	add hl, de
 	ld e, l
 	ld d, h

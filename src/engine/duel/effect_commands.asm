@@ -77,6 +77,16 @@ Do20RecoilUnlessFDiscardEffectCommands:
 	dbw EFFECTCMDTYPE_AFTER_DAMAGE, ArcanineRecoilEffect
 	db  $00
 
+WithdrawEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, WithdrawEffect
+	db  $00	
+
+ReturnOppEnergyToHandEffectCommands:
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, ReturnEnergyDefendingPokemon_PlayerSelection
+	dbw EFFECTCMDTYPE_AI_SELECTION, DiscardEnergyDefendingPokemon_AISelection
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, DefendingPokemonEnergy_ReturnEffect
+	db  $00
+
 ;------------------------------------------------------------------------------------------------------
 
 

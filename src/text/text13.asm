@@ -286,3 +286,18 @@ ChoiceTextDiscardForRecoil:
 	line "            Yes     No"
 	done
 
+WithdrawText:
+	text "If heads, -30 damage next turn!"
+	line "If tails, -10 damage next turn!"
+	done
+
+ReturnOppEnergyToHandDesc:
+	text "Choose 1 energy card attached to the"
+	line "defending Pokémon and return it to"
+	line "your opponent's hand."
+	done 
+
+ChooseReturnEnergyCardFromOpponentText:
+	text "Choose an energy card to return"
+	line "to the opponent's hand."
+	done

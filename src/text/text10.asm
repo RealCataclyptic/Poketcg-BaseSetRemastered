@@ -1199,10 +1199,10 @@ WithdrawName:
 	done
 
 SquirtlesWithdrawDescription:
-	text "Flip a coin. If heads, prevent all"
-	line "damage done to Squirtle during your"
-	line "opponent's next turn. (Any other"
-	line "effects of attacks still happen.)"
+	text "Flip a coin. If heads, Squirtle takes"
+	line "30 less damage from attacks during"
+	line "your opponent's next turn. If tails,"
+	line "it takes 10 less damage instead."
 	done
 
 TinyTurtleName:
@@ -1264,11 +1264,11 @@ HydroPumpName:
 	done
 
 HydroPumpDescription:
-	text "Does 40 damage plus 10 more damage"
-	line "for each <WATER> Energy attached to"
-	line "Blastoise but not used to pay for"
-	line "this attack's Energy cost. You can't"
-	line "add more than 20 damage in this way."
+	text "This attack does 10 more damage for"
+	line "each extra <WATER> Energy attached to"
+	line "Blastoise that isn't used to pay for"
+	line "this attack's cost.You can't add"
+	line "more than 50 damage in this way."
 	done
 
 ShellfishName:

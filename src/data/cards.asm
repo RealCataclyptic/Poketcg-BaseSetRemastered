@@ -1,7 +1,7 @@
 ; TODO: Make card data structures more compact and rearrange the fields for
 ; convenience once the meaning of all fields is figured out.
-; Incomplete cards: Kakuna, Beedrill, Metapod, Charmeleon, Ninetales, Arcanine
-; On: Arcanine
+; Incomplete cards: Kakuna, Beedrill, Metapod, Charmeleon, Ninetales, Arcanine, Wartortle
+; Current set in the master document: Base. Current card: Blastoise.
 
 CardPointers::
 	table_width 2, CardPointers
@@ -3114,20 +3114,20 @@ SquirtleCard:
 	db ATK_ANIM_BUBBLES ; animation
 
 	; attack 2
-	energy WATER, 1, COLORLESS, 1 ; energies
+	energy COLORLESS, 2 ; energies
 	tx WithdrawName ; name
 	tx SquirtlesWithdrawDescription ; description
 	dw NONE ; description (cont)
 	db 0 ; damage
 	db RESIDUAL ; category
-	dw FlipToPreventAllDamageEffectCommands ; effect commands
+	dw WithdrawEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NULLIFY_OR_WEAKEN_ATTACK ; flags 2
 	db NONE ; flags 3
 	db 0
 	db ATK_ANIM_PROTECT ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db NONE ; resistance
 	tx TinyTurtleName ; category
@@ -3150,18 +3150,18 @@ WartortleCard:
 	tx SquirtleName ; pre-evo name
 
 	; attack 1
-	energy WATER, 1, COLORLESS, 1 ; energies
-	tx WithdrawName ; name
-	tx WartortlesWithdrawDescription ; description
-	dw NONE ; description (cont)
+	energy 0 ; energies
+	tx RainDanceName ; name
+	tx RainDanceDescription ; description
+	tx RainDanceDescriptionCont ; description (cont)
 	db 0 ; damage
-	db RESIDUAL ; category
-	dw FlipToPreventAllDamageEffectCommands ; effect commands
+	db POKEMON_POWER ; category
+	dw BlastoiseRainDanceEffectCommands ; effect commands
 	db NONE ; flags 1
-	db NULLIFY_OR_WEAKEN_ATTACK ; flags 2
+	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
-	db ATK_ANIM_PROTECT ; animation
+	db ATK_ANIM_PKMN_POWER_1 ; animation
 
 	; attack 2
 	energy WATER, 1, COLORLESS, 2 ; energies
@@ -3195,39 +3195,39 @@ BlastoiseCard:
 	db STAR ; rarity
 	db EVOLUTION | NONE ; sets
 	db BLASTOISE
-	db 100 ; hp
+	db 110 ; hp
 	db STAGE2 ; stage
 	tx WartortleName ; pre-evo name
 
-	; attack 1
-	energy 0 ; energies
-	tx RainDanceName ; name
-	tx RainDanceDescription ; description
-	tx RainDanceDescriptionCont ; description (cont)
-	db 0 ; damage
-	db POKEMON_POWER ; category
-	dw BlastoiseRainDanceEffectCommands ; effect commands
-	db NONE ; flags 1
-	db NONE ; flags 2
-	db NONE ; flags 3
-	db 0
-	db ATK_ANIM_PKMN_POWER_1 ; animation
-
 	; attack 2
-	energy WATER, 3 ; energies
+	energy WATER, 1, COLORLESS, 1 ; energies
 	tx HydroPumpName ; name
 	tx HydroPumpDescription ; description
 	dw NONE ; description (cont)
-	db 40 ; damage
+	db 30 ; damage
 	db DAMAGE_PLUS ; category
-	dw WWWHydroPumpEffectCommands ; effect commands
+	dw WCWaterGunEffectCommands ; effect commands
 	db NONE ; flags 1
 	db ATTACHED_ENERGY_BOOST ; flags 2
 	db NONE ; flags 3
 	db MAX_ENERGY_BOOST_IS_LIMITED
 	db ATK_ANIM_HYDRO_PUMP ; animation
 
-	db 3 ; retreat cost
+	; attack 2
+	energy WATER, 2, COLORLESS, 1 ; energies
+	tx BubblebeamName ; name
+	tx ReturnOppEnergyToHandDesc ; description
+	dw NONE ; description (cont)
+	db 50 ; damage
+	db DAMAGE_NORMAL ; category
+	dw ReturnOppEnergyToHandEffectCommands ; effect commands
+	db INFLICT_PARALYSIS ; flags 1
+	db NONE ; flags 2
+	db NONE ; flags 3
+	db 0
+	db ATK_ANIM_BUBBLES ; animation
+
+	db 2 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db NONE ; resistance
 	tx ShellfishName ; category
