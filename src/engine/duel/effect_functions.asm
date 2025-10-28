@@ -614,6 +614,12 @@ Discard1AttachedEnergy_AISelection:
 	ret
 
 PlayerChooseArcanineEffect:
+	ld e, PLAY_AREA_ARENA
+	call GetPlayAreaCardAttachedEnergies
+	ld a, [wAttachedEnergies + FIRE]
+	cp 1
+	jr c, .CantDiscard
+
 	bank1call DrawDuelMainScene 
 	ldtx hl, ChoiceTextDiscardForRecoil
 	call TwoItemHorizontalMenu 
@@ -622,6 +628,11 @@ PlayerChooseArcanineEffect:
 	jr nz, PlayerChooseArcanineEffect ; this forces the player to select either "Yes" or "No", can't exit
 	ldh a, [hCurMenuItem] ; stores the result in a
 	ldh [hTemp_ffa0], a ; loads what the player selected into hTemp_ffa0
+	ret
+.CantDiscard
+	ld a, 1
+	ldh [hTemp_ffa0], a
+	ret
 
 ArcanineDiscardEffect:
 	ldh a, [hTemp_ffa0]
@@ -634,6 +645,7 @@ ArcanineDiscardEffect:
 	xor a
 	ldh [hTemp_ffa0], a
 	ret
+
 
 ArcanineRecoilEffect:
 	ldh a, [hTemp_ffa0]
