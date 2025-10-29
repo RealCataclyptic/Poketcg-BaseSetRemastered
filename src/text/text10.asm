@@ -1337,11 +1337,11 @@ WaterGunName:
 	done
 
 PoliwagsWaterGunDescription:
-	text "Does 10 damage plus 10 more damage"
-	line "for each <WATER> Energy attached to"
-	line "Poliwag but not used to pay for"
-	line "this attack's Energy cost. You can't"
-	line "add more than 20 damage in this way."
+	text "Flip a coin for each energy attached"
+	line "to Poliwag. This attack does 10"
+	line "damage times the number of heads."
+	line "You can't flip more than 3 coins"
+	line "this way."
 	done
 
 TadpoleName:
@@ -1384,12 +1384,11 @@ PoliwrathName:
 	done
 
 PoliwrathsWaterGunDescription:
-	text "Does 30 damage plus 10 more damage"
-	line "for each <WATER> Energy attached to"
-	line "Poliwrath but not used to pay for"
-	line "this attack's Energy cost. You"
-	line "can't add more than 20 damage in"
-	line "this way."
+	text "Flip a coin for each energy attached"
+	line "to Poliwrath. This attack does 20"
+	line "damage for each heads and 10 damage"
+	line "for each tails. You can't flip more"
+	line "than 5 coins this way."
 	done
 
 WhirlpoolName:
@@ -1562,7 +1561,7 @@ FlailName:
 
 KinglersFlailDescription:
 	text "Does 10 damage times the number of"
-	line "damage counters on Kingler."
+	line "damage counters on this Pokémon."
 	done
 
 CrabhammerName:

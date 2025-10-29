@@ -301,3 +301,20 @@ ChooseReturnEnergyCardFromOpponentText:
 	text "Choose an energy card to return"
 	line "to the opponent's hand."
 	done
+
+Do10xDamagePerBenchedDesc:
+	text "This attack does 10 damage for each"
+	line "of your benched Pokémon."
+	done
+
+Flip20xPerEnergyDesc:
+	text "Flip a coin for each energy attached"
+	line "to Poliwhirl. This attack does 20"
+	line "damage for each heads. You can't"
+	line "flip more than 4 coins this way."
+	done
+
+PoliwrathFlipText:
+	text "Each heads does +20 damage!"
+	line "Each tails does +10 damage!"
+	done

@@ -414,7 +414,7 @@ CheckCantUseTrainerDueToEffect::
 ;	hl = ID for notification text:  if the below condition is true
 ;	carry = set:  if there's an Aerodactyl in play with an active Prehistoric Power
 IsPrehistoricPowerActive::
-	ld a, AERODACTYL
+	ld a, PROFESSOR_OAK
 	call CountPokemonWithActivePkmnPowerInBothPlayAreas
 	ret nc ; return if there isn't an Aerodactyl in play
 	call CheckIfPkmnPowersAreCurrentlyDisabled

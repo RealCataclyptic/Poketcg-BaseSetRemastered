@@ -3016,3 +3016,6 @@ TextOffsets::
 	textpointer WithdrawText
 	textpointer ReturnOppEnergyToHandDesc
 	textpointer ChooseReturnEnergyCardFromOpponentText
+	textpointer Do10xDamagePerBenchedDesc
+	textpointer Flip20xPerEnergyDesc
+	textpointer PoliwrathFlipText

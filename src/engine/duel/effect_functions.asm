@@ -710,6 +710,89 @@ DefendingPokemonEnergy_ReturnEffect:
 	;ld [hl], LAST_TURN_EFFECT_DISCARD_ENERGY
 	jp SwapTurn
 
+EachBenched10XDamageEffect:
+	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
+	get_turn_duelist_var
+	dec a ; don't count Active Pokemon
+	call ATimes10
+	jp SetDefiniteDamage
+
+Flip10xPerEnergyEffect:
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	cp 3
+	jr c, .nocap
+	ld a, 3
+.nocap
+	call Plus10DamagePerHeads_TossCoins
+	jp SetDefiniteDamage
+
+AI_Flip10xPerEnergyEffect:
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	cp 3
+	jr .Cap
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	jr .TwoCFs
+	ld a, 10 / 1
+	lb de, 0, 10
+	jp SetDefiniteAIDamage
+
+.TwoCFs
+	ld a, 20 / 2
+	lb de, 0, 20
+	jp SetDefiniteAIDamage
+
+.Cap
+	ld a, 30 / 3
+	lb de, 0, 30
+	jp SetDefiniteAIDamage
+
+Flip20xPerEnergyEffect:
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	cp 4
+	jr c, .nocap
+	ld a, 4
+.nocap
+	call Plus20DamagePerHeads_TossCoins
+	jp SetDefiniteDamage
+
+
+
+
+Flip20xPerEnergyTails10xEffect:
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	cp 5
+	jr c, .nocap
+	ld a, 5
+.nocap
+	ld b, a 		; b is now max energy/damage possible
+	
+	ldtx de, PoliwrathFlipText
+	push bc
+	call TossCoinATimes
+	pop bc
+	ld c, a 		; c is now actual heads coinflips
+	ld a, b			; load max coinflip heads possible
+	sub c			; sub c
+	ld d, a			; d is now max heads coinflips possible minus actual coinflips
+	ld a, c			; load heads coinflips again
+	add a			; double  it
+	add d			; add d
+	call ATimes10 		; multiply by 10
+	jp SetDefiniteDamage
+
+
+AI_Flip20xPerEnergyTails10xEffect: ; DOES THIS EVEN WORK?
+	xor a ; PLAY_AREA_ARENA
+	call CreateArenaOrBenchEnergyCardList
+	cp 5
+	jr c, .nocap
+	ld a, 5
+.nocap
 	
 
 

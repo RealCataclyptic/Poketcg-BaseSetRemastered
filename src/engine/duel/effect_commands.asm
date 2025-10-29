@@ -83,9 +83,31 @@ WithdrawEffectCommands:
 
 ReturnOppEnergyToHandEffectCommands:
 	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, ReturnEnergyDefendingPokemon_PlayerSelection
-	dbw EFFECTCMDTYPE_AI_SELECTION, DiscardEnergyDefendingPokemon_AISelection
 	dbw EFFECTCMDTYPE_AFTER_DAMAGE, DefendingPokemonEnergy_ReturnEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, DiscardEnergyDefendingPokemon_AISelection
 	db  $00
+
+EachBenched10XDamageEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, EachBenched10XDamageEffect
+	dbw EFFECTCMDTYPE_AI, EachBenched10XDamageEffect
+	db  $00
+
+Flip10xPerEnergyEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Flip10xPerEnergyEffect
+	dbw EFFECTCMDTYPE_AI, AI_Flip10xPerEnergyEffect
+	db  $00
+
+Flip20xPerEnergyEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Flip20xPerEnergyEffect
+	dbw EFFECTCMDTYPE_AI, AI_Flip10xPerEnergyEffect ; placeholder
+	db  $00
+
+Flip20xPerEnergyTails10xEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Flip20xPerEnergyTails10xEffect
+	dbw EFFECTCMDTYPE_AI, AI_Flip20xPerEnergyTails10xEffect; placeholder
+	db  $00
+
+
 
 ;------------------------------------------------------------------------------------------------------
 

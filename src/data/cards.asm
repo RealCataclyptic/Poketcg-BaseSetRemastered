@@ -3221,7 +3221,7 @@ BlastoiseCard:
 	db 50 ; damage
 	db DAMAGE_NORMAL ; category
 	dw ReturnOppEnergyToHandEffectCommands ; effect commands
-	db INFLICT_PARALYSIS ; flags 1
+	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
@@ -3355,8 +3355,8 @@ PoliwagCard:
 	tx PoliwagsWaterGunDescription ; description
 	dw NONE ; description (cont)
 	db 10 ; damage
-	db DAMAGE_PLUS ; category
-	dw WWaterGunEffectCommands ; effect commands
+	db DAMAGE_X ; category
+	dw Flip10xPerEnergyEffectCommands ; effect commands
 	db NONE ; flags 1
 	db ATTACHED_ENERGY_BOOST ; flags 2
 	db NONE ; flags 3
@@ -3377,7 +3377,7 @@ PoliwagCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_GRASS ; weakness
 	db NONE ; resistance
 	tx TadpoleName ; category
@@ -3400,7 +3400,7 @@ PoliwhirlCard:
 	tx PoliwagName ; pre-evo name
 
 	; attack 1
-	energy WATER, 2 ; energies
+	energy COLORLESS, 2 ; energies
 	tx AmnesiaName ; name
 	tx PoliwhirlsAmnesiaDescription ; description
 	dw NONE ; description (cont)
@@ -3414,17 +3414,17 @@ PoliwhirlCard:
 	db ATK_ANIM_AMNESIA ; animation
 
 	; attack 2
-	energy WATER, 2, COLORLESS, 1 ; energies
+	energy COLORLESS, 2 ; energies
 	tx DoubleslapName ; name
-	tx DoubleAttackX30Description ; description
+	tx Flip20xPerEnergyDesc ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
+	db 20 ; damage
 	db DAMAGE_X ; category
-	dw Flip2For30EffectCommands ; effect commands
+	dw Flip20xPerEnergyEffectCommands ; effect commands
 	db NONE ; flags 1
-	db NONE ; flags 2
+	db ATTACHED_ENERGY_BOOST ; flags 2
 	db NONE ; flags 3
-	db 0
+	db MAX_ENERGY_BOOST_IS_LIMITED
 	db ATK_ANIM_HIT ; animation
 
 	db 1 ; retreat cost
@@ -3450,13 +3450,13 @@ PoliwrathCard:
 	tx PoliwhirlName ; pre-evo name
 
 	; attack 1
-	energy WATER, 2, COLORLESS, 1 ; energies
+	energy WATER, 1, COLORLESS, 2 ; energies
 	tx WaterGunName ; name
 	tx PoliwrathsWaterGunDescription ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
-	db DAMAGE_PLUS ; category
-	dw WWCWaterGunEffectCommands ; effect commands
+	db 20 ; damage
+	db DAMAGE_X ; category
+	dw Flip20xPerEnergyTails10xEffectCommands ; effect commands
 	db NONE ; flags 1
 	db ATTACHED_ENERGY_BOOST ; flags 2
 	db NONE ; flags 3
@@ -3464,7 +3464,7 @@ PoliwrathCard:
 	db ATK_ANIM_WATER_GUN ; animation
 
 	; attack 2
-	energy WATER, 2, COLORLESS, 2 ; energies
+	energy WATER, 2, COLORLESS, 1 ; energies
 	tx WhirlpoolName ; name
 	tx Discard1EnergyFromTargetDescription ; description
 	dw NONE ; description (cont)
@@ -3477,7 +3477,7 @@ PoliwrathCard:
 	db 3 ; attack score bonus for ENCOURAGE_THIS_ATTACK
 	db ATK_ANIM_WHIRLPOOL ; animation
 
-	db 3 ; retreat cost
+	db 2 ; retreat cost
 	db WR_GRASS ; weakness
 	db NONE ; resistance
 	tx TadpoleName ; category
@@ -4213,10 +4213,10 @@ MagikarpCard:
 	db 0
 	db ATK_ANIM_HIT ; animation
 
-	; attack 2
+	; attack 1
 	energy WATER, 1 ; energies
 	tx FlailName ; name
-	tx MagikarpsFlailDescription ; description
+	tx KinglersFlailDescription ; description
 	dw NONE ; description (cont)
 	db 10 ; damage
 	db DAMAGE_X ; category
@@ -4225,9 +4225,9 @@ MagikarpCard:
 	db NONE ; flags 2
 	db BOOST_IF_TAKEN_DAMAGE ; flags 3
 	db 0
-	db ATK_ANIM_BIG_HIT ; animation
+	db ATK_ANIM_HIT ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db NONE ; resistance
 	tx FishName ; category
@@ -4250,13 +4250,13 @@ GyaradosCard:
 	tx MagikarpName ; pre-evo name
 
 	; attack 1
-	energy WATER, 3 ; energies
+	energy COLORLESS, 3 ; energies
 	tx DragonRageName ; name
-	dw NONE ; description
+	tx Do10xDamagePerBenchedDesc ; description
 	dw NONE ; description (cont)
-	db 50 ; damage
-	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	db 10 ; damage
+	db DAMAGE_X ; category
+	dw EachBenched10XDamageEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
@@ -4264,7 +4264,7 @@ GyaradosCard:
 	db ATK_ANIM_DRAGON_RAGE ; animation
 
 	; attack 2
-	energy WATER, 4 ; energies
+	energy WATER, 2, COLORLESS, 1 ; energies
 	tx BubblebeamName ; name
 	tx MayInflictParalysisDescription ; description
 	dw NONE ; description (cont)
@@ -4277,7 +4277,7 @@ GyaradosCard:
 	db 0
 	db ATK_ANIM_BUBBLES ; animation
 
-	db 3 ; retreat cost
+	db 2 ; retreat cost
 	db WR_GRASS ; weakness
 	db WR_FIGHTING ; resistance
 	tx AtrociousName ; category
