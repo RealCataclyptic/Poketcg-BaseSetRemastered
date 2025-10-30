@@ -23,8 +23,8 @@ GetPlayAreaCardColor::
 	add DUELVARS_ARENA_CARD
 	get_turn_duelist_var
 	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER
-	jr nz, .got_type
+	bit TYPE_TRAINER_F, a
+	jr z, .got_type
 	ld a, COLORLESS
 .got_type
 	pop de

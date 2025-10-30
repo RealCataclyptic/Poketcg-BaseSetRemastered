@@ -117,7 +117,7 @@ SetUpBossStartingHandAndDeck:
 	cp TYPE_ENERGY
 	jr c, .pokemon_card
 	cp TYPE_TRAINER
-	jr z, .next_card_deck
+	jr nc, .next_card_deck  ; OATS support trainer subtypes
 
 ; energy card
 	ld a, [wAISetupEnergyCount]

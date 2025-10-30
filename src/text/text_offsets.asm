@@ -16,6 +16,8 @@ TextOffsets::
 	textpointer LengthText                                         ; 0x000c
 	textpointer WeightText                                         ; 0x000d
 	textpointer PokemonText                                        ; 0x000e
+	textpointer ItemText
+	textpointer SupporterText
 	textpointer MetresText                                         ; 0x000f
 	textpointer LbsText                                            ; 0x0010
 	textpointer PromostarRarityText                                ; 0x0011
@@ -256,7 +258,7 @@ TextOffsets::
 	textpointer IfHeadsOpponentCannotAttackText                    ; 0x00fc
 	textpointer AttackUnsuccessfulText                             ; 0x00fd
 	textpointer UnableToRetreatDueToAcidText                       ; 0x00fe
-	textpointer UnableToUseTrainerDueToHeadacheText                ; 0x00ff
+	textpointer UnableToUseItemCardThisTurnText                    ; 0x00ff
 	textpointer CannotUsePokemonFluteText                          ; 0x0100
 	textpointer UnableToAttackThatPokemonText                      ; 0x0101
 	textpointer UnableToAttackText                                 ; 0x0102
@@ -390,7 +392,8 @@ TextOffsets::
 	textpointer ThereWasNoEffectFromConfusionText                  ; 0x0182
 	textpointer ThereWasNoEffectFromPoisonConfusionText            ; 0x0183
 	textpointer RearrangedCardsInDuelistsDeckText                  ; 0x0184
-	textpointer UnusedText0185                                     ; 0x0185
+	textpointer MayOnlyUseOneSupporterCardText
+	textpointer YouCannotUseSupporterCardsDuringTheFirstTurnText
 	textpointer PrizesCardsText                                    ; 0x0186
 	textpointer ChooseTheNumberOfPrizesText                        ; 0x0187
 	textpointer PleaseWaitDecidingNumberOfPrizesText               ; 0x0188

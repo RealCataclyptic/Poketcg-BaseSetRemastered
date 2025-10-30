@@ -532,7 +532,7 @@ CheckIfCardCanBePlayed:
 	cp TYPE_ENERGY
 	jr c, .pokemon_card
 	cp TYPE_TRAINER
-	jr z, .trainer_card
+	jr nc, .trainer_card  ; OATS support trainer subtypes
 
 ; energy card
 	ld a, [wOncePerTurnFlags]
@@ -570,8 +570,32 @@ CheckIfCardCanBePlayed:
 	ret
 
 .trainer_card
-	call CheckCantUseTrainerDueToEffect
+; OATS begin check SUPPORTER played this turn
+; card type in stored in a
+	cp TYPE_TRAINER_SUPPORTER
+	jr nz, .not_supporter_card
+	ld a, [wDuelTurns]
+	or a
+	jr z, .unable_to_play_supporter  ; first turn of the game
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	jr z, .can_play
+.unable_to_play_supporter
+	scf
+	ret
+
+.not_supporter_card
+; OATS end SUPPORTER check
+; OATS begin check STADIUM can be played
+	; cp TYPE_TRAINER_STADIUM
+	; jr nz, .not_stadium_card
+	; jr .can_play
+.not_stadium_card
+; OATS end STADIUM check
+	call CheckCantUseItemsThisTurn
 	ret c
+
+.can_play
 	call LoadNonPokemonCardEffectCommands
 	ld a, EFFECTCMDTYPE_INITIAL_EFFECT_1
 	jp TryExecuteEffectCommandFunction

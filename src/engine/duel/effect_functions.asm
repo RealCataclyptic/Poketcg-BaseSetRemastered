@@ -1418,8 +1418,8 @@ CreateTrainerCardListFromDiscardPile:
 .check_card
 	ld a, [hl]
 	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER
-	jr nz, .next_discard_pile_card
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .next_discard_pile_card
 	; found a Trainer card, so write this card's deck index to wDuelTempList
 	ld a, [hl]
 	ld [de], a
@@ -8378,8 +8378,8 @@ LassEffect:
 	cp $ff
 	jr z, .done
 	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER
-	jr nz, .loop_hand
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .loop_hand
 	ldh a, [hTempCardIndex_ff98]
 	call MoveCardFromHandToTopOfDeck
 	push hl

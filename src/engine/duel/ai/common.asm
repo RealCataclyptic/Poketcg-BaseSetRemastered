@@ -694,7 +694,7 @@ RemoveFromListDifferentCardOfGivenType:
 	cp TYPE_ENERGY
 	jr c, .pkmn_card
 	cp TYPE_TRAINER
-	jr nz, .energy
+	jr c, .energy  ; OATS support trainer subtypes
 
 ; only remove from list specific type.
 

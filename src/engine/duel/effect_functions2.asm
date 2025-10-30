@@ -118,8 +118,8 @@ LookForCardsInDeck:
 	jr z, .set_carry
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER
-	jr nz, .loop_deck_trainer ; skip if not a Trainer
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .loop_deck_trainer ; skip if not a Trainer
 	or a
 	ret
 
@@ -368,8 +368,8 @@ FindTrainer:
 	jr c, .attempt_to_cancel ; the B button was pressed
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER
-	jr nz, .play_sfx ; not a Trainer card
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .play_sfx ; not a Trainer card
 
 ; a Trainer card was selected
 	ldh a, [hTempCardIndex_ff98]
@@ -387,8 +387,8 @@ FindTrainer:
 	jr z, .exit
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER
-	jr nz, .next_card
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .next_card
 	; found a Trainer card, so play SFX and return to selection process
 .play_sfx
 	call PlaySFX_InvalidChoice
@@ -415,8 +415,8 @@ AIFindTrainer:
 	ret z ; reached the end of the list
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER
-	jr nz, .loop_deck ; card isn't a Trainer card
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .loop_deck ; card isn't a Trainer card
 	ret ; Trainer card found
 
 
@@ -1297,8 +1297,8 @@ PrintSortNumberInCardList:
 ConvertSpecialTrainerCardToPokemon::
 	ld c, a
 	ld a, [hl]
-	cp TYPE_TRAINER
-	ret nz ; return if the card is not a Trainer
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	ret c ; return if the card is not a Trainer
 	push hl
 	ld a, c
 	get_turn_duelist_var

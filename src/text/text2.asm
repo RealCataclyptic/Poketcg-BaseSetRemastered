@@ -1,5 +1,11 @@
-UnusedText0185: ; Unused
-	text "Battle Center"
+MayOnlyUseOneSupporterCardText:
+	text "You may only use 1 Supporter card"
+	line "per turn."
+	done
+
+YouCannotUseSupporterCardsDuringTheFirstTurnText:
+	text "You can't use Supporter cards during"
+	line "the first turn of the game."
 	done
 
 PrizesCardsText:

@@ -232,17 +232,18 @@ EvolutionCardsDescriptionText:
 	done
 
 TrainerCardsDescriptionText:
-	text " Trainer cards are support cards."
-	line " There are many Trainer cards"
-	line " with a wide variety of effects."
+	text "Trainer Cards are support cards,"
+	line "with many different effects."
+	line "They are played during your turn"
+	line "by following the instructions on"
+	line "the card and then discarding it."
+	line "There are 2 types of Trainer Cards."
 	line ""
-	line " You may play any number of Trainer"
-	line " cards during your turn by following"
-	line " the instructions on the card and"
-	line " then discarding it."
+	line "[Item] You may use as many Item"
+	line "   Cards as you like."
 	line ""
-	line " Trainer cards are generally"
-	line " not put into play."
+	line "[Supporter] You may only use one"
+	line "   Supporter Card per turn."
 	done
 
 EnergyCardsDescriptionText:

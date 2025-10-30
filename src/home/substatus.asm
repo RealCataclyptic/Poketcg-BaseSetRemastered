@@ -399,12 +399,12 @@ CheckUnableToRetreatDueToEffect::
 ; output:
 ;	hl = ID for notification text:  if the below condition is true
 ;	carry = set:  if the turn holder can't play any Trainer cards because of an effect
-CheckCantUseTrainerDueToEffect::
+CheckCantUseItemsThisTurn::
 	ld a, DUELVARS_ARENA_CARD_SUBSTATUS3
 	get_turn_duelist_var
 	bit SUBSTATUS3_HEADACHE_F, a
 	ret z
-	ldtx hl, UnableToUseTrainerDueToHeadacheText
+	ldtx hl, UnableToUseItemCardThisTurnText
 	scf
 	ret
 

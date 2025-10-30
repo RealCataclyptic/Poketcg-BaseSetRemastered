@@ -662,8 +662,7 @@ wDuelistType:: ; cc0d
 wOpponentDeckID:: ; cc0e
 	ds $1
 
-; maybe unused, is written to but never read
-wcc0f:: ; cc0f
+wOncePerTurnFlagsBackup:: ; cc0f
 	ds $1
 
 ; index (0-1) of the attack or Pokemon Power being used by the player's Active Pokemon

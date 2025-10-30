@@ -57,6 +57,14 @@ PokemonText:
 	text " Pokémon"
 	done
 
+ItemText:
+	text "Item"
+	done
+
+SupporterText:
+	text "Supporter"
+	done
+
 MetresText:
 	textfw "m"
 	done
@@ -1190,9 +1198,8 @@ UnableToRetreatDueToAcidText:
 	line "until your next turn."
 	done
 
-UnableToUseTrainerDueToHeadacheText:
-	text "Unable to use a Trainer card"
-	line "due to the effects of Headache."
+UnableToUseItemCardThisTurnText:
+	text "Unable to use Item cards this turn."
 	done
 
 CannotUsePokemonFluteText:

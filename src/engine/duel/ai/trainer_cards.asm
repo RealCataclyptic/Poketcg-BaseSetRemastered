@@ -2,10 +2,6 @@ INCLUDE "data/duel/ai_trainer_card_logic.asm"
 
 _AIProcessHandTrainerCards:
 	ld [wAITrainerCardPhase], a
-	
-; exit if an effect such as Headache is preventing Trainer cards from being played.
-	call CheckCantUseTrainerDueToEffect
-	ret c
 
 ; create hand list in wDuelTempList and wTempHandCardList.
 	call CreateHandCardList
@@ -33,13 +29,31 @@ _AIProcessHandTrainerCards:
 
 ; compare input to first byte in data and continue if equal.
 	cp d
-	jr nz, .inc_hl_by_5
+	jp nz, .inc_hl_by_5
 
 	ld a, [hli]
 	ld [wAITrainerLogicCard], a
 	ld a, [wAITrainerCardToPlay]
 	call _GetCardIDFromDeckIndex
+	ld e, a
 	ld b, a
+	call GetCardType
+	cp TYPE_TRAINER_ITEM
+	jr nz, .check_supporter
+; skip if an effect such as Headache is preventing Item cards from being played.
+	call CheckCantUseItemsThisTurn
+	jr c, .next_hand_card
+
+.check_supporter
+	cp TYPE_TRAINER_SUPPORTER
+	jr nz, .other_card_type
+; supporter
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	jr nz, .next_hand_card
+
+.other_card_type
+	ld a, b
 	cp SWITCH
 	jr nz, .skip_switch_check
 
@@ -97,7 +111,7 @@ _AIProcessHandTrainerCards:
 	jr nz, .relist_hand
 .next_hand_card
 	pop hl
-	jr .loop_hand
+	jp .loop_hand
 
 .relist_hand
 ; the hand was modified during the Trainer effect,
@@ -2927,8 +2941,8 @@ PickPokedexCards_PokemonTrainerEnergy:
 	ld a, [hli]
 	cp $ff
 	jr z, .find_energy
-	cp TYPE_TRAINER
-	jr nz, .loop_trainers
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .loop_trainers
 ; found a Trainer card
 ; store it in wce1a list
 	push hl
@@ -3067,8 +3081,8 @@ PickPokedexCards_EnergyPokemonTrainer:
 	ld a, [hli]
 	cp $ff
 	jr z, .done
-	cp TYPE_TRAINER
-	jr nz, .loop_trainers
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .loop_trainers
 ; found a Trainer card
 ; store it in wce1a list
 	push hl
@@ -3603,8 +3617,8 @@ AIDecide_Recycle:
 	ret z ; return no carry if there are no Trainer cards in the discard pile.
 	ld b, a
 	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER
-	jr nz, .trainer_search_loop
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .trainer_search_loop
 	; found a Trainer card
 	ld a, b
 .set_carry
@@ -3747,8 +3761,8 @@ AIDecide_Lass:
 	cp LASS
 	jr z, .loop
 	ld a, [wLoadedCard1Type]
-	cp TYPE_TRAINER
-	jr nz, .loop
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr c, .loop
 	ret ; nc
 
 

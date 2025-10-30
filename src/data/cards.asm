@@ -9666,7 +9666,7 @@ DoubleColorlessEnergyCard:
 	dw NONE ; description (cont)
 
 ProfessorOakCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ProfessorOakCardGfx ; gfx
 	tx ProfessorOakName ; name
 	db DIAMOND ; rarity
@@ -9677,7 +9677,7 @@ ProfessorOakCard:
 	dw NONE ; description (cont)
 
 ImposterProfessorOakCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ImposterProfessorOakCardGfx ; gfx
 	tx ImposterProfessorOakName ; name
 	db STAR ; rarity
@@ -9688,7 +9688,7 @@ ImposterProfessorOakCard:
 	dw NONE ; description (cont)
 
 BillCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx BillCardGfx ; gfx
 	tx BillName ; name
 	db CIRCLE ; rarity
@@ -9699,7 +9699,7 @@ BillCard:
 	dw NONE ; description (cont)
 
 MrFujiCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx MrFujiCardGfx ; gfx
 	tx MrFujiName ; name
 	db DIAMOND ; rarity
@@ -9710,7 +9710,7 @@ MrFujiCard:
 	dw NONE ; description (cont)
 
 LassCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx LassCardGfx ; gfx
 	tx LassName ; name
 	db STAR ; rarity
@@ -9721,7 +9721,7 @@ LassCard:
 	dw NONE ; description (cont)
 
 ImakuniCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ImakuniCardGfx ; gfx
 	tx ImakuniName ; name
 	db PROMOSTAR ; rarity
@@ -9732,7 +9732,7 @@ ImakuniCard:
 	dw NONE ; description (cont)
 
 PokemonTraderCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx PokemonTraderCardGfx ; gfx
 	tx PokemonTraderName ; name
 	db STAR ; rarity
@@ -9743,7 +9743,7 @@ PokemonTraderCard:
 	dw NONE ; description (cont)
 
 PokemonBreederCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx PokemonBreederCardGfx ; gfx
 	tx PokemonBreederName ; name
 	db STAR ; rarity
@@ -9787,7 +9787,7 @@ EnergyRetrievalCard:
 	dw NONE ; description (cont)
 
 SuperEnergyRetrievalCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx SuperEnergyRetrievalCardGfx ; gfx
 	tx SuperEnergyRetrievalName ; name
 	db PROMOSTAR ; rarity
@@ -9809,7 +9809,7 @@ EnergySearchCard:
 	dw NONE ; description (cont)
 
 EnergyRemovalCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx EnergyRemovalCardGfx ; gfx
 	tx EnergyRemovalName ; name
 	db CIRCLE ; rarity
@@ -9820,7 +9820,7 @@ EnergyRemovalCard:
 	dw NONE ; description (cont)
 
 SuperEnergyRemovalCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx SuperEnergyRemovalCardGfx ; gfx
 	tx SuperEnergyRemovalName ; name
 	db STAR ; rarity
@@ -9842,7 +9842,7 @@ SwitchCard:
 	dw NONE ; description (cont)
 
 PokemonCenterCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx PokemonCenterCardGfx ; gfx
 	tx PokemonCenterName ; name
 	db DIAMOND ; rarity
@@ -9864,7 +9864,7 @@ PokeBallCard:
 	dw NONE ; description (cont)
 
 ScoopUpCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ScoopUpCardGfx ; gfx
 	tx ScoopUpName ; name
 	db STAR ; rarity
@@ -9875,7 +9875,7 @@ ScoopUpCard:
 	dw NONE ; description (cont)
 
 ComputerSearchCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ComputerSearchCardGfx ; gfx
 	tx ComputerSearchName ; name
 	db STAR ; rarity
@@ -9930,7 +9930,7 @@ ItemFinderCard:
 	dw NONE ; description (cont)
 
 GustOfWindCard:
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_SUPPORTER ; type
 	gfx GustOfWindCardGfx ; gfx
 	tx GustOfWindName ; name
 	db CIRCLE ; rarity

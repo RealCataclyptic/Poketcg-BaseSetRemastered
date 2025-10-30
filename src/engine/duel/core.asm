@@ -997,17 +997,67 @@ PlayPokemonCard:
 ; output:
 ;	carry = set:  if the Trainer card wasn't played
 PlayTrainerCard:
-	call CheckCantUseTrainerDueToEffect
-	jr c, PlayPokemonCard.print_text_and_return_carry
+	; call CheckCantUseItemsThisTurn
+	; jr c, PlayPokemonCard.print_text_and_return_carry
 	ldh a, [hTempCardIndex_ff98]
 	ldh [hTempCardIndex_ff9f], a
 	call LoadNonPokemonCardEffectCommands
+; OATS support trainer subtypes
+	ld a, [wLoadedCard1Type]
+	cp TYPE_TRAINER_SUPPORTER
+	jr nz, .check_stadium_card
+
+; Supporter Trainer
+	ldtx hl, MayOnlyUseOneSupporterCardText
+	ld a, [wOncePerTurnFlags]
+	ld b, a
+	and PLAYED_SUPPORTER_THIS_TURN
+	jp nz, DrawWideTextBox_WaitForInput_ReturnCarry
+
+	ldtx hl, YouCannotUseSupporterCardsDuringTheFirstTurnText
+	ld a, [wDuelTurns]
+	or a
+	jp z, DrawWideTextBox_WaitForInput_ReturnCarry
+
+	ld a, PLAYED_SUPPORTER_THIS_TURN
+	or b
+	ld [wOncePerTurnFlagsBackup], a
+	jr .play_card
+
+.check_stadium_card
+	; cp TYPE_TRAINER_STADIUM
+	; jr nz, .item_card
+
+; Stadium Trainer
+	; ldtx hl, MayOnlyUseOneStadiumCardText
+	; ld a, [wOncePerTurnFlags]
+	; ld b, a
+	; and PLAYED_STADIUM_THIS_TURN
+	; jp nz, DrawWideTextBox_WaitForInput_ReturnCarry
+
+	; ld a, PLAYED_STADIUM_THIS_TURN
+	; or b
+	; ld [wOncePerTurnFlagsBackup], a
+	; jr .play_card
+
+.item_card
+	call CheckCantUseItemsThisTurn
+	jp c, DrawWideTextBox_WaitForInput_ReturnCarry
+
+.play_card
 	ld a, EFFECTCMDTYPE_INITIAL_EFFECT_1
 	call TryExecuteEffectCommandFunction
-	jr c, PlayPokemonCard.print_text_and_return_carry
+	jp c, DrawWideTextBox_WaitForInput_ReturnCarry
+
 	ld a, EFFECTCMDTYPE_INITIAL_EFFECT_2
 	call TryExecuteEffectCommandFunction
+	ld a, TRUE
 	jr c, .done
+
+; set flags as definitive
+	ld a, [wOncePerTurnFlagsBackup]
+	ld [wOncePerTurnFlags], a
+; execute effect commands
 	ld a, OPPACTION_PLAY_TRAINER
 	call SetOppAction_SerialSendDuelData
 	call DisplayUsedTrainerCardDetailScreen
@@ -1023,6 +1073,7 @@ PlayTrainerCard:
 	ldh a, [hTempCardIndex_ff9f]
 	call TryToDiscardCardFromHand
 	call ExchangeRNG
+	xor a
 .done
 	or a
 	ret
@@ -1043,8 +1094,8 @@ CheckAbleToRetreat:
 	ld a, DUELVARS_ARENA_CARD
 	get_turn_duelist_var
 	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER
-	jr z, .unable_to_retreat
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr nc, .unable_to_retreat
 	call CheckIfEnoughEnergiesToRetreat
 	ret nc
 	; not enough Energy
@@ -3922,7 +3973,7 @@ CardListItemSelectionMenu:
 ;	ldtx hl, PlayCheckText
 ;	ld a, [wLoadedCard1Type]
 ;	cp TYPE_TRAINER
-;	jr nz, .got_text
+;	jr c, .got_text  ; OATS support trainer subtypes
 	ldtx hl, PlayCheckText
 .got_text
 	call DrawNarrowTextBox_PrintTextNoDelay
@@ -5179,6 +5230,25 @@ DisplayEnergyOrTrainerCardPage:
 	lb de, 4, 3
 	ld hl, wLoadedCard1Name
 	call InitTextPrinting_ProcessTextFromPointerToID
+; OATS print tag for Supporter cards
+	ld a, [wLoadedCard1Type]
+	cp TYPE_TRAINER
+	jr c, .not_trainer_card
+	ld hl, CardPageSupporterTextData
+	cp TYPE_TRAINER_SUPPORTER
+	jr z, .got_card_tag
+	; ld hl, CardPageStadiumTextData
+	; cp TYPE_TRAINER_STADIUM
+	; jr z, .got_card_tag
+; Item or Tool
+	ld hl, CardPageItemTextData
+	; ld a, [wLoadedCard1ID]
+	; cp PLUSPOWER
+	; jr c, .got_card_tag
+	; ld hl, CardPageToolTextData
+.got_card_tag
+	call PlaceTextItems
+.not_trainer_card
 	; colorize the card image
 	lb de, 6, 4
 	call ApplyBGP6OrSGB3ToCardImage
@@ -5192,6 +5262,15 @@ DisplayEnergyOrTrainerCardPage:
 	call DrawCardPageSet2AndRarityIcons
 	pop hl
 	jp PrintAttackOrNonPokemonCardDescription
+
+
+CardPageItemTextData:
+	textitem 2, 5, ItemText
+	db $ff
+
+CardPageSupporterTextData:
+	textitem 1, 5, SupporterText
+	db $ff
 
 
 ; draws a large picture of the card loaded in wLoadedCard1, including its image
@@ -5208,8 +5287,8 @@ DrawLargePictureOfCard:
 	call LoadCardOrDuelMenuBorderTiles
 	ld e, HEADER_TRAINER
 	ld a, [wLoadedCard1Type]
-	cp TYPE_TRAINER
-	jr z, .draw
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr nc, .draw
 	ld e, HEADER_ENERGY
 	and TYPE_ENERGY
 	jr nz, .draw
@@ -6992,6 +7071,24 @@ OppAction_PlayTrainerCard:
 	call LoadNonPokemonCardEffectCommands
 	call DisplayUsedTrainerCardDetailScreen
 	call PrintUsedTrainerCardDescription
+; OATS support trainer subtypes
+	ld a, [wLoadedCard1Type]
+	cp TYPE_TRAINER_SUPPORTER
+	jr z, .supporter_card
+	; cp TYPE_TRAINER_STADIUM
+	; jr z, .stadium_card
+
+; item card
+	jp ExchangeRNG
+
+.supporter_card
+	ld a, [wDuelTurns]
+	or a
+	ret z  ; unable to play during the first turn
+
+	ld a, [wOncePerTurnFlags]
+	or PLAYED_SUPPORTER_THIS_TURN
+	ld [wOncePerTurnFlags], a
 	jp ExchangeRNG
 
 
@@ -8081,8 +8178,8 @@ CountKnockedOutPokemon:
 	; this Pokemon's HP has just become 0
 	ld a, [de]
 	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER
-	jr z, .next ; jump if this is a Trainer card (Clefairy Doll or Mysterious Fossil)
+	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	jr nc, .next ; jump if this is a Trainer card (Clefairy Doll or Mysterious Fossil)
 	inc b
 .next
 	inc e
@@ -8203,7 +8300,6 @@ InitVariablesToBeginDuel:
 	ld [wDuelTurns], a
 	ld [wcce7], a
 	dec a ; $ff
-	ld [wcc0f], a
 	ld [wPlayerAttackingCardIndex], a
 	ld [wPlayerAttackingAttackIndex], a
 	call EnableSRAM

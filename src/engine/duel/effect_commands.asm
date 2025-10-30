@@ -37,6 +37,10 @@ EffectCommands::
 ; The Trainer effect commands are found next, sorted alphabetically
 ; Last are the Energy effects commands
 
+; NOTE: SUPPORTER trainer cards are automatically cancelled if either
+;       EFFECTCMDTYPE_INITIAL_EFFECT_1 or EFFECTCMDTYPE_INITIAL_EFFECT_2
+;       return carry.
+
 
 ;--------------------------------NEW EFFECT COMMANDS -------------------------------------------------
 
