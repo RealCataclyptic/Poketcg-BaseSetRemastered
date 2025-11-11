@@ -796,11 +796,6 @@ AI_Flip20xPerEnergyTails10xEffect: ; DOES THIS EVEN WORK?
 	ret
 
 CheckBasicEnergyInHand:
-	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
-	get_turn_duelist_var
-	ldtx hl, NotEnoughCardsInHandText
-	cp 1
-
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTemp_ffa0], a
 	call CheckIsIncapableOfUsingPkmnPower
