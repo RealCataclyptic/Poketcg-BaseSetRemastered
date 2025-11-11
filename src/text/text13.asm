@@ -318,3 +318,17 @@ PoliwrathFlipText:
 	text "Each heads does +20 damage!"
 	line "Each tails does +10 damage!"
 	done
+
+NoHandEnergyText:
+	text "No basic energies in hand."
+	done
+
+ChooseABasicEnergyToAttachText:
+	text "Choose a basic Energy in your"
+	line "hand and attach it to a Pokémon."
+	done
+
+ChooseABasicEnergyText:
+	text "Choose a basic" 
+	line "Energy"
+	done

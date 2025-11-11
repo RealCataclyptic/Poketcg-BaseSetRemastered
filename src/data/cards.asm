@@ -3150,13 +3150,13 @@ WartortleCard:
 	tx SquirtleName ; pre-evo name
 
 	; attack 1
-	energy 0 ; energies
+	energy COLORLESS, 1 ; energies
 	tx RainDanceName ; name
 	tx RainDanceDescription ; description
 	tx RainDanceDescriptionCont ; description (cont)
 	db 0 ; damage
-	db POKEMON_POWER ; category
-	dw BlastoiseRainDanceEffectCommands ; effect commands
+	db RESIDUAL; category
+	dw AttachWaterEnergyFromHandEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3

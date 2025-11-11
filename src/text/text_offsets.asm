@@ -3022,3 +3022,6 @@ TextOffsets::
 	textpointer Do10xDamagePerBenchedDesc
 	textpointer Flip20xPerEnergyDesc
 	textpointer PoliwrathFlipText
+	textpointer NoHandEnergyText
+	textpointer ChooseABasicEnergyToAttachText
+	textpointer ChooseABasicEnergyText

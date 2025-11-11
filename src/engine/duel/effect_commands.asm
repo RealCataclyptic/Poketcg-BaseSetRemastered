@@ -111,6 +111,10 @@ Flip20xPerEnergyTails10xEffectCommands:
 	dbw EFFECTCMDTYPE_AI, AI_Flip20xPerEnergyTails10xEffect; placeholder
 	db  $00
 
+AttachWaterEnergyFromHandEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckBasicEnergyInHand
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttachBasicEnergyCardFromHandToPkmnEffect
+	db  $00	
 
 
 ;------------------------------------------------------------------------------------------------------

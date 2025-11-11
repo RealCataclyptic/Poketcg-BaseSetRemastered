@@ -793,7 +793,81 @@ AI_Flip20xPerEnergyTails10xEffect: ; DOES THIS EVEN WORK?
 	jr c, .nocap
 	ld a, 5
 .nocap
+	ret
+
+CheckBasicEnergyInHand:
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	ldtx hl, NotEnoughCardsInHandText
+	cp 1
+
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	ldh [hTemp_ffa0], a
+	call CheckIsIncapableOfUsingPkmnPower
+	ret c ; can't use due to status or Toxic Gas
+
+	call CreateHandCardList 
+	ld hl, wDuelTempList
+.loop
+	ld a, [hli]
+	cp $ff
+	jr z, .none
+	call LoadCardDataToBuffer2_FromDeckIndex
+	ld a, [wLoadedCard2Type]
+	and TYPE_ENERGY
+	ret nz ; found one
+	jr c, .loop ; skip if not an Energy card
 	
+.none
+	ldtx hl, NoHandEnergyText
+  	scf
+  	ret
+	
+
+AttachBasicEnergyCardFromHandToPkmnEffect:
+	call CreateHandCardList
+; display the list on screen and have the player select 1 of the cards
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+	ldtx hl, ChooseABasicEnergyToAttachText
+	ldtx de, ChooseABasicEnergyText
+	bank1call DisplayCardList
+	ldh [hTempList], a
+	ret ; test
+
+
+.check_card
+	ld a, [hl]
+	call LoadCardDataToBuffer2_FromDeckIndex
+	ld a, [wLoadedCard2Type]
+	and TYPE_ENERGY
+	jr z, .next_card ; skip if not an Energy card
+	push bc
+	ld a, [wEnergyCardListFilter]
+	ld b, a
+	ld a, [wLoadedCard2Type]
+	cp b
+	pop bc
+	jr nc, .next_card
+	; write this card's deck index to wDuelTempList
+	ld a, [hl]
+	ld [de], a
+	inc de
+	inc c
+.next_card
+	dec l ; goes through the discard pile list in descending order
+	dec b
+	jr nz, .check_card
+
+.terminate_list
+	ld a, $ff ; list is $ff-terminated
+	ld [de], a ; add terminating byte to wDuelTempList
+	ld a, c
+	or a
+	ret nz ; return no carry if there's at least one card in the list
+	; list is empty, so return carry
+	scf
+	ret
+
 
 
 ;---------------------------------------------------------------------------------
