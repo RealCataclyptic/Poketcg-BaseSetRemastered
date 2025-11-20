@@ -1005,7 +1005,7 @@ PlayTrainerCard:
 ; OATS support trainer subtypes
 	ld a, [wLoadedCard1Type]
 	cp TYPE_TRAINER_SUPPORTER
-	jr nz, .check_stadium_card
+	;jr nz, .check_stadium_card
 
 ; Supporter Trainer
 	ldtx hl, MayOnlyUseOneSupporterCardText
@@ -1024,7 +1024,7 @@ PlayTrainerCard:
 	ld [wOncePerTurnFlagsBackup], a
 	jr .play_card
 
-.check_stadium_card
+;.check_stadium_card
 	; cp TYPE_TRAINER_STADIUM
 	; jr nz, .item_card
 

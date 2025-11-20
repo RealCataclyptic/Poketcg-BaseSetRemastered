@@ -700,7 +700,7 @@ DefendingPokemonEnergy_ReturnEffect:
 	cp -1
 	ret z ; return if none selected
 
-	; discard an Energy from the Defending Pokemon
+	; return an Energy from the Defending Pokemon
 	; this doesn't update DUELVARS_ARENA_CARD_LAST_TURN_EFFECT
 	rst SwapTurn
 	call AddCardToHand
@@ -862,6 +862,54 @@ AttachBasicEnergyCardFromHandToPkmnEffect:
 	; list is empty, so return carry
 	scf
 	ret
+
+
+Do20xPerDifferentEnergyEffect:
+	rst SwapTurn
+	ld e, PLAY_AREA_ARENA
+	call GetPlayAreaCardAttachedEnergies
+	rst SwapTurn
+
+	ld c, 0
+	ld b, NUM_COLORED_TYPES
+	ld hl, wAttachedEnergies
+.loop
+	ld a, [hli]
+	or a
+	jr z, .next  ; no energies
+	inc c  ; count this type
+.next
+	dec b
+	jr nz, .loop
+	ld a, c  ; how many types?
+	add c  ; times 2
+	call ATimes10
+	jp SetDefiniteDamage
+
+EachPlayerDraws1Effect:
+	call DrawCardEffect
+
+	ld a, [wDuelistType]
+	cp DUELIST_TYPE_PLAYER ; check if the player is the one to use this attack
+	jr z, .IsPlayersTurn
+	
+	rst SwapTurn
+	bank1call DisplayDrawOneCardScreen
+	call DrawCardFromDeck
+	ret c ; return if the deck is empty
+	call AddCardToHand
+	call LoadCardDataToBuffer1_FromDeckIndex
+	bank1call OpenCardPage_FromHand
+	jp SwapTurn
+	
+
+.IsPlayersTurn
+	rst SwapTurn
+	bank1call DisplayDrawOneCardScreen
+	call DrawCardFromDeck
+	ret c ; return if the deck is empty
+	call AddCardToHand
+	jp SwapTurn
 
 
 

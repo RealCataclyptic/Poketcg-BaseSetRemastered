@@ -3025,3 +3025,5 @@ TextOffsets::
 	textpointer NoHandEnergyText
 	textpointer ChooseABasicEnergyToAttachText
 	textpointer ChooseABasicEnergyText
+	textpointer Do20xPerDifferentEnergyDesc
+	textpointer EachPlayerDraws1Desc

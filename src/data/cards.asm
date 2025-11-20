@@ -3600,7 +3600,7 @@ SeelCard:
 	dw NONE ; pre-evo name
 
 	; attack 1
-	energy WATER, 1 ; energies
+	energy COLORLESS, 1 ; energies
 	tx HeadbuttName ; name
 	dw NONE ; description
 	dw NONE ; description (cont)
@@ -3627,7 +3627,7 @@ SeelCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db NONE ; resistance
 	tx SeaLionName ; category
@@ -3650,8 +3650,22 @@ DewgongCard:
 	tx SeelName ; pre-evo name
 
 	; attack 1
-	energy WATER, 2, COLORLESS, 1 ; energies
+	energy WATER, 1, COLORLESS, 1 ; energies
 	tx AuroraBeamName ; name
+	tx Do20xPerDifferentEnergyDesc ; description
+	dw NONE ; description (cont)
+	db 20 ; damage
+	db DAMAGE_X ; category
+	dw Do20xPerDifferentEnergyEffectCommands ; effect commands
+	db NONE ; flags 1
+	db NONE ; flags 2
+	db NONE ; flags 3
+	db 0
+	db ATK_ANIM_BEAM ; animation
+
+	; attack 2
+	energy WATER, 2, COLORLESS, 1 ; energies
+	tx IceBeamName ; name
 	dw NONE ; description
 	dw NONE ; description (cont)
 	db 50 ; damage
@@ -3663,21 +3677,7 @@ DewgongCard:
 	db 0
 	db ATK_ANIM_BEAM ; animation
 
-	; attack 2
-	energy WATER, 2, COLORLESS, 2 ; energies
-	tx IceBeamName ; name
-	tx MayInflictParalysisDescription ; description
-	dw NONE ; description (cont)
-	db 30 ; damage
-	db DAMAGE_NORMAL ; category
-	dw FlipToInflictParalysisEffectCommands ; effect commands
-	db INFLICT_PARALYSIS ; flags 1
-	db NONE ; flags 2
-	db NONE ; flags 3
-	db 0
-	db ATK_ANIM_BEAM ; animation
-
-	db 3 ; retreat cost
+	db 2 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db NONE ; resistance
 	tx SeaLionName ; category
@@ -4101,17 +4101,17 @@ StaryuCard:
 
 	; attack 1
 	energy WATER, 1 ; energies
-	tx SlapName ; name
-	dw NONE ; description
+	tx WaterGunName ; name
+	tx EachPlayerDraws1Desc ; description
 	dw NONE ; description (cont)
 	db 20 ; damage
 	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	dw EachPlayerDraws1EffectCommands ; effect commands
 	db NONE ; flags 1
-	db NONE ; flags 2
-	db NONE ; flags 3
-	db 0
-	db ATK_ANIM_HIT ; animation
+	db ENCOURAGE_THIS_ATTACK ; flags 2
+	db SPECIAL_AI_HANDLING ; flags 3
+	db 1 ; attack score bonus for ENCOURAGE_THIS_ATTACK
+	db ATK_ANIM_WATER_GUN ; animation
 
 	; attack 2
 	energy 0 ; energies
@@ -4127,7 +4127,7 @@ StaryuCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db NONE ; resistance
 	tx StarshapeName ; category
@@ -6656,7 +6656,7 @@ HitmonchanCard:
 	dw NONE ; description (cont)
 	db 20 ; damage
 	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	dw EachPlayerDraws1EffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3

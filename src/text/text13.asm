@@ -332,3 +332,15 @@ ChooseABasicEnergyText:
 	text "Choose a basic" 
 	line "Energy"
 	done
+
+Do20xPerDifferentEnergyDesc:
+	text "This attack does 20 damage times"
+	line "the number of different basic energy"
+	line "cards attached to the defending"
+	line "Pokémon."
+	done
+
+EachPlayerDraws1Desc:
+	text "Each player draws 1 card. (even if"
+	line "this attack doesn't do damage)"
+	done

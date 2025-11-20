@@ -116,6 +116,15 @@ AttachWaterEnergyFromHandEffectCommands:
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttachBasicEnergyCardFromHandToPkmnEffect
 	db  $00	
 
+Do20xPerDifferentEnergyEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Do20xPerDifferentEnergyEffect
+	dbw EFFECTCMDTYPE_AI, AI_Flip20xPerEnergyTails10xEffect; placeholder
+	db  $00
+
+EachPlayerDraws1EffectCommands:
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, EachPlayerDraws1Effect
+	db  $00
+
 
 ;------------------------------------------------------------------------------------------------------
 
