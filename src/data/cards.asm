@@ -1,7 +1,5 @@
 ; TODO: Make card data structures more compact and rearrange the fields for
 ; convenience once the meaning of all fields is figured out.
-; Incomplete cards: Kakuna, Beedrill, Metapod, Charmeleon, Ninetales, Arcanine, Wartortle
-; Current set in the master document: Base. Current card: Blastoise.
 
 CardPointers::
 	table_width 2, CardPointers
@@ -4145,12 +4143,12 @@ StarmieCard:
 	db CIRCLE ; rarity
 	db EVOLUTION | NONE ; sets
 	db STARMIE
-	db 60 ; hp
+	db 70 ; hp
 	db STAGE1 ; stage
 	tx StaryuName ; pre-evo name
 
 	; attack 1
-	energy WATER, 2 ; energies
+	energy WATER, 1, COLORLESS, 1 ; energies
 	tx RecoverName ; name
 	tx StarmiesRecoverDescription ; description
 	dw NONE ; description (cont)
@@ -4164,14 +4162,14 @@ StarmieCard:
 	db ATK_ANIM_RECOVER ; animation
 
 	; attack 2
-	energy WATER, 1, COLORLESS, 2 ; energies
+	energy WATER, 1, COLORLESS, 1 ; energies
 	tx StarFreezeName ; name
-	tx MayInflictParalysisDescription ; description
+	tx Get2DiscardEnergyDesc ; description
 	dw NONE ; description (cont)
 	db 20 ; damage
 	db DAMAGE_NORMAL ; category
-	dw FlipToInflictParalysisEffectCommands ; effect commands
-	db INFLICT_PARALYSIS ; flags 1
+	dw AttackEnergyRetrievalEffectCommands ; effect commands
+	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
@@ -5114,7 +5112,7 @@ MagnemiteLv13Card:
 	db ATK_ANIM_THUNDER_WAVE ; animation
 
 	; attack 2
-	energy LIGHTNING, 1, COLORLESS, 1 ; energies
+	energy COLORLESS, 2 ; energies
 	tx SelfdestructName ; name
 	tx MagnemitesSelfdestructDescription ; description
 	dw NONE ; description (cont)
@@ -5127,7 +5125,7 @@ MagnemiteLv13Card:
 	db 40 ; amount of recoil damage (used to determine the HIGH_RECOIL attack score penalty)
 	db ATK_ANIM_SELFDESTRUCT ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_FIGHTING ; weakness
 	db NONE ; resistance
 	tx MagnetName ; category
@@ -5200,7 +5198,7 @@ MagnetonLv28Card:
 	tx MagnemiteName ; pre-evo name
 
 	; attack 1
-	energy LIGHTNING, 2, COLORLESS, 1 ; energies
+	energy LIGHTNING, 1, COLORLESS, 1 ; energies
 	tx ThunderWaveName ; name
 	tx MayInflictParalysisDescription ; description
 	dw NONE ; description (cont)
@@ -5214,7 +5212,7 @@ MagnetonLv28Card:
 	db ATK_ANIM_THUNDER_WAVE ; animation
 
 	; attack 2
-	energy LIGHTNING, 2, COLORLESS, 2 ; energies
+	energy COLORLESS, 3 ; energies
 	tx SelfdestructName ; name
 	tx MagnetonLv28sSelfdestructDescription ; description
 	dw NONE ; description (cont)
@@ -5327,7 +5325,7 @@ VoltorbCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_FIGHTING ; weakness
 	db NONE ; resistance
 	tx BallName ; category
@@ -5345,18 +5343,18 @@ ElectrodeLv35Card:
 	db STAR ; rarity
 	db LABORATORY | GB ; sets
 	db ELECTRODE_LV35
-	db 70 ; hp
+	db 80 ; hp
 	db STAGE1 ; stage
 	tx VoltorbName ; pre-evo name
 
 	; attack 1
 	energy LIGHTNING, 2 ; energies
 	tx SonicboomName ; name
-	tx SonicboomDescription ; description
+	dw NONE ; description
 	dw NONE ; description (cont)
 	db 30 ; damage
 	db DAMAGE_NORMAL ; category
-	dw DamageUnaffectedByWeaknessOrResistanceEffectCommands ; effect commands
+	dw NONE ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
@@ -5364,18 +5362,18 @@ ElectrodeLv35Card:
 	db ATK_ANIM_SONICBOOM ; animation
 
 	; attack 2
-	energy LIGHTNING, 3 ; energies
-	tx EnergySpikeName ; name
-	tx EnergySpikeDescription ; description
+	energy COLORLESS, 3 ; energies
+	tx SonicboomName ; name
+	tx ZapdosThunderDescription ; description
 	dw NONE ; description (cont)
-	db 0 ; damage
-	db RESIDUAL ; category
-	dw AttachBasicEnergyFromDeckEffectCommands ; effect commands
-	db NONE ; flags 1
+	db 40 ; damage
+	db DAMAGE_NORMAL ; category
+	dw FlipFor30DamageToSelfEffectCommands ; effect commands
+	db LOW_RECOIL ; flags 1
 	db NONE ; flags 2
-	db SPECIAL_AI_HANDLING ; flags 3
-	db 0
-	db ATK_ANIM_GLOW_EFFECT ; animation
+	db NONE ; flags 3
+	db 0 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
+	db ATK_ANIM_SONICBOOM ; animation
 
 	db 1 ; retreat cost
 	db WR_FIGHTING ; weakness
@@ -5516,11 +5514,11 @@ ElectabuzzLv35Card:
 	; attack 2
 	energy LIGHTNING, 1, COLORLESS, 1 ; energies
 	tx ThunderpunchName ; name
-	tx ThunderpunchDescription ; description
+	tx ThunderJoltDescription ; description
 	dw NONE ; description (cont)
 	db 30 ; damage
-	db DAMAGE_PLUS ; category
-	dw FlipForPlus10Or10DamageToSelfEffectCommands ; effect commands
+	db DAMAGE_NORMAL ; category
+	dw FlipFor10DamageToSelfEffectCommands ; effect commands
 	db LOW_RECOIL ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
@@ -5700,34 +5698,34 @@ ZapdosLv64Card:
 	dw NONE ; pre-evo name
 
 	; attack 1
-	energy LIGHTNING, 3, COLORLESS, 1 ; energies
+	energy LIGHTNING, 1 ; energies
 	tx ThunderName ; name
 	tx ZapdosThunderDescription ; description
 	dw NONE ; description (cont)
-	db 60 ; damage
+	db 10 ; damage
 	db DAMAGE_NORMAL ; category
-	dw FlipFor30DamageToSelfEffectCommands ; effect commands
-	db LOW_RECOIL ; flags 1
+	dw Attach1LFromDiscardEffectCommands ; effect commands
+	db NONE ; flags 1
 	db NONE ; flags 2
-	db NONE ; flags 3
-	db 0 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
+	db SPECIAL_AI_HANDLING ; flags 3
+	db 0 ; 
 	db ATK_ANIM_THUNDER ; animation
 
 	; attack 2
-	energy LIGHTNING, 4 ; energies
+	energy LIGHTNING, 2, COLORLESS, 2 ; energies
 	tx ThunderboltName ; name
 	tx ThunderboltDescription ; description
 	dw NONE ; description (cont)
-	db 100 ; damage
+	db 90 ; damage
 	db DAMAGE_NORMAL ; category
 	dw DiscardAllAttachedEnergyEffectCommands ; effect commands
 	db NONE ; flags 1
 	db DISCARD_ENERGY ; flags 2
 	db NONE ; flags 3
-	db 9 ; attack score penalty for DISCARD_ENERGY
+	db 4 ; attack score penalty for DISCARD_ENERGY
 	db ATK_ANIM_THUNDERBOLT ; animation
 
-	db 3 ; retreat cost
+	db 2 ; retreat cost
 	db NONE ; weakness
 	db WR_FIGHTING ; resistance
 	tx ElectricName ; category
@@ -6656,7 +6654,7 @@ HitmonchanCard:
 	dw NONE ; description (cont)
 	db 20 ; damage
 	db DAMAGE_NORMAL ; category
-	dw EachPlayerDraws1EffectCommands ; effect commands
+	dw NONE ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3

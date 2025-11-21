@@ -125,6 +125,20 @@ EachPlayerDraws1EffectCommands:
 	dbw EFFECTCMDTYPE_AFTER_DAMAGE, EachPlayerDraws1Effect
 	db  $00
 
+AttackEnergyRetrievalEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, AttackEnergyRetrievalCheck
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, EnergyRetrieval_PlayerDiscardPileSelection
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttackEnergyRetrievalEffect
+	db  $00
+
+Attach1LFromDiscardEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckLightningDiscardPile
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, EnergyAbsorption_AttachEffect
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, HandleOneEnergyCardInDiscardPileSelection
+	; cant use yet dbw EFFECTCMDTYPE_AI_SELECTION, Choose2EnergyFromDiscardPile_AISelection
+	db  $00
+
+
 
 ;------------------------------------------------------------------------------------------------------
 
@@ -291,9 +305,8 @@ DrainAllEffectCommands:
 	db  $00
 
 WaterRecoverEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, WaterRecover_EnergyAndHPCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, DiscardAttachedWaterEnergy_PlayerSelection
-	dbw EFFECTCMDTYPE_AI_SELECTION, DiscardAttachedWaterEnergy_AISelection
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Discard1AttachedEnergy_PlayerSelection
+	dbw EFFECTCMDTYPE_AI_SELECTION, Discard1AttachedEnergy_AISelection
 	dbw EFFECTCMDTYPE_DISCARD_ENERGY, CardDiscardEffect
 	dbw EFFECTCMDTYPE_AFTER_DAMAGE, Recover_HealEffect
 	db  $00

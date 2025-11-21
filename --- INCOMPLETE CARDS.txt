@@ -1,0 +1,55 @@
+List of cards that are incomplete and need to be edited.
+
+Current Set: Yaginku's Base Set
+Currently on: Pikachu Lv 12
+
+=====================================================================================================================================================
+
+KAKUNA AND METAPOD's STIFFEN
+--- Both have the same problem: I have no idea how to code in the Stiffen effect: 
+"Flip a coin until you flip tails twice. During your opponent's next turn, any damage done to Kakuna/Metapod by attacks is reduced by 10 times the number of heads."
+^^^ I created a code to flip until 2 tails but I have no idea how to translate that into damage reduction. 
+
+
+BEEDRILL's TWINEEDLE
+--- Currently cannot be done because it requires an overhaul of the status mechanics. 
+
+
+CHARMELEON'S ENERGY BURN
+--- Pokepower not coded in. TBH I can probably do it but I think I was too lazy at the time.
+
+
+NINETALES'S FIRE BLAST
+--- Didn't try it because I couldn't figure out the AI logic. Maybe just do it for the player? If so I can code it probably.
+
+
+ARCANINE'S SWIFT
+--- Don't know how to make it unaffected by all effects in an easy way. Can brute force it if need be. 
+
+
+WARTORTLE'S RAIN DANCE
+--- Yeah I still can't figure out how to attach from hand to field as a pokepower. The check should be coded though. 
+
+
+STARMIE'S STAR RETRIEVAL
+--- Is basically just energy retrieval on an attack. 90% done, but I can't make it use the attack for just damage if there are no basic energies in discard. 
+
+
+ELECTRODE'S BUZZAP
+--- This was too hard to do for the actual developers so I'm not even going to attempt it. 
+
+
+MAGNEMITELV12 AND MAGNETONLV28'S SELF DESTRUCT
+--- The effect is "Both players put 2/4 damage counters on their pokémon in any way they like". I have no idea how to code this, nor how to do it with the AI.
+
+
+ZAPDOSLV64'S THUNDER
+--- It attaches a L energy from discard to itself. I made a code that attaches 1 of any energy from discard to itself, don't know how to make it lightning specific. Also, don't know how to make the attack go through if no L in discard. 
+
+
+
+
+
+
+
+

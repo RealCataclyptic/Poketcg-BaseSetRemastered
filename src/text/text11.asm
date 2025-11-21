@@ -103,14 +103,13 @@ RecoverName:
 	done
 
 StarmiesRecoverDescription:
-	text "Discard 1 <WATER> Energy card attached to"
+	text "Discard 1 Energy card attached to"
 	line "Starmie in order to use this attack."
-	line "Remove all damage counters from"
-	line "Starmie."
+	line "Heal 40 damage from Starmie."
 	done
 
 StarFreezeName:
-	text "Star Freeze"
+	text "Star Retrieval"
 	done
 
 MysteriousName:
@@ -358,8 +357,8 @@ ThunderJoltName:
 	done
 
 ThunderJoltDescription:
-	text "Flip a coin. If tails, Pikachu does"
-	line "10 damage to itself."
+	text "Flip a coin. If tails, this Pokémon"
+	line "does 10 damage to itself."
 	done
 
 MouseName:
@@ -756,8 +755,8 @@ ZapdosLv40Description:
 	done
 
 ZapdosThunderDescription:
-	text "Flip a coin. If tails, Zapdos does"
-	line "30 damage to itself."
+	text "Flip a coin. If tails, this Pokémon"
+	line "does 30 damage to itself."
 	done
 
 ThunderboltName:

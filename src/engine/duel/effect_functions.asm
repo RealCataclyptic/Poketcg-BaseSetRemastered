@@ -911,6 +911,56 @@ EachPlayerDraws1Effect:
 	call AddCardToHand
 	jp SwapTurn
 
+CheckLightningDiscardPile:
+	call CreateEnergyCardListFromDiscardPile_OnlyBasic
+	ldtx hl, NoLightningInDiscardText
+	ret
+
+HandleOneEnergyCardInDiscardPileSelection:
+	ldtx hl, ChooseALightningAttachText
+	push hl
+	xor a
+	ldh [hCurSelectionItem], a
+	call CreateEnergyCardListFromDiscardPile_OnlyBasic
+	pop hl
+	jr c, .finish
+	call DrawWideTextBox_WaitForInput
+.loop
+; draws Discard Pile screen and textbox,
+; and handles Player input
+	bank1call InitAndDrawCardListScreenLayout
+	ldtx hl, ChooseAnEnergyCardText
+	ldtx de, YourDiscardPileText
+	bank1call SetCardListHeaderText
+	bank1call DisplayCardList
+	jr nc, .selected
+
+; Player is trying to exit screen,
+; but can select up to 1 cards total.
+; prompt Player to confirm exiting screen.
+	ld a, 1
+	call AskWhetherToQuitSelectingCards
+	jr c, .loop
+	jr .finish
+
+.selected
+; a card was selected, so add it to list
+	call GetNextPositionInTempList
+	ldh a, [hTempCardIndex_ff98]
+	ld [hl], a
+	call RemoveCardFromDuelTempList
+	or a
+	jr z, .finish ; no more cards?
+	ldh a, [hCurSelectionItem]
+	cp 1
+	jr c, .loop ; already selected 1 cards?
+
+.finish
+; place terminating byte on list
+	call GetNextPositionInTempList
+	ld [hl], $ff
+	or a
+	ret
 
 
 ;---------------------------------------------------------------------------------
@@ -2129,7 +2179,7 @@ ApplyAndAnimateHPRecovery:
 Recover_HealEffect:
 	ld e, PLAY_AREA_ARENA
 	call GetCardDamageAndMaxHP
-	ld e, a ; all damage for recovery
+	ld e, 40 ; heal 40 damage this instance
 	ld d, 0
 	jr ApplyAndAnimateHPRecovery
 
@@ -5140,6 +5190,7 @@ Discard2AttachedEnergyCards_DiscardEffect:
 
 ; discards all Energy attached to the turn holder's Active Pokemon
 DiscardAllAttachedEnergyEffect:
+	call ParalysisEffect
 	xor a ; PLAY_AREA_ARENA
 	call CreateArenaOrBenchEnergyCardList
 	ld hl, wDuelTempList
@@ -8170,6 +8221,15 @@ EnergyRetrievalCheck:
 	ldtx hl, NoBasicEnergyCardsInDiscardPileText
 	ret
 
+AttackEnergyRetrievalCheck:
+	call CreateEnergyCardListFromDiscardPile_OnlyBasic
+	ldtx hl, NoBasicEnergyCardsInDiscardPileText
+	jr z, .NoSelection
+	ret
+.NoSelection
+	; set flag here
+	ret
+
 
 ; handles the Player's selection of a card from their hand.
 ; assumes the effect is coming from a Trainer card which needs to be removed
@@ -8200,6 +8260,11 @@ EnergyRetrieval_PlayerHandSelection:
 ;	[hTempList + 1] = deck index of a Basic Energy card in the discard pile (0-59)
 ;	[hTempList + 2] = deck index of another Basic Energy card in the discard pile (0-59)
 EnergyRetrieval_PlayerDiscardPileSelection:
+	; Check flag here
+	; jr c, .done
+
+
+
 	ld a, 1 ; start at 1 to ignore the card being discarded from the hand
 	ldh [hCurSelectionItem], a
 	ldtx hl, Choose2BasicEnergyCardsFromDiscardPileText
@@ -8246,6 +8311,8 @@ EnergyRetrieval_DiscardAndAddToHandEffect:
 	ld a, [hli]
 	call MoveCardFromHandToDiscardPile
 	ld de, wDuelTempList
+	;fallthrough
+AttackEnergyRetrievalEffect:
 .loop
 	ld a, [hli]
 	ld [de], a

@@ -341,6 +341,21 @@ Do20xPerDifferentEnergyDesc:
 	done
 
 EachPlayerDraws1Desc:
-	text "Each player draws 1 card. (even if"
-	line "this attack doesn't do damage)"
+	text "Each player draws 1 card."
+	done
+
+Get2DiscardEnergyDesc:
+	text "Return up to 2 basic energy cards"
+	line "from your discard pile into your"
+	line "hand."
+	done
+
+NoLightningInDiscardText:
+	text "There are no <LIGHTNING> energy"
+	line "in the discard pile."
+	done
+
+ChooseALightningAttachText:
+	text "Choose a <LIGHTNING> energy card"
+	line "to attach to Zapdos."
 	done

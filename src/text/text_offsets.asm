@@ -3027,3 +3027,6 @@ TextOffsets::
 	textpointer ChooseABasicEnergyText
 	textpointer Do20xPerDifferentEnergyDesc
 	textpointer EachPlayerDraws1Desc
+	textpointer Get2DiscardEnergyDesc
+	textpointer NoLightningInDiscardText
+	textpointer ChooseALightningAttachText
