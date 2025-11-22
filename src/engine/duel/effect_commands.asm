@@ -126,10 +126,10 @@ EachPlayerDraws1EffectCommands:
 	db  $00
 
 AttackEnergyRetrievalEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, AttackEnergyRetrievalCheck
-	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, EnergyRetrieval_PlayerDiscardPileSelection
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttackEnergyRetrievalEffect
-	db  $00
+    	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, AttackEnergyRetrieval_PlayerSelection
+    	dbw EFFECTCMDTYPE_AI_SELECTION, AttackEnergyRetrieval_AISelection
+    	dbw EFFECTCMDTYPE_AFTER_DAMAGE, AttackEnergyRetrieval_AddToHandEffect
+    	db  $00
 
 Attach1LFromDiscardEffectCommands:
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckLightningDiscardPile

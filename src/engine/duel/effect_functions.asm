@@ -963,6 +963,101 @@ HandleOneEnergyCardInDiscardPileSelection:
 	ret
 
 
+; handles the Player's selection of up to 2 Basic Energy cards from their discard pile
+; output:
+;    [hTempList] = $ff-terminated list with deck indices of Basic Energy cards in the discard pile
+AttackEnergyRetrieval_PlayerSelection:
+    	xor a
+    	ldh [hCurSelectionItem], a
+    	ldtx hl, Choose2BasicEnergyCardsFromDiscardPileText
+    	call DrawWideTextBox_WaitForInput
+    	call CreateEnergyCardListFromDiscardPile_OnlyBasic
+    	jr c, .done ; skip selection if there are no cards to choose
+
+.select_card
+; draws the discard pile screen and textbox,
+; and handles Player input
+    	bank1call InitAndDrawCardListScreenLayout
+    	ldtx hl, PleaseSelectCardText
+    	ldtx de, YourDiscardPileText
+    	call SetCardListHeaderText
+    	bank1call DisplayCardList
+    	jr nc, .selected
+
+; Player is trying to exit screen,
+; but can select up to 2 cards total.
+; prompt Player to confirm exiting screen.
+    	ld a, 2 ; includes the card selected from the hand
+    	call AskWhetherToQuitSelectingCards
+    	jr c, .select_card ; player selected No
+    	jr .done
+
+.selected
+    	call GetNextPositionInTempList
+    	ldh a, [hTempCardIndex_ff98]
+    	ld [hl], a ; store selected Energy card
+    	call RemoveCardFromDuelTempList
+    	jr c, .done ; exit if there are no more Energy cards to select
+    	ldh a, [hCurSelectionItem]
+    	cp 2
+    	jr c, .select_card
+
+.done
+    	call GetNextPositionInTempList
+    	ld [hl], $ff ; terminating byte
+    	or a
+    	ret
+
+; AI picks the first 2 Basic Energy cards in the discard pile
+; output:
+;    hTempList = $ff-terminated list with deck indices of discarded Energy cards
+AttackEnergyRetrieval_AISelection:
+    	call CreateEnergyCardListFromDiscardPile_OnlyBasic
+    	ld hl, wDuelTempList
+    	ld de, hTempList
+    	ld c, 2 ; need 2 Energy
+.loop
+    	ld a, [hli]
+    	ld [de], a
+    	cp $ff
+    	ret z ; exit if there are no more Energy cards to select
+    	inc de
+    	dec c
+    	jr nz, .loop
+    	ld a, $ff ; terminating byte
+    	ld [de], a
+    	ret
+
+
+; moves previously selected cards from the turn holder's discard pile to the turn holder's hand
+; input:
+;    [hTempList] = $ff-terminated list with deck indices of cards in the discard pile
+AttackEnergyRetrieval_AddToHandEffect:
+; loop cards that were chosen until $ff is reached,
+; and move them to the hand.
+    	ld hl, hTempList
+    	ld de, wDuelTempList
+.loop_cards
+    	ld a, [hli]
+    	ld [de], a
+    	cp $ff
+    	jr z, .done
+    	call MoveCardFromDiscardPileToHand
+    	inc de
+    	jr .loop_cards
+
+.done
+; show the selected card(s) on the screen if this effect wasn't initiated by the Player
+    	ld a, DUELVARS_DUELIST_TYPE
+    	get_turn_duelist_var
+    	or a ; cp DUELIST_TYPE_PLAYER
+    	ret z ; exit without notification if the Player activated this effect
+    	bank1call DisplayCardListDetails
+    	ret
+
+
+
+
 ;---------------------------------------------------------------------------------
 ; (3) THIS IS THE START OF THE ATTACK FUNCTIONS
 ; EFFECTS THAT REARRANGE, DRAW FROM, OR PULL CARDS OUT OF THE DECK ARE FIRST.
@@ -8221,15 +8316,6 @@ EnergyRetrievalCheck:
 	ldtx hl, NoBasicEnergyCardsInDiscardPileText
 	ret
 
-AttackEnergyRetrievalCheck:
-	call CreateEnergyCardListFromDiscardPile_OnlyBasic
-	ldtx hl, NoBasicEnergyCardsInDiscardPileText
-	jr z, .NoSelection
-	ret
-.NoSelection
-	; set flag here
-	ret
-
 
 ; handles the Player's selection of a card from their hand.
 ; assumes the effect is coming from a Trainer card which needs to be removed
@@ -8311,8 +8397,6 @@ EnergyRetrieval_DiscardAndAddToHandEffect:
 	ld a, [hli]
 	call MoveCardFromHandToDiscardPile
 	ld de, wDuelTempList
-	;fallthrough
-AttackEnergyRetrievalEffect:
 .loop
 	ld a, [hli]
 	ld [de], a

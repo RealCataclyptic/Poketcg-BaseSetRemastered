@@ -31,10 +31,6 @@ WARTORTLE'S RAIN DANCE
 --- Yeah I still can't figure out how to attach from hand to field as a pokepower. The check should be coded though. 
 
 
-STARMIE'S STAR RETRIEVAL
---- Is basically just energy retrieval on an attack. 90% done, but I can't make it use the attack for just damage if there are no basic energies in discard. 
-
-
 ELECTRODE'S BUZZAP
 --- This was too hard to do for the actual developers so I'm not even going to attempt it. 
 
