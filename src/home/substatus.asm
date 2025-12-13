@@ -430,7 +430,7 @@ IsClairvoyanceActive::
 	call CheckIfPkmnPowersAreCurrentlyDisabled
 	ccf
 	ret nc ; return no carry if Pokémon Powers can't be used
-	ld a, OMANYTE
+	ld a, PIKACHU_LV12
 ;	fallthrough
 
 ; checks the turn holder's play area for a specific Pokemon, but the Active Pokemon

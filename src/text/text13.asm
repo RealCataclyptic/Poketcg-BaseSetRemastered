@@ -359,3 +359,13 @@ ChooseALightningAttachText:
 	text "Choose a <LIGHTNING> energy card"
 	line "to attach to Zapdos."
 	done
+
+BatteryName:
+	text "Battery"
+	done
+
+BatteryDesc:
+	text "Pikachu does 10 damage to itself."
+	line "Then, draw 1 card for each damage"
+	line "counter on Pikachu."
+	done

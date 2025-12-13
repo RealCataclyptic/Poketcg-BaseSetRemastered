@@ -455,10 +455,9 @@ RaichuName:
 	done
 
 RaichusAgilityDescription:
-	text "Flip a coin. If heads, during your"
-	line "opponent's next turn, prevent all"
-	line "effects of attacks, including"
-	line "damage, done to Raichu."
+	text "If Raichu was on your bench and"
+	line "became your active Pokémon this"
+	line "turn, this attack does +20 damage."
 	done
 
 ThunderName:
@@ -466,8 +465,8 @@ ThunderName:
 	done
 
 RaichusThunderDescription:
-	text "Flip a coin. If tails, Raichu does"
-	line "30 damage to itself."
+	text "Flip a coin. If heads, the defending"
+	line "Pokémon is now paralyzed."
 	done
 
 RaichuLv40Description:
@@ -958,8 +957,8 @@ KarateChopName:
 	done
 
 KarateChopDescription:
-	text "Does 50 damage minus 10 damage for"
-	line "each damage counter on Machoke."
+	text "During your next turn, Machoke's"
+	line "attacks do +20 damage."
 	done
 
 SubmissionName:
@@ -967,7 +966,9 @@ SubmissionName:
 	done
 
 SubmissionDescription:
-	text "Machoke does 20 damage to itself."
+	text "If the defending Pokémon has any"
+	line "damage counters on it, this attack"
+	line "does +20 damage."
 	done
 
 MachokeDescription:

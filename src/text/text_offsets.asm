@@ -3030,3 +3030,5 @@ TextOffsets::
 	textpointer Get2DiscardEnergyDesc
 	textpointer NoLightningInDiscardText
 	textpointer ChooseALightningAttachText
+	textpointer BatteryName
+	textpointer BatteryDesc

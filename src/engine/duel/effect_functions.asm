@@ -1055,8 +1055,37 @@ AttackEnergyRetrieval_AddToHandEffect:
     	bank1call DisplayCardListDetails
     	ret
 
+DamageDrawCardsEffect:
+	ld a, 10
+	call DealRecoilDamageToSelf
+	ld e, PLAY_AREA_ARENA
+	call GetCardDamageAndMaxHP
+	ld c, a
+	;DIVISION GOES HERE
 
+	jp DrawNCards_ShowCardDetails
+	ret
+	
 
+DoPlus20IfDFPDamagedEffect:
+	rst SwapTurn
+	ld e, PLAY_AREA_ARENA
+	call GetCardDamageAndMaxHP
+	cp 1
+	jr z, .NoDamage
+	rst SwapTurn
+	ld a, 20
+	jp AddToDamage
+.NoDamage
+	jp SwapTurn
+	
+
+Deal10DamageToOppBenchEffect:
+	rst SwapTurn
+	call OwnBench_10DamageEffect
+	jp SwapTurn
+
+	
 
 ;---------------------------------------------------------------------------------
 ; (3) THIS IS THE START OF THE ATTACK FUNCTIONS

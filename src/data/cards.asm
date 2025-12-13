@@ -4649,33 +4649,33 @@ PikachuLv12Card:
 
 	; attack 1
 	energy COLORLESS, 1 ; energies
-	tx GnawName ; name
-	dw NONE ; description
+	tx BatteryName ; name
+	tx BatteryDesc ; description
 	dw NONE ; description (cont)
-	db 10 ; damage
-	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	db 0 ; damage
+	db RESIDUAL ; category
+	dw Do10ToSelfThenDrawCardsEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
-	db ATK_ANIM_HIT ; animation
+	db ATK_ANIM_GLOW_EFFECT ; animation
 
 	; attack 2
 	energy LIGHTNING, 1, COLORLESS, 1 ; energies
 	tx ThunderJoltName ; name
-	tx ThunderJoltDescription ; description
+	tx StompDescription ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
-	db DAMAGE_NORMAL ; category
-	dw FlipFor10DamageToSelfEffectCommands ; effect commands
-	db LOW_RECOIL ; flags 1
+	db 20 ; damage
+	db DAMAGE_PLUS ; category
+	dw FlipForPlus10Base20EffectCommands ; effect commands
+	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
-	db 0 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
+	db 0 
 	db ATK_ANIM_THUNDERSHOCK ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_FIGHTING ; weakness
 	db NONE ; resistance
 	tx MouseName ; category
@@ -4993,7 +4993,7 @@ RaichuLv40Card:
 	db STAR ; rarity
 	db COLOSSEUM | NONE ; sets
 	db RAICHU_LV40
-	db 80 ; hp
+	db 70 ; hp
 	db STAGE1 ; stage
 	tx PikachuName ; pre-evo name
 
@@ -5003,26 +5003,26 @@ RaichuLv40Card:
 	tx RaichusAgilityDescription ; description
 	dw NONE ; description (cont)
 	db 20 ; damage
-	db DAMAGE_NORMAL ; category
+	db DAMAGE_PLUS ; category
 	dw AgilityEffectCommands ; effect commands
 	db NONE ; flags 1
-	db NULLIFY_OR_WEAKEN_ATTACK ; flags 2
+	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
 	db ATK_ANIM_QUICK_ATTACK ; animation
 
 	; attack 2
-	energy LIGHTNING, 3, COLORLESS, 1 ; energies
+	energy LIGHTNING, 2, COLORLESS, 1 ; energies
 	tx ThunderName ; name
-	tx RaichusThunderDescription ; description
+	tx MayInflictParalysisDescription ; description
 	dw NONE ; description (cont)
-	db 60 ; damage
+	db 40 ; damage
 	db DAMAGE_NORMAL ; category
-	dw FlipFor30DamageToSelfEffectCommands ; effect commands
-	db LOW_RECOIL ; flags 1
+	dw FlipToInflictParalysisEffectCommands ; effect commands
+	db INFLICT_PARALYSIS ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
-	db 0 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
+	db 0
 	db ATK_ANIM_THUNDER ; animation
 
 	db 1 ; retreat cost
@@ -5825,7 +5825,7 @@ SandshrewCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_GRASS ; weakness
 	db WR_LIGHTNING ; resistance
 	tx MouseName ; category
@@ -5898,7 +5898,7 @@ DiglettCard:
 	dw NONE ; pre-evo name
 
 	; attack 1
-	energy FIGHTING, 1 ; energies
+	energy COLORLESS, 1 ; energies
 	tx DigName ; name
 	dw NONE ; description
 	dw NONE ; description (cont)
@@ -5912,18 +5912,18 @@ DiglettCard:
 	db ATK_ANIM_HIT ; animation
 
 	; attack 2
-	energy FIGHTING, 2 ; energies
-	tx MudSlapName ; name
+	energy 0 ; energies
+	dw NONE ; name
 	dw NONE ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
+	db 0 ; damage
 	db DAMAGE_NORMAL ; category
 	dw NONE ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
-	db ATK_ANIM_HIT ; animation
+	db ATK_ANIM_NONE ; animation
 
 	db 0 ; retreat cost
 	db WR_GRASS ; weakness
@@ -5948,8 +5948,8 @@ DugtrioCard:
 	tx DiglettName ; pre-evo name
 
 	; attack 1
-	energy FIGHTING, 2, COLORLESS, 1 ; energies
-	tx SlashName ; name
+	energy COLORLESS, 2 ; energies
+	tx DigName ; name
 	dw NONE ; description
 	dw NONE ; description (cont)
 	db 40 ; damage
@@ -5962,20 +5962,20 @@ DugtrioCard:
 	db ATK_ANIM_SLASH ; animation
 
 	; attack 2
-	energy FIGHTING, 4 ; energies
+	energy FIGHTING, 2, COLORLESS, 1 ; energies
 	tx EarthquakeName ; name
 	tx EarthquakeDescription ; description
 	dw NONE ; description (cont)
-	db 70 ; damage
+	db 30 ; damage
 	db DAMAGE_NORMAL ; category
 	dw EarthquakeEffectCommands ; effect commands
-	db NONE ; flags 1
+	db DAMAGE_TO_OPPONENT_BENCH ; flags 1
 	db NONE ; flags 2
-	db SPECIAL_AI_HANDLING ; flags 3
+	db NONE ; flags 3
 	db 0
 	db ATK_ANIM_HIT ; animation
 
-	db 2 ; retreat cost
+	db 1 ; retreat cost
 	db WR_GRASS ; weakness
 	db WR_LIGHTNING ; resistance
 	tx MoleName ; category
@@ -6125,7 +6125,7 @@ MachopCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_PSYCHIC ; weakness
 	db NONE ; resistance
 	tx SuperpowerName ; category
@@ -6148,12 +6148,12 @@ MachokeCard:
 	tx MachopName ; pre-evo name
 
 	; attack 1
-	energy FIGHTING, 2, COLORLESS, 1 ; energies
+	energy FIGHTING, 1, COLORLESS, 1 ; energies
 	tx KarateChopName ; name
 	tx KarateChopDescription ; description
 	dw NONE ; description (cont)
-	db 50 ; damage
-	db DAMAGE_MINUS ; category
+	db 20 ; damage
+	db DAMAGE_NORMAL ; category
 	dw KarateChopEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
@@ -6162,20 +6162,20 @@ MachokeCard:
 	db ATK_ANIM_HIT ; animation
 
 	; attack 2
-	energy FIGHTING, 2, COLORLESS, 2 ; energies
+	energy FIGHTING, 2, COLORLESS, 1 ; energies
 	tx SubmissionName ; name
 	tx SubmissionDescription ; description
 	dw NONE ; description (cont)
-	db 60 ; damage
-	db DAMAGE_NORMAL ; category
-	dw Also20DamageToSelfEffectCommands ; effect commands
-	db LOW_RECOIL ; flags 1
+	db 30 ; damage
+	db DAMAGE_PLUS ; category
+	dw IfDFPDamagedMoreDamageEffectCommands ; effect commands
+	db NONE
 	db NONE ; flags 2
 	db NONE ; flags 3
-	db 20 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
-	db ATK_ANIM_HIT_RECOIL ; animation
+	db 0 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
+	db ATK_ANIM_HIT ; animation
 
-	db 3 ; retreat cost
+	db 1 ; retreat cost
 	db WR_PSYCHIC ; weakness
 	db NONE ; resistance
 	tx SuperpowerName ; category
@@ -6212,7 +6212,7 @@ MachampCard:
 	db ATK_ANIM_GLOW_EFFECT ; animation
 
 	; attack 2
-	energy FIGHTING, 3, COLORLESS, 1 ; energies
+	energy FIGHTING, 2, COLORLESS, 1 ; energies
 	tx SeismicTossName ; name
 	dw NONE ; description
 	dw NONE ; description (cont)
@@ -6225,7 +6225,7 @@ MachampCard:
 	db 0
 	db ATK_ANIM_SEISMIC_TOSS ; animation
 
-	db 3 ; retreat cost
+	db 2 ; retreat cost
 	db WR_PSYCHIC ; weakness
 	db NONE ; resistance
 	tx SuperpowerName ; category
@@ -6675,7 +6675,7 @@ HitmonchanCard:
 	db 0
 	db ATK_ANIM_PUNCH ; animation
 
-	db 2 ; retreat cost
+	db 1 ; retreat cost
 	db WR_PSYCHIC ; weakness
 	db NONE ; resistance
 	tx PunchingName ; category

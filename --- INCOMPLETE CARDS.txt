@@ -1,7 +1,7 @@
 List of cards that are incomplete and need to be edited.
 
 Current Set: Yaginku's Base Set
-Currently on: Pikachu Lv 12
+Currently on: Abra
 
 =====================================================================================================================================================
 
@@ -35,17 +35,37 @@ ELECTRODE'S BUZZAP
 --- This was too hard to do for the actual developers so I'm not even going to attempt it. 
 
 
-MAGNEMITELV12 AND MAGNETONLV28'S SELF DESTRUCT
+MAGNEMITE LV12 AND MAGNETONLV28'S SELF DESTRUCT
 --- The effect is "Both players put 2/4 damage counters on their pokémon in any way they like". I have no idea how to code this, nor how to do it with the AI.
 
 
-ZAPDOSLV64'S THUNDER
+ZAPDOS LV64'S THUNDER
 --- It attaches a L energy from discard to itself. I made a code that attaches 1 of any energy from discard to itself, don't know how to make it lightning specific. Also, don't know how to make the attack go through if no L in discard. 
 
 
+PIKACHU LV12'S BATTERY
+--- Nearly have it but need to divide damage by 10 to draw the actual amount of cards.
+
+RAICHU LV40'S AGILITY
+--- Requires the mod for tracking if a pokémon became active this turn in order to function.
+
+MACXHOKE'S KARATE CHOP
+--- Somehow requires the ability to add 20 more damage but only to self. Maybe I do this on my own with a flag?
+
+DIGLETT AND DUGTRIO'S DIG
+--- I have no idea how to code this effect. How do you do damage on the beginning of the turn?
+
+ONIX'S HARDEN
+--- This is another attack that reduces damage to a pokémon dependent on a variable. I don't know how that operates.
 
 
+=====================================================================================================================================================
 
+
+BUG TEST:
+
+MACHOKE'S SUBMISSION
+--- Pretty sure it works though.
 
 
 

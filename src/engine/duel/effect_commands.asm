@@ -138,7 +138,13 @@ Attach1LFromDiscardEffectCommands:
 	; cant use yet dbw EFFECTCMDTYPE_AI_SELECTION, Choose2EnergyFromDiscardPile_AISelection
 	db  $00
 
+Do10ToSelfThenDrawCardsEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DamageDrawCardsEffect
+	db  $00
 
+IfDFPDamagedMoreDamageEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DoPlus20IfDFPDamagedEffect
+	db  $00
 
 ;------------------------------------------------------------------------------------------------------
 
