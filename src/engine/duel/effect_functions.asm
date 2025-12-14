@@ -528,6 +528,49 @@ PlayAreaSelectionMenuParameters:
 	db SYM_SPACE ; tile behind cursor
 	dw NULL ; function pointer if non-0
 
+
+; add a card (not in the deck) to the bottom of the turn holder's deck
+; input:
+;   a: the deck index (0-59) of the card
+; output:
+;   a: the deck index (0-59) of the card
+ReturnCardToBottomOfDeck:
+	push hl
+	push af
+	ld a, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
+	call GetTurnDuelistVariable
+	dec a
+	ld [hl], a  ; decrement number of cards not in deck
+	ld a, DECK_SIZE
+	sub [hl]
+	dec a    ; how many cards there were in the deck before
+	ld b, a  ; how many cards to shift position
+	or a
+	jr z, .done_shift
+	ld a, [hl]
+	add DUELVARS_DECK_CARDS
+	ld l, a  ; point to the new top deck position
+	ld e, l
+	ld d, h
+	inc hl   ; point to the actual top deck card
+; shift all cards up to make space at the bottom
+.loop
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .loop
+.done_shift
+	pop af
+	ld l, DUELVARS_DECK_CARDS + DECK_SIZE - 1  ; last card
+	ld [hl], a ; set the last deck card
+	ld l, a
+	ld [hl], CARD_LOCATION_DECK
+	ld a, l
+	pop hl
+	ret
+
+
 ;---------------------------------------------------------------------------------
 ; NEW EFFECT FUNCTIONS
 ;---------------------------------------------------------------------------------
@@ -1110,9 +1153,7 @@ PutCardOnBottomDeckEffect:
 .loop_input
 	bank1call DisplayCardList
 	jr c, .loop_input 		; must choose, B button can't be used to exit
-	call ReturnCardToDeck
-	;HOW TO BOTTOM IT?
-	ret
+	jp ReturnCardToBottomOfDeck
 
 
 Do10xCardsInHandEffect:
