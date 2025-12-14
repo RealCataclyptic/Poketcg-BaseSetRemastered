@@ -142,6 +142,7 @@ MayInflictConfusionDescription:
 InflictConfusionDescription:
 	text "The defending Pokémon is now"
 	line "confused."
+	done
 
 DoubleKickName:
 	text "Double Kick"

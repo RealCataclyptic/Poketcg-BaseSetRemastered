@@ -103,7 +103,7 @@ PointerTable_AttackAnimation:
 	dw AttackAnimation_BigThunder          ; ATK_ANIM_BIG_THUNDER
 	dw AttackAnimation_SolarPower          ; ATK_ANIM_SOLAR_POWER
 	dw AttackAnimation_Hit2                ; ATK_ANIM_POISON_FANG
-	dw AttackAnimation_Hit2                ; ATK_ANIM_UNUSED_67
+	dw AttackAnimation_SelfSleep           ; ATK_ANIM_SELFSLEEP
 	dw AttackAnimation_Hit2                ; ATK_ANIM_UNUSED_68
 	dw AttackAnimation_Needles2            ; ATK_ANIM_UNUSED_69
 	dw AttackAnimation_FriendshipSong      ; ATK_ANIM_FRIENDSHIP_SONG
@@ -794,6 +794,10 @@ AttackAnimation_Paralysis:
 
 AttackAnimation_Sleep:
 	anim_opponent       DUEL_ANIM_SLEEP
+	anim_end
+
+AttackAnimation_SelfSleep:
+	anim_player       DUEL_ANIM_SLEEP
 	anim_end
 
 AttackAnimation_OwnConfusion:

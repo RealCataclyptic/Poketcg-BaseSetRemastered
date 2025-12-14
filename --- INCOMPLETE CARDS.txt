@@ -1,7 +1,7 @@
 List of cards that are incomplete and need to be edited.
 
 Current Set: Yaginku's Base Set
-Currently on: Abra
+Currently on: Dratini
 
 =====================================================================================================================================================
 
@@ -57,6 +57,20 @@ DIGLETT AND DUGTRIO'S DIG
 
 ONIX'S HARDEN
 --- This is another attack that reduces damage to a pokémon dependent on a variable. I don't know how that operates.
+
+KADABRA'S DAMAGE SWAP
+--- Requires a limit of 2 damage counters to be moved and can only be used once- no idea how to code that in the menus. 
+
+MEWTWO'S PSYCHIC
+--- Don't know how to make the player unable to exit the menu without picking a card (it's mandatory) and I don't know how to put it at the bottom of the deck.
+
+HAUNTER LV 22'S DREAM EATER POWER
+--- Requires the implementation of permanent status effects before this can be done.
+
+CLEFAIRY'S LUCKY FLIP POKEMON POWER
+--- Yeah I'm not even going to try with this one. IDK even how to do it.
+
+
 
 
 =====================================================================================================================================================

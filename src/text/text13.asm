@@ -369,3 +369,79 @@ BatteryDesc:
 	line "Then, draw 1 card for each damage"
 	line "counter on Pikachu."
 	done
+
+SearchCardAndShuffleSelfDesc:
+	text "Search your deck for a card and add"
+	line "it to your hand. If you did,"
+	line "shuffle Abra and all cards attached"
+	line "to it into your deck."
+	done
+
+Put1Bottom2DrawDesc:
+	text "Put a card from your hand on the"
+	line "bottom of your deck. If you do,"
+	line "draw 2 cards."
+	done
+
+Bottom1CardText:
+	text "Choose 1 card to return to"
+	line "the bottom of the deck."
+	done
+
+Do10xCardsInHandDesc:
+	text "This attack does 10 damage times"
+	line "the number of cards in your hand."
+	line "You can't do more than 100 damage"
+	line "in this way."	
+	done
+
+OppNoHandText:
+	text "There are no cards in your"
+	line "opponent's hand."
+	done
+
+DiscardedFromHandText:
+	text "<RAMTEXT> was discarded"
+	line "from the hand."
+	done
+
+DreamEaterPowerDesc:
+	text "At the beginning of your opponent's"
+	line "turn, put 1 damage counter on each"
+	line "of their sleeping Pokémon."
+	done
+
+LuckyFlipName:
+	text "Lucky Flip"
+	done
+
+LuckyFlipDesc:
+	text "Once during your turn when you"
+	line "flip tails on a coin, you may heal"
+	line "10 damage from 1 of your Pokémon."
+	line "(multiple Pokémon Powers with the"
+	line "same name do not multiply.)"
+	done
+
+SoftboiledName:
+	text "Softboiled"
+	done
+
+SoftboiledDesc:
+	text "Whenever you attach an energy card"
+	line "from your hand to 1 of your Pokémon,"
+	line "remove all effects from it and it"
+	line "is no longer Asleep, Confused,"
+	line "Paralyzed or Poisoned."
+	done
+
+RestName:
+	text "Rest"
+	done
+
+Heal50AndSlpDesc:
+	text "Heal 50 damage from Chansey and"
+	line "Chansey becomes Asleep."
+	done
+	
+	

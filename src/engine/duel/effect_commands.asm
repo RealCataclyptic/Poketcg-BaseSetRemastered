@@ -146,6 +146,34 @@ IfDFPDamagedMoreDamageEffectCommands:
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DoPlus20IfDFPDamagedEffect
 	db  $00
 
+SearchCardAndShuffleSelfEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, ComputerSearchCheck
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, AddCardToHandEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ShuffleSelfIntoDeckEffect
+	db  $00
+
+Bottom1Draw2EffectCommands:
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, PutCardOnBottomDeckEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Draw2CardsFromDeck
+	db  $00
+
+Do10xCardsInHandEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Do10xCardsInHandEffect
+	db  $00	
+
+MakeOppDiscard1HandCardEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckOppHand
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, OppDiscard1CardEffect
+	db  $00
+
+DreamEaterPowerEffectCommands:
+	db  $00
+
+Heal50AndSlpEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, ActivePokemon_DamageCheck
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, SleepAndHealEffect
+	db  $00
+
 ;------------------------------------------------------------------------------------------------------
 
 

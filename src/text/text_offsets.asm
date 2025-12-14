@@ -3032,3 +3032,16 @@ TextOffsets::
 	textpointer ChooseALightningAttachText
 	textpointer BatteryName
 	textpointer BatteryDesc
+	textpointer SearchCardAndShuffleSelfDesc 
+	textpointer Put1Bottom2DrawDesc
+	textpointer Bottom1CardText
+	textpointer Do10xCardsInHandDesc
+	textpointer OppNoHandText
+	textpointer DiscardedFromHandText
+	textpointer DreamEaterPowerDesc
+	textpointer LuckyFlipName
+	textpointer LuckyFlipDesc
+	textpointer SoftboiledName
+	textpointer SoftboiledDesc
+	textpointer RestName
+	textpointer Heal50AndSlpDesc

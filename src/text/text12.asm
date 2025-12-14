@@ -28,13 +28,10 @@ DamageSwapName:
 	done
 
 DamageSwapDescription:
-	text "As often as you like during your"
-	line "turn (before your attack), you may"
-	line "move 1 damage counter from 1 of your"
-	line "Pokémon to another as long as you"
-	line "don't Knock Out that Pokémon."
-	line "This power can't be used if Alakazam"
-	line "is Asleep, Confused, or Paralyzed."
+	text "You may only use a 'Damage Swap'"
+	line "Pokémon Power once per turn. Move"
+	line "up to 2 damage counters from 1 of"
+	line "your Pokémon to another one."
 	done
 
 AlakazamDescription:
@@ -132,11 +129,8 @@ DestinyBondName:
 	done
 
 DestinyBondDescription:
-	text "Discard 1 <PSYCHIC> Energy card attached to"
-	line "Gastly in order to use this attack."
-	line "If a Pokémon Knocks Out Gastly"
-	line "during your opponent's next turn,"
-	line "Knock Out that Pokémon."
+	text "Your opponent discards a card"
+	line "from their hand."
 	done
 
 GasName:
@@ -333,8 +327,8 @@ DoubleAttackX10Description:
 	done
 
 JynxsMeditateDescription:
-	text "Does 20 damage plus 10 more damage"
-	line "for each damage counter on the"
+	text "This attack does + 10 damage for"
+	line "each damage counter on the"
 	line "Defending Pokémon."
 	done
 
@@ -678,10 +672,7 @@ ClefableName:
 ClefablesMetronomeDescription:
 	text "Choose 1 of the Defending Pokémon's"
 	line "attacks. Metronome copies that"
-	line "attack except for its Energy costs."
-	line "(No matter what type the Defending"
-	line "Pokémon is, Clefable's type is"
-	line "still Colorless.)"
+	line "attack."
 	done
 
 ClefablesMinimizeDescription:

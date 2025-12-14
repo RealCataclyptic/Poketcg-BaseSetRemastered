@@ -1085,7 +1085,116 @@ Deal10DamageToOppBenchEffect:
 	call OwnBench_10DamageEffect
 	jp SwapTurn
 
+AddCardToHandEffect:
+	call CreateDeckCardList
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+	ldtx hl, ChooseCardToPlaceInHandText
+	ldtx de, DuelistDeckText
+	call SetCardListHeaderText
+.loop_input
+	bank1call DisplayCardList
+	jr c, .loop_input ; must choose, B button can't be used to exit
+	jp MoveCardFromDeckToHand
+
+ShuffleSelfIntoDeckEffect:
+	xor a
+	ldh [hTemp_ffa0], a
+	jp MrFuji_ReturnToDeckEffect
 	
+
+PutCardOnBottomDeckEffect:
+	ldtx hl, Bottom1CardText
+	call DrawWideTextBox_WaitForInput
+	call CreateHandCardList
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+.loop_input
+	bank1call DisplayCardList
+	jr c, .loop_input 		; must choose, B button can't be used to exit
+	call ReturnCardToDeck
+	;HOW TO BOTTOM IT?
+	ret
+
+
+Do10xCardsInHandEffect:
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	cp 10 + 1
+	jr c, .NoCap
+	ld a, 10
+
+.NoCap
+	call ATimes10
+	jp SetDefiniteDamage
+
+
+CheckOppHand:
+	rst SwapTurn
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	ldtx hl, OppNoHandText
+	cp 1
+	jp SwapTurn
+
+
+OppDiscard1CardEffect:
+	call IsPlayerTurn
+	jr c, .AIDiscard
+; Player discards a card
+	rst SwapTurn
+	ldtx hl, ChooseCardToDiscardFromHandText
+	call DrawWideTextBox_WaitForInput
+	call CreateHandCardList
+
+; display the list on screen and have the player select 1 of the cards
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+.loop_input
+	bank1call DisplayCardList
+	jr c, .loop_input 		; must choose, B button can't be used to exit
+	call MoveCardFromHandToDiscardPile
+	jp .DiscardDetails
+	
+
+
+; Ai discards randomly
+.AIDiscard 		
+	call Get1RandomCardFromOpponentsHand
+  	rst SwapTurn
+  	call RemoveCardFromHand
+  	call PutCardInDiscardPile
+  	or a
+.DiscardDetails
+	ldtx hl, DiscardedFromHandText
+  	bank1call DisplayCardDetailScreen
+  	jp SwapTurn
+
+
+Get1RandomCardFromOpponentsHand:
+	call ExchangeRNG
+  	call SwapTurn
+  	call CreateHandCardList
+  	ld hl, wDuelTempList
+  	cp 1
+  	jr z, .get_deck_index  ; there is only one card
+  	call Random ; get random number between 0 and a (exclusive)
+  	ld c, a ; get a-th card from hand list
+  	ld b, 0
+  	add hl, bc
+.get_deck_index
+  	ld a, [hl]
+  	jp SwapTurn
+
+SleepAndHealEffect:
+	ld de, 50
+	call ApplyAndAnimateHPRecovery
+	rst SwapTurn
+	call SleepEffect
+	jp SwapTurn
+	
+
+
+;---------------------------------------------------------------------------------
+; NEW EFFECT FUNCTIONS END
+;---------------------------------------------------------------------------------
 
 ;---------------------------------------------------------------------------------
 ; (3) THIS IS THE START OF THE ATTACK FUNCTIONS
