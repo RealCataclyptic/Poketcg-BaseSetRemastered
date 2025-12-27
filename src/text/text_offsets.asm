@@ -300,7 +300,7 @@ TextOffsets::
 	textpointer ChooseAnOddishFromDeckText                         ; 0x0126
 	textpointer ChooseAnOddishText                                 ; 0x0127
 	textpointer ChooseAKrabbyText                                  ; 0x0128
-	textpointer ChooseBasicEnergyCardText                          ; 0x0129
+	textpointer their                          ; 0x0129
 	textpointer ChooseNidoranFromDeckText                          ; 0x012a
 	textpointer ChooseNidoranText                                  ; 0x012b
 	textpointer ChooseBasicFightingPokemonText                     ; 0x012c
@@ -3045,3 +3045,14 @@ TextOffsets::
 	textpointer SoftboiledDesc
 	textpointer RestName
 	textpointer Heal50AndSlpDesc
+	textpointer DragonDanceName
+	textpointer Attach1BasicEnergyDesc
+	textpointer Choose1BasicEnergyCardFromHandText
+	textpointer ChooseBasicEnergyCardText
+	textpointer YouDontHaveFewerEnergyText
+	textpointer EnergyRainbowHealDesc
+	textpointer RainbowFlipText
+	textpointer EnergyMailName
+	textpointer EnergyMailDesc
+	textpointer DataLoadName
+	textpointer DrawUntil3Desc

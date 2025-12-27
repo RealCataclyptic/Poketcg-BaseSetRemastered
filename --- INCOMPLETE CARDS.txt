@@ -28,7 +28,7 @@ ARCANINE'S SWIFT
 
 
 WARTORTLE'S RAIN DANCE
---- Yeah I still can't figure out how to attach from hand to field as a pokepower. The check should be coded though. 
+--- Very nearly done. There is some sort of glitch where you can exit the pokepower menu with B and it will mark the power as completed. Also, using the power lets you select non energy cards, which will do nothing, and then cause you to lose that power for the turn due to the once per turn clause. 
 
 
 ELECTRODE'S BUZZAP
@@ -49,7 +49,7 @@ PIKACHU LV12'S BATTERY
 RAICHU LV40'S AGILITY
 --- Requires the mod for tracking if a pokémon became active this turn in order to function.
 
-MACXHOKE'S KARATE CHOP
+MACHOKE'S KARATE CHOP
 --- Somehow requires the ability to add 20 more damage but only to self. Maybe I do this on my own with a flag?
 
 DIGLETT AND DUGTRIO'S DIG
@@ -61,16 +61,20 @@ ONIX'S HARDEN
 KADABRA'S DAMAGE SWAP
 --- Requires a limit of 2 damage counters to be moved and can only be used once- no idea how to code that in the menus. 
 
-MEWTWO'S PSYCHIC
---- Don't know how to make the player unable to exit the menu without picking a card (it's mandatory) and I don't know how to put it at the bottom of the deck.
-
 HAUNTER LV 22'S DREAM EATER POWER
 --- Requires the implementation of permanent status effects before this can be done.
 
 CLEFAIRY'S LUCKY FLIP POKEMON POWER
 --- Yeah I'm not even going to try with this one. IDK even how to do it.
 
+DRAGONAIR'S HYPER BEAM
+--- IDEK the math aint mathing
 
+PIDGEOTTO'S ENERGY MAIL
+--- No idea how to code this ability
+
+PORYGON'S CONVERSION STRTIKE
+--- No idea how to make it last until the end of your next turn.
 
 
 =====================================================================================================================================================
@@ -81,5 +85,6 @@ BUG TEST:
 MACHOKE'S SUBMISSION
 --- Pretty sure it works though.
 
-
+ALL EFFECTS THAT THE AI USES TO ATTACH ENERGY FROM HAND TO FIELD
+--- Pretty sure they work. Includes Wartortle, Dratini. 
 

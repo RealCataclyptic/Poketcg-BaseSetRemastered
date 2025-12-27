@@ -1146,7 +1146,7 @@ DamageCheckIfHeadsPlusDamageText:
 
 DamageCheckIfHeadsXDamageText:
 	text "Damage check! The attack does"
-	line "<RAMNUM> damage for each heads!!"
+	line "+<RAMNUM> damage for each heads!!"
 	done
 
 AcidCheckText:
@@ -1402,7 +1402,7 @@ ChooseAKrabbyText:
 	text "Choose a Krabby."
 	done
 
-ChooseBasicEnergyCardText:
+their:
 	text "Choose a"
 	line "Basic Energy card."
 	done

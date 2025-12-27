@@ -111,9 +111,11 @@ Flip20xPerEnergyTails10xEffectCommands:
 	dbw EFFECTCMDTYPE_AI, AI_Flip20xPerEnergyTails10xEffect; placeholder
 	db  $00
 
-AttachWaterEnergyFromHandEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckBasicEnergyInHand
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttachBasicEnergyCardFromHandToPkmnEffect
+AttachBasicEnergyFromHandPowerEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, CheckBasicEnergyInHandPower
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, AttachBasicEnergyCardFromHandToPkmn_PowerEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, AttachBasicEnergyFromHand_AISelection
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttachBasicEnergyFromHand_AttachEffect
 	db  $00	
 
 Do20xPerDifferentEnergyEffectCommands:
@@ -172,6 +174,23 @@ DreamEaterPowerEffectCommands:
 Heal50AndSlpEffectCommands:
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, ActivePokemon_DamageCheck
 	dbw EFFECTCMDTYPE_AFTER_DAMAGE, SleepAndHealEffect
+	db  $00
+
+Attach1EnergyFromHandEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckBasicEnergyInHand
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, Attach1BasicEnergyFromHandToPokemonEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, AttachBasicEnergyFromHand_AISelection
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, AttachBasicEnergyFromHand_AttachEffect
+	db  $00
+
+EnergyRainbowDamageOrHealEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, EnergyRainbow_DamageBoostEffect
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, EnergyRainbow_HealEffect
+	db  $00
+
+DrawUntil3InHandEffectCommands:
+	; dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, CheckNumberHandCards2OrLess
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DrawUntil3Effect
 	db  $00
 
 ;------------------------------------------------------------------------------------------------------

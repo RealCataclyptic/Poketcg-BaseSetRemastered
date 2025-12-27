@@ -838,29 +838,72 @@ AI_Flip20xPerEnergyTails10xEffect: ; DOES THIS EVEN WORK?
 .nocap
 	ret
 
-CheckBasicEnergyInHand:
+CountAllEnergyInTurnHolderPlayArea:
+	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
+	call GetTurnDuelistVariable
+	ld d, a  ; store the number of Pokémon in the turn holder's play area in the d register (this will let us know when we are done counting)
+	ld e, PLAY_AREA_ARENA  ; store the first play area location to check in the e register
+.loop_play_area
+	call GetPlayAreaCardAttachedEnergies
+	; a = [wTotalAttachedEnergies], or the total amount of Energy attached to the Pokémon in the location from e
+	add c                  ; add the Energy we just found to our counter in the c register
+  	ld c, a                ; and then update the counter
+	inc e                  ; move on to the next play area location
+	dec d                  ; decrease the number of Pokémon that we need to check by 1
+	jr nz, .loop_play_area ; only exit the loop if d = 0 (i.e. there are no more Pokémon to check), otherwise start over with the next Pokémon
+	ret
+
+CheckBasicEnergyInHandPower:
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTemp_ffa0], a
-	call CheckIsIncapableOfUsingPkmnPower
+	call OncePerTurnPokePowerCheck 	;checks both if used already or if toxic gas is active
 	ret c ; can't use due to status or Toxic Gas
 
+	
+
+	ld c, 0 	; this function counts if player has less total energy in play than opp.
+	rst SwapTurn
+	call CountAllEnergyInTurnHolderPlayArea 	;opp energies
+	ld b, a
+	rst SwapTurn
+
+	ld c, 0
+	call CountAllEnergyInTurnHolderPlayArea		; users energies
+	sub b
+
+	ldtx hl, YouDontHaveFewerEnergyText
+	cp 1
+	ret c
+	; otherwise fallthrough
+
+
+CheckBasicEnergyInHand:
 	call CreateHandCardList 
-	ld hl, wDuelTempList
+    	ld hl, wDuelTempList
 .loop
-	ld a, [hli]
-	cp $ff
-	jr z, .none
-	call LoadCardDataToBuffer2_FromDeckIndex
-	ld a, [wLoadedCard2Type]
-	and TYPE_ENERGY
-	ret nz ; found one
-	jr c, .loop ; skip if not an Energy card
-	
-.none
-	ldtx hl, NoHandEnergyText
-  	scf
-  	ret
-	
+    	ld a, [hli]
+   	cp $ff
+    	jr z, .none_found
+    	call GetCardTypeFromDeckIndex_SaveDE
+    	bit TYPE_ENERGY_F, a
+    	jr z, .loop ; skip if not an Energy card
+    	cp TYPE_ENERGY + NUM_COLORED_TYPES
+    	jr nc, .loop ; skip if it provides Colorless Energy (i.e. not Basic)
+    	or a
+    	ret
+.none_found
+    	ldtx hl, NoHandEnergyText
+    	scf
+    	ret
+
+AttachBasicEnergyCardFromHandToPkmn_PowerEffect:
+	ldh a, [hTemp_ffa0]
+	add DUELVARS_ARENA_CARD_FLAGS
+	get_turn_duelist_var
+	set USED_PKMN_POWER_THIS_TURN_F, [hl]
+	ldh a, [hAIPkmnPowerEffectParam]
+	or a
+	;fallthrough
 
 AttachBasicEnergyCardFromHandToPkmnEffect:
 	call CreateHandCardList
@@ -1152,7 +1195,9 @@ PutCardOnBottomDeckEffect:
 	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
 .loop_input
 	bank1call DisplayCardList
+	ldh [hTemp_ffa0], a ; store chosen card
 	jr c, .loop_input 		; must choose, B button can't be used to exit
+	ldh a, [hTemp_ffa0]
 	jp ReturnCardToBottomOfDeck
 
 
@@ -1231,6 +1276,72 @@ SleepAndHealEffect:
 	call SleepEffect
 	jp SwapTurn
 	
+
+Attach1BasicEnergyFromHandToPokemonEffect:
+	farcall FindBasicEnergyInHandToAttach
+	ret
+
+EnergyRainbow_DamageBoostEffect:
+  	xor a  ; PLAY_AREA_ARENA
+  	ld e, a
+  	call GetPlayAreaCardAttachedEnergies
+	; count how many types of Energy there are (colorless does not count)
+  	ld b, 0
+  	ld c, NUM_COLORED_TYPES
+  	ld hl, wAttachedEnergies
+.loop
+ 	ld a, [hli]
+  	or a
+  	jr z, .next
+  	inc b
+	inc e
+.next
+  	dec c
+  	jr nz, .loop
+	ld a, b			; # coins to flip is now a
+	ldtx de, RainbowFlipText
+	call TossCoinATimes
+	ld c, a 		;load #heads to c
+
+	ld a, e			; supposed to load 2 but is instead loading 18.
+	sub c			; is subtracting heads
+	ldh [hTemp_ffa0], a
+
+	ld a, c			; is loading #heads to a properly
+	add a
+  	call ATimes10
+  	jp SetDefiniteDamage 
+
+EnergyRainbow_HealEffect:
+	ldh a, [hTemp_ffa0]
+	ld d, 0
+	ld e, a
+	jp ApplyAndAnimateHPRecovery
+
+CheckNumberHandCards2OrLess:
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	ldh [hTemp_ffa0], a
+	call CheckIsIncapableOfUsingPkmnPower
+	ret c ; can't use due to status or Toxic Gas
+
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	ld b, a
+	ld a, 3
+	sub b
+	ldtx hl, NotEnoughCardsInHandText
+	cp 1
+	ret c ; can't use because 3 or more cards in hand
+	ret
+
+DrawUntil3Effect:
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	ld b, a
+	ld a, 3
+	sub b
+	jp DrawNCards_ShowCardDetails
+	ret
 
 
 ;---------------------------------------------------------------------------------
@@ -1492,6 +1603,10 @@ AttachBasicEnergyFromDeck_AISelection:
 	farcall AIFindBasicEnergyToAttach
 	ret
 
+AttachBasicEnergyFromHand_AISelection:
+	farcall AIFindBasicEnergyInHandToAttach
+	ret
+
 
 ; attaches a given Energy card in the turn holder's deck to a given Pokemon in the play area
 ; input:
@@ -1527,6 +1642,37 @@ AttachBasicEnergyFromDeck_AttachEffect:
 	ldtx hl, AttachedEnergyToPokemonText
 	bank1call DisplayCardDetailScreen
 	jr ShuffleCardsInDeck
+
+AttachBasicEnergyFromHand_AttachEffect:
+	;ldh a, [hTemp_ffa0] ; pretty sure can delete because the checks prevent no card from being selected?
+	;cp -1
+	;jr z, ShuffleCardsInDeck ; shuffle and return if no card was selected
+
+; add card to the hand and attach it to the selected Pokemon
+	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld e, a
+	ldh a, [hTemp_ffa0]
+	call PutHandCardInPlayArea
+	call IsPlayerTurn
+	ret c ; return if it's player's turn
+
+; not Player, so show detail screen and which Pokemon was chosen to attach Energy
+	ldh a, [hTempPlayAreaLocation_ffa1]
+	add DUELVARS_ARENA_CARD
+	get_turn_duelist_var
+	call LoadCardDataToBuffer1_FromDeckIndex
+	ld hl, wLoadedCard1Name
+	ld de, wTxRam2_b
+	ld a, [hli]
+	ld [de], a
+	inc de
+	ld a, [hli]
+	ld [de], a
+	ldh a, [hTemp_ffa0]
+	ldtx hl, AttachedEnergyToPokemonText
+	bank1call DisplayCardDetailScreen
+	ret
+
 
 
 ; handles the Player's selection of a Trainer card from their deck

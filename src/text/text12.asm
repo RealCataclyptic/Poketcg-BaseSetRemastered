@@ -1079,14 +1079,15 @@ PorygonName:
 	done
 
 Conversion1Name:
-	text "Conversion 1"
+	text "Conversion Strike"
 	done
 
 Conversion1Description:
 	text "If the Defending Pokémon has a"
 	line "Weakness, you may change it to a"
 	line "type of your choice other than"
-	line "Colorless."
+	line "Colorless until the end of your"
+	line "next turn."
 	done
 
 Conversion2Name:

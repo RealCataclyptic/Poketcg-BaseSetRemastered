@@ -3148,13 +3148,13 @@ WartortleCard:
 	tx SquirtleName ; pre-evo name
 
 	; attack 1
-	energy COLORLESS, 1 ; energies
+	energy 0 ; energies
 	tx RainDanceName ; name
 	tx RainDanceDescription ; description
 	tx RainDanceDescriptionCont ; description (cont)
 	db 0 ; damage
-	db RESIDUAL; category
-	dw AttachWaterEnergyFromHandEffectCommands ; effect commands
+	db POKEMON_POWER ; category
+	dw AttachBasicEnergyFromHandPowerEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
@@ -8025,7 +8025,7 @@ PidgeyCard:
 	db 0
 	db ATK_ANIM_NONE ; animation
 
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_LIGHTNING ; weakness
 	db WR_FIGHTING ; resistance
 	tx TinyBirdName ; category
@@ -8040,12 +8040,26 @@ PidgeottoCard:
 	db TYPE_PKMN_COLORLESS ; type
 	gfx PidgeottoCardGfx ; gfx
 	tx PidgeottoName ; name
-	db STAR ; rarity
+	db CIRCLE ; rarity
 	db EVOLUTION | NONE ; sets
 	db PIDGEOTTO
 	db 60 ; hp
 	db STAGE1 ; stage
 	tx PidgeyName ; pre-evo name
+
+	; attack 1
+	energy 0 ; energies
+	tx EnergyMailName ; name
+	tx EnergyMailDesc ; description
+	dw NONE ; description (cont)
+	db 0 ; damage
+	db POKEMON_POWER ; category
+	dw NONE ; effect commands
+	db NONE ; flags 1
+	db NONE ; flags 2
+	db NONE ; flags 3
+	db 0
+	db ATK_ANIM_PKMN_POWER_1 ; animation
 
 	; attack 1
 	energy COLORLESS, 2 ; energies
@@ -8060,20 +8074,6 @@ PidgeottoCard:
 	db NONE ; flags 3
 	db 0
 	db ATK_ANIM_WHIRLWIND ; animation
-
-	; attack 2
-	energy COLORLESS, 3 ; energies
-	tx MirrorMoveName ; name
-	tx PidgeottosMirrorMoveDescription ; description
-	dw NONE ; description (cont)
-	db 0 ; damage
-	db DAMAGE_NORMAL ; category
-	dw MirrorMoveEffectCommands ; effect commands
-	db NONE ; flags 1
-	db ENCOURAGE_THIS_ATTACK ; flags 2
-	db NONE ; flags 3
-	db 0 ; attack score bonus for ENCOURAGE_THIS_ATTACK
-	db ATK_ANIM_MIRROR_MOVE ; animation
 
 	db 1 ; retreat cost
 	db WR_LIGHTNING ; weakness
@@ -8398,7 +8398,7 @@ ClefairyCard:
 	dw NONE ; pre-evo name
 
 	; attack 1
-	energy PSYCHIC, 1 ; energies
+	energy 0; energies
 	tx LuckyFlipName ; name
 	tx LuckyFlipDesc ; description
 	dw NONE ; description (cont)
@@ -8410,6 +8410,8 @@ ClefairyCard:
 	db NONE ; flags 3
 	db 0
 	db ATK_ANIM_PKMN_POWER_1 ; animation
+
+	
 
 	; attack 2
 	energy COLORLESS, 3 ; energies
@@ -9290,42 +9292,42 @@ PorygonCard:
 	db TYPE_PKMN_COLORLESS ; type
 	gfx PorygonCardGfx ; gfx
 	tx PorygonName ; name
-	db DIAMOND ; rarity
+	db CIRCLE ; rarity
 	db LABORATORY | NONE ; sets
 	db PORYGON
-	db 30 ; hp
+	db 60 ; hp
 	db BASIC ; stage
 	dw NONE ; pre-evo name
 
 	; attack 1
-	energy COLORLESS, 1 ; energies
+	energy 0 ; energies
+	tx DataLoadName ; name
+	tx DrawUntil3Desc ; description
+	dw NONE ; description (cont)
+	db 0 ; damage
+	db POKEMON_POWER ; category
+	dw DrawUntil3InHandEffectCommands ; effect commands
+	db NONE ; flags 1
+	db NONE ; flags 2
+	db NONE ; flags 3
+	db 0
+	db ATK_ANIM_GLOW_EFFECT ; animation
+
+	; attack 1
+	energy COLORLESS, 2 ; energies
 	tx Conversion1Name ; name
 	tx Conversion1Description ; description
 	dw NONE ; description (cont)
-	db 0 ; damage
+	db 20 ; damage
 	db DAMAGE_NORMAL ; category
 	dw Conversion1EffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db SPECIAL_AI_HANDLING ; flags 3
 	db 0
-	db ATK_ANIM_GLOW_EFFECT ; animation
+	db ATK_ANIM_HIT ; animation
 
-	; attack 2
-	energy COLORLESS, 2 ; energies
-	tx Conversion2Name ; name
-	tx Conversion2Description ; description
-	dw NONE ; description (cont)
-	db 0 ; damage
-	db RESIDUAL ; category
-	dw Conversion2EffectCommands ; effect commands
-	db NONE ; flags 1
-	db NONE ; flags 2
-	db SPECIAL_AI_HANDLING ; flags 3
-	db 0
-	db ATK_ANIM_GLOW_EFFECT ; animation
-
-	db 1 ; retreat cost
+	db 0 ; retreat cost
 	db WR_FIGHTING ; weakness
 	db WR_PSYCHIC ; resistance
 	tx VirtualName ; category
@@ -9399,17 +9401,17 @@ DratiniCard:
 
 	; attack 1
 	energy COLORLESS, 1 ; energies
-	tx PoundName ; name
-	dw NONE ; description
+	tx DragonDanceName ; name
+	tx Attach1BasicEnergyDesc ; description
 	dw NONE ; description (cont)
-	db 10 ; damage
-	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	db 0 ; damage
+	db RESIDUAL ; category
+	dw Attach1EnergyFromHandEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
-	db ATK_ANIM_HIT ; animation
+	db ATK_ANIM_GLOW_EFFECT ; animation
 
 	; attack 2
 	energy 0 ; energies
@@ -9450,11 +9452,11 @@ DragonairCard:
 	; attack 2
 	energy COLORLESS, 3 ; energies
 	tx HyperBeamName ; name
-	tx Discard1EnergyFromTargetDescription ; description
+	tx EnergyRainbowHealDesc ; description
 	dw NONE ; description (cont)
 	db 20 ; damage
 	db DAMAGE_X ; category
-	dw DiscardEnergyDefendingPokemonEffectCommands ; effect commands
+	dw EnergyRainbowDamageOrHealEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3

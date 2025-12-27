@@ -326,6 +326,36 @@ FindBasicEnergyToAttach:
 	or a
 	ret
 
+FindBasicEnergyInHandToAttach:
+	ldtx hl, Choose1BasicEnergyCardFromHandText
+	call DrawWideTextBox_WaitForInput
+	call CreateHandCardList
+	lb de, SEARCHEFFECT_BASIC_ENERGY, 0
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+	ldtx hl, Choose1BasicEnergyCardFromHandText
+.loop_input
+	bank1call DisplayCardList
+	jr c, .loop_input ; the B button was pressed
+	call CheckDeckIndexForBasicEnergy
+	jr nc, .loop_input; not a Basic Energy card
+
+; a Basic Energy card was selected
+	ldh a, [hTempCardIndex_ff98]
+	ldh [hTemp_ffa0], a
+
+
+
+; now to choose an in-play Pokemon to attach it to
+	call EmptyScreen
+	ldtx hl, ChoosePokemonToAttachEnergyCardText
+	call DrawWideTextBox_WaitForInput
+	call InitPlayAreaScreenVars
+.loop_inputPKMN
+	bank1call OpenPlayAreaScreenForSelection
+	jr c, .loop_inputPKMN ; must choose, B button can't be used to exit
+	ldh [hTempPlayAreaLocation_ffa1], a
+	ret
+
 
 ; finds the first Basic Energy card in the deck and attaches it to the AI's Active Pokemon.
 ; output:
@@ -341,6 +371,20 @@ AIFindBasicEnergyToAttach:
 	ret z ; reached the end of the list
 	call CheckDeckIndexForBasicEnergy
 	jr nc, .loop_deck ; card isn't a Basic Energy
+	xor a ; PLAY_AREA_ARENA
+	ldh [hTempPlayAreaLocation_ffa1], a
+	ret
+
+AIFindBasicEnergyInHandToAttach:
+	call CreateHandCardList
+	ld hl, wDuelTempList
+.loop_hand
+	ld a, [hli]
+	ldh [hTemp_ffa0], a
+	cp $ff
+	ret z ; reached the end of the list
+	call CheckDeckIndexForBasicEnergy
+	jr nc, .loop_hand ; card isn't a Basic Energy
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ret

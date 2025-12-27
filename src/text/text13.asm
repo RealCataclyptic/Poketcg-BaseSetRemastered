@@ -443,5 +443,62 @@ Heal50AndSlpDesc:
 	text "Heal 50 damage from Chansey and"
 	line "Chansey becomes Asleep."
 	done
-	
-	
+
+DragonDanceName:
+	text "Dragon Dance"
+	done
+
+Attach1BasicEnergyDesc:
+	text "Attach a basic energy from your hand"
+	line "to 1 of your Pokémon."
+	done
+
+Choose1BasicEnergyCardFromHandText:
+	text "Choose a Basic Energy card"
+	line "from your hand."
+	done
+
+ChooseBasicEnergyCardText:
+	text "Choose a Basic Energy card"
+	line "from your deck."
+	done
+
+YouDontHaveFewerEnergyText:
+	text "You don't have fewer total energy"
+	line "than your opponent."
+	done
+
+EnergyRainbowHealDesc:
+	text "Flip a coin for each type of basic"
+	line "energy attached to Dragonair. This"
+	line "attack does 20 damage for each"
+	line "heads. Then, heal 10 damage from"
+	line "Dragonair for each tails."
+	done
+
+RainbowFlipText:
+	text "20 damage for each heads!"
+	line "Heal 10 damage for each tails!"
+	done
+
+EnergyMailName:
+	text "Energy Mail"
+	done
+
+EnergyMailDesc:
+	text "When your active Pokémon is knocked"
+	line "out by damage from an opponent's"
+	line "attack, you may move 1 basic energy"
+	line "from that Pokémon to 1 of your"
+	line "benched Pokémon."
+	done
+
+DataLoadName:
+	text "Data Load"
+	done
+
+DrawUntil3Desc:
+	text "Once during your turn (before your"
+	line "attack), you may draw cards until"
+	line "you have 3 cards in your hand."
+	done
