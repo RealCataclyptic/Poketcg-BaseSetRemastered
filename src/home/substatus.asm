@@ -402,7 +402,7 @@ CheckUnableToRetreatDueToEffect::
 CheckCantUseItemsThisTurn::
 	ld a, DUELVARS_ARENA_CARD_SUBSTATUS3
 	get_turn_duelist_var
-	bit SUBSTATUS3_HEADACHE_F, a
+	and (1 << SUBSTATUS3_HEADACHE_F)
 	ret z
 	ldtx hl, UnableToUseItemCardThisTurnText
 	scf
