@@ -2263,7 +2263,7 @@ EnergyRemovalCardGfx::
 	INCBIN "gfx/cards/energyremoval.2bpp"
 	INCBIN "gfx/cards/energyremoval.pal"
 
-SuperEnergyRemovalCardGfx::
+CooltrainerCardGfx::
 	INCBIN "gfx/cards/superenergyremoval.2bpp"
 	INCBIN "gfx/cards/superenergyremoval.pal"
 

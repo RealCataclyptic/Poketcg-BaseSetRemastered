@@ -34,14 +34,17 @@ PokeBallDescription:
 	done
 
 ScoopUpName:
-	text "Scoop Up"
+	text "Bug Catcher"
 	done
 
 ScoopUpDescription:
-	text " Choose 1 of your Pokémon in play"
-	line " and return its Basic Pokémon card"
-	line " to your hand. (Discard all cards"
-	line " attached to that card.)"
+	text "Choose 1 of your benched Pokémon and"
+	line "move all Energy and damage counters"
+	line "from that Pokémon onto your other"
+	line "Pokémon in any way you like. Then,"
+	line "return the chosen Pokémon and all"
+	line "Pokémon cards attached to it to"
+	line "your hand."
 	done
 
 ComputerSearchName:
@@ -108,7 +111,7 @@ ItemFinderDescription:
 	done
 
 GustOfWindName:
-	text "Gust of Wind"
+	text "Rival"
 	done
 
 GustOfWindDescription:
@@ -501,4 +504,31 @@ DrawUntil3Desc:
 	text "Once during your turn (before your"
 	line "attack), you may draw cards until"
 	line "you have 3 cards in your hand."
+	done
+
+NotLessThan3Text:
+	text "You do not have less than 3"
+	line "cards in your hand."
+	done
+
+ReturnSelfToHandDesc:
+	text "After doing damage, discard all"
+	line "cards attached to Farfetch'd and"
+	line "return it to your hand."
+	done
+
+StealName:
+	text "Steal"
+	done
+
+LookAtTop2Get1Desc:
+	text "Look at the top 2 cards of your deck"
+	line "and put 1 of them into your hand."
+	line "Put the other card on the bottom of"
+	line "your deck."
+	done
+
+Bottom3CardsText:
+	text "Put 3 cards from your hand"
+	line "on the bottom of your deck."
 	done

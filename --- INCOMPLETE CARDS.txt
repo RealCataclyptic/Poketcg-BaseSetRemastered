@@ -3,6 +3,8 @@ List of cards that are incomplete and need to be edited.
 Current Set: Yaginku's Base Set
 Currently on: Dratini
 
+CHECK ALL RARITIES SOME ARENT ACCURATE TO YAGINKUS
+
 =====================================================================================================================================================
 
 KAKUNA AND METAPOD's STIFFEN
@@ -67,14 +69,18 @@ HAUNTER LV 22'S DREAM EATER POWER
 CLEFAIRY'S LUCKY FLIP POKEMON POWER
 --- Yeah I'm not even going to try with this one. IDK even how to do it.
 
-DRAGONAIR'S HYPER BEAM
---- IDEK the math aint mathing
-
 PIDGEOTTO'S ENERGY MAIL
 --- No idea how to code this ability
 
 PORYGON'S CONVERSION STRTIKE
 --- No idea how to make it last until the end of your next turn.
+
+IMPOSTER PROFESSOR OAK
+--- Nearly done, the one thing left is to somehow let the player order the cards in their hand to put on the bottom of the deck. Maybe some sort of Prophecy shenanigans can do it?
+
+BUG CATCHER
+--- That's way too many selections for me, I'm not even going to try X/
+
 
 
 =====================================================================================================================================================

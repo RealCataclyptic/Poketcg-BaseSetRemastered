@@ -853,13 +853,17 @@ CountAllEnergyInTurnHolderPlayArea:
 	jr nz, .loop_play_area ; only exit the loop if d = 0 (i.e. there are no more Pokémon to check), otherwise start over with the next Pokémon
 	ret
 
+CheckBasicEnergyInHandAndBenchedPKMNEffect:
+	call BenchedPokemonCheck
+	ret c
+	jp CheckBasicEnergyInHand
+	
+
 CheckBasicEnergyInHandPower:
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTemp_ffa0], a
 	call OncePerTurnPokePowerCheck 	;checks both if used already or if toxic gas is active
 	ret c ; can't use due to status or Toxic Gas
-
-	
 
 	ld c, 0 	; this function counts if player has less total energy in play than opp.
 	rst SwapTurn
@@ -1183,9 +1187,75 @@ AddCardToHandEffect:
 	jp MoveCardFromDeckToHand
 
 ShuffleSelfIntoDeckEffect:
+	call SwitchEffect
 	xor a
-	ldh [hTemp_ffa0], a
-	jp MrFuji_ReturnToDeckEffect
+	add DUELVARS_ARENA_CARD
+	get_turn_duelist_var
+	ldh [hTempCardIndex_ff98], a
+
+; find all cards that are in the same location (previous stages
+; and attached Energy) and return them all to the deck.
+	ldh a, [hTemp_ffa0]
+	or CARD_LOCATION_PLAY_AREA
+	ld e, a
+	ld l, DUELVARS_CARD_LOCATIONS + DECK_SIZE
+.loop_cards
+	dec l ; go through deck indices in reverse order
+	ld a, [hl]
+	cp e
+	jr nz, .next_card
+	ld a, l
+	call ReturnCardToDeck
+.next_card
+	ld a, l
+	or a
+	jr nz, .loop_cards
+
+; clear the Play Area location of the card
+	ldh a, [hTemp_ffa0]
+	ld e, a
+	call EmptyPlayAreaSlot
+	ld l, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
+	dec [hl]
+	call ShiftAllPokemonToFirstPlayAreaSlots
+
+; if this effect wasn't initiated by the Player,
+; print the selected Pokemon's name and show the card on screen.
+	call IsPlayerTurn
+	jp c, ShuffleCardsInDeck ; shuffle and return if it's the Player's turn
+	ldh a, [hTempCardIndex_ff98]
+	call LoadCardDataToBuffer1_FromDeckIndex
+	ld hl, wLoadedCard1Name
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call LoadTxRam2
+	bank1call DrawLargePictureOfCard
+	ldtx hl, PokemonAndAllAttachedCardsWereReturnedToDeckText
+	call DrawWideTextBox_WaitForInput
+	jp ShuffleCardsInDeck
+
+ReturnSelfToHandEffect:
+	call SwitchEffect
+	xor a
+	ldh a, [hTemp_ffa0]
+	add DUELVARS_ARENA_CARD
+	get_turn_duelist_var
+
+; temporarily put card in the discard pile,
+; so that all attached cards are discarded as well.
+	push af
+	ldh a, [hTemp_ffa0]
+	ld e, a
+	call MovePlayAreaCardToDiscardPile
+; return card to the hand and adjust the Play Area screen
+	pop af
+	call MoveCardFromDiscardPileToHand
+	call ShiftAllPokemonToFirstPlayAreaSlots
+
+	xor a
+	ld [wDuelDisplayedScreen], a
+	ret
 	
 
 PutCardOnBottomDeckEffect:
@@ -1198,6 +1268,12 @@ PutCardOnBottomDeckEffect:
 	ldh [hTemp_ffa0], a ; store chosen card
 	jr c, .loop_input 		; must choose, B button can't be used to exit
 	ldh a, [hTemp_ffa0]
+	jp ReturnCardToBottomOfDeck
+
+PutCardOnBottomDeck_AIEffect: ; AI just selects randomly
+	call CreateHandCardList
+	ld hl, wDuelTempList
+	ldh [hTemp_ffa0], a
 	jp ReturnCardToBottomOfDeck
 
 
@@ -1281,6 +1357,10 @@ Attach1BasicEnergyFromHandToPokemonEffect:
 	farcall FindBasicEnergyInHandToAttach
 	ret
 
+Attach1BasicEnergyFromHandToBenchPokemonEffect:
+	farcall FindBasicEnergyInHandToAttach_BenchOnly
+	ret
+
 EnergyRainbow_DamageBoostEffect:
   	xor a  ; PLAY_AREA_ARENA
   	ld e, a
@@ -1299,13 +1379,17 @@ EnergyRainbow_DamageBoostEffect:
   	dec c
   	jr nz, .loop
 	ld a, b			; # coins to flip is now a
+	push de
 	ldtx de, RainbowFlipText
+	push bc
 	call TossCoinATimes
+	pop bc
+	pop de
 	ld c, a 		;load #heads to c
 
 	ld a, e			; supposed to load 2 but is instead loading 18.
 	sub c			; is subtracting heads
-	ldh [hTemp_ffa0], a
+	ldh [hTemp_ffa0], a	; loads the number of tails to htemp_ffa0
 
 	ld a, c			; is loading #heads to a properly
 	add a
@@ -1314,25 +1398,21 @@ EnergyRainbow_DamageBoostEffect:
 
 EnergyRainbow_HealEffect:
 	ldh a, [hTemp_ffa0]
+	call ATimes10
 	ld d, 0
 	ld e, a
 	jp ApplyAndAnimateHPRecovery
 
 CheckNumberHandCards2OrLess:
-	ldh a, [hTempPlayAreaLocation_ff9d]
-	ldh [hTemp_ffa0], a
-	call CheckIsIncapableOfUsingPkmnPower
+	call OncePerTurnPokePowerCheck 	;checks both if used already or if toxic gas is active
 	ret c ; can't use due to status or Toxic Gas
 
 	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
-	get_turn_duelist_var
-	ld b, a
-	ld a, 3
-	sub b
-	ldtx hl, NotEnoughCardsInHandText
-	cp 1
-	ret c ; can't use because 3 or more cards in hand
-	ret
+    	get_turn_duelist_var
+    	cp 3
+    	ccf
+    	ldtx hl, NotLessThan3Text
+    	ret ; carry set if 3 or more cards in hand
 
 DrawUntil3Effect:
 	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
@@ -1340,8 +1420,65 @@ DrawUntil3Effect:
 	ld b, a
 	ld a, 3
 	sub b
-	jp DrawNCards_ShowCardDetails
+	call DrawNCards_ShowCardDetails
+
+	ldh a, [hTemp_ffa0]
+	add DUELVARS_ARENA_CARD_FLAGS
+	get_turn_duelist_var
+	set USED_PKMN_POWER_THIS_TURN_F, [hl]
+	ldh a, [hAIPkmnPowerEffectParam]
+	or a
 	ret
+
+;Ultravision_PlayerSelectEffect:
+  	;ld b, 2
+  	;call CreateDeckCardListTopNCards
+  	;call HandlePlayerSelectionAnyCardFromDeckListToHand
+  	;ldh [hTemp_ffa0], a
+  	;ret
+
+;Ultravision_AISelectEffect:
+  	;ld b, 2
+  	;call CreateDeckCardListTopNCards
+  	;ld a, [wDuelTempList]
+  	;ldh [hTemp_ffa0], a
+  	;ret
+
+;SelectedCard_AddToHandFromDeckEffect:
+  	;ldh a, [hTemp_ffa0]
+  	;cp $ff
+  	;jp z, SyncShuffleDeck ; skip if no card was chosen
+  	;call AddDeckCardToHandEffect
+  	;jp SyncShuffleDeck
+
+;SyncShuffleDeck:
+  	;call ExchangeRNG
+  	;bank1call AnimateShuffleDeck
+  	;jp ShuffleDeck
+
+; Stores the top N cards of deck in wDuelTempList
+; (or however many cards are left in the deck).
+; input:
+;   b: number of cards to look at
+; output:
+;   c: number of cards in deck
+;   b: number of cards to look at (capped by deck size)
+;   a: number of cards to look at (capped by deck size)
+;   carry: set if the turn holder has no cards left in the deck
+; assumes:
+;   - input: 0 < b < $80
+;CreateDeckCardListTopNCards:
+;  	call PrepareNewDeckCardList
+;  	ret c
+;  	cp b
+; 	push bc
+;  	jr nc, .got_number_cards
+;  	ld b, a ; b = DECK_SIZE - [DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK]
+;.got_number_cards
+;  	call CreateDeckCardList.got_number_cards
+;  	pop bc
+;  	ld a, b
+;  	ret
 
 
 ;---------------------------------------------------------------------------------
@@ -1465,6 +1602,10 @@ Draw1CardFromDeck:
 	ret
 
 
+Draw3CardsFromDeck:
+	ld a, 3
+	jp DrawNCards_ShowCardDetails
+
 ; Used with EFFECTCMDTYPE_AFTER_DAMAGE for the effect of an attack
 Draw2CardsEffect:
 	ldtx hl, Draw2CardsText
@@ -1517,19 +1658,63 @@ DrawNCards_ShowCardDetails:
 ; discards all cards in the turn holder's hand and
 ; then, the turn holder draws 7 cards from their deck.
 ProfessorOakEffect:
-; discard every card in the hand
+	ld a, 5
+	call DrawNCards_NoCardDetails 
+	;fallthrough
+
+
+; Bottom3Cards_PlayerSelection:
+	ldtx hl, Bottom3CardsText
+	ldtx de, ChooseTheCardToDiscardText
+
+; HandlePlayerSelection3HandCards:
+	push de
+	call DrawWideTextBox_WaitForInput
 	call CreateHandCardList
-	call SortCardsInDuelTempListByID
+	ldh a, [hTempCardIndex_ff9f] ; deck index of the Trainer card being played
+	call RemoveCardFromDuelTempList
+	xor a
+	ldh [hCurSelectionItem], a
+	pop hl
+.loop
+	push hl
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+	pop hl
+	call SetCardListInfoBoxText
+	push hl
+	bank1call DisplayCardList
+	pop hl
+	ret c ; exit if the B button was pressed
+	push hl
+	call GetNextPositionInTempList
+	ldh a, [hTempCardIndex_ff98]
+	ld [hl], a
+	call RemoveCardFromDuelTempList
+	pop hl
+	ldh a, [hCurSelectionItem]
+	cp 3
+	jr c, .loop ; is selection over?
+	ld hl, hTempList
+	ld a, [hli]
+	call ReturnCardToBottomOfDeck
+	ld a, [hli]
+	call ReturnCardToBottomOfDeck
+	ld a, [hli]
+	call ReturnCardToBottomOfDeck
+	ret
+
+ImposterProfessorOakEffect:
+	call CreateHandCardList
 	ld hl, wDuelTempList
 .discard_loop
 	ld a, [hli]
 	cp $ff
 	jr z, .draw_cards
-	call MoveCardFromHandToDiscardPile
+	call ReturnCardToBottomOfDeck
 	jr .discard_loop
 .draw_cards
-	ld a, 7
-;	fallthrough
+	ld a, 6
+	; fallthrough
 
 ; preserves de and hl
 ; input:
@@ -8421,15 +8606,6 @@ DevolutionSpray_DevolutionEffect:
 	ret
 
 
-; preserves bc and de
-; output:
-;	hl = ID for notification text
-;	carry = set:  if either player has no Energy cards attached to any of their Pokemon
-SuperEnergyRemoval_EnergyCheck:
-	call YourPokemon_AttachedEnergyCheck
-	ldtx hl, NoEnergyCardsAttachedToPokemonInYourPlayAreaText
-	ret c ; return if no attached Energy in own play area
-;	fallthrough
 
 ; preserves bc and de
 ; output:
@@ -8502,130 +8678,6 @@ HandlePokemonAndEnergySelectionScreen:
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTempList], a
 	ret
-
-
-; output:
-;	carry = set:  if the operation was cancelled by the Player (with B button)
-;	[hTempList] = play area location offset of the turn holder's Pokemon (PLAY_AREA_* constant)
-;	[hTempList + 1] = deck index of the Energy card to discard from the turn holder's play area (0-59)
-;	[hTempList + 2] = play area location offset of the opponent's Pokemon (PLAY_AREA_* constant)
-;	[hTempList + 3] = $ff-terminated list with deck indices of Energy cards to discard from the opponent's play area
-SuperEnergyRemoval_PlayerSelection:
-; handle selection of Energy to discard in own play area
-	ldtx hl, ChoosePokemonInYourAreaThenPokemonInYourOppText
-	call DrawWideTextBox_WaitForInput
-	call HandlePokemonAndEnergySelectionScreen
-	ret c ; exit if the B button was pressed
-
-	ldtx hl, ChoosePokemonToRemoveEnergyFromText
-	call DrawWideTextBox_WaitForInput
-
-	rst SwapTurn
-	ld a, 3
-	ldh [hCurSelectionItem], a
-.select_opp_pkmn
-	bank1call InitVarsAndOpenPlayAreaScreenForSelection
-	jp c, SwapTurn ; exit if the B button was pressed
-	ld e, a
-	call GetPlayAreaCardAttachedEnergies
-;	ld a, [wTotalAttachedEnergies] ; already loaded
-	or a
-	jr nz, .has_energy ; has at least 1 attached Energy card
-	; no Energy, loop back
-	ldtx hl, NoEnergyCardsAttachedText
-	call DrawWideTextBox_WaitForInput
-	jr .select_opp_pkmn
-
-.has_energy
-; store this Pokemon's Play Area location
-	ldh a, [hTempPlayAreaLocation_ff9d]
-	ldh [hTempList + 2], a
-; store which Energy card to discard from it
-	call CreateArenaOrBenchEnergyCardList
-	ldh a, [hTempPlayAreaLocation_ff9d]
-	bank1call DisplayEnergyDiscardScreen
-	ld a, 2
-	ld [wEnergyDiscardMenuDenominator], a
-
-.loop_discard_energy_selection
-	bank1call HandleEnergyDiscardMenuInput
-	jr nc, .energy_selected
-	; B button was pressed
-	ld a, 5 ; 2 target Pokémon + 3 target Energy cards
-	call AskWhetherToQuitSelectingCards
-	jr nc, .done ; finish operation
-	; player selected to continue selection
-	ld a, [wEnergyDiscardMenuNumerator]
-	push af
-	ldh a, [hTempPlayAreaLocation_ff9d]
-	bank1call DisplayEnergyDiscardScreen
-	ld a, 2
-	ld [wEnergyDiscardMenuDenominator], a
-	pop af
-	ld [wEnergyDiscardMenuNumerator], a
-	jr .loop_discard_energy_selection
-
-.energy_selected
-; store Energy cards to discard from the opponent's Pokemon
-	call GetNextPositionInTempList
-	ldh a, [hTempCardIndex_ff98]
-	ld [hl], a
-	call RemoveCardFromDuelTempList
-	jr c, .done ; exit if there are no more Energy cards to select
-	ldh a, [hCurSelectionItem]
-	cp 5 ; 2 target Pokémon + 3 target Energy cards
-	jr nc, .done ; no more Energy cards to select
-	ld hl, wEnergyDiscardMenuNumerator
-	inc [hl]
-	bank1call DisplayEnergyDiscardMenu
-	jr .loop_discard_energy_selection
-
-.done
-	call GetNextPositionInTempList
-	ld [hl], $ff ; terminating byte
-	or a
-	jp SwapTurn
-
-
-; discards a given Energy card from a given Pokemon in the turn holder's play area,
-; then discards 1 or more given Energy cards from a given Pokemon in the opponent's play area
-; input:
-;	[hTempList] = play area location offset of the turn holder's Pokemon (PLAY_AREA_* constant)
-;	[hTempList + 1] = deck index of the Energy card to discard from the turn holder's play area (0-59)
-;	[hTempList + 2] = play area location offset of the opponent's Pokemon (PLAY_AREA_* constant)
-;	[hTempList + 3] = $ff-terminated list with deck indices of Energy cards to discard from the opponent's play area
-SuperEnergyRemoval_DiscardEffect:
-	ld hl, hTempList + 1
-
-; discard an Energy card from one of the turn holder's Pokemon
-	ld a, [hli]
-	call PutCardInDiscardPile
-
-; iterate and discard Energy cards from the opponent's Pokemon
-	inc hl
-	rst SwapTurn
-.loop
-	ld a, [hli]
-	cp $ff
-	jr z, .done_discard
-	call PutCardInDiscardPile
-	jr .loop
-
-.done_discard
-	rst SwapTurn
-	call IsPlayerTurn
-	ret c ; return if it's the Player's turn
-
-; otherwise, show the affected Pokemon in the opponent's play area
-	ldh a, [hTempList]
-	call DrawPlayAreaScreenToShowChanges
-	xor a
-	ld [wDuelDisplayedScreen], a
-	rst SwapTurn
-	ldh a, [hTempList + 2]
-	call DrawPlayAreaScreenToShowChanges
-	jp SwapTurn
-
 
 ; output:
 ;	hl = ID for notification text
@@ -8915,29 +8967,6 @@ ImakuniEffect:
 	jp DrawWideTextBox_WaitForInput
 
 
-; shuffles the opponent's hand into their deck, and the opponent draws 7 cards
-ImposterProfessorOakEffect:
-	rst SwapTurn
-	call CreateHandCardList
-	call SortCardsInDuelTempListByID
-
-; first return all cards in the hand to the deck.
-	ld hl, wDuelTempList
-.loop_return_deck
-	ld a, [hli]
-	cp $ff
-	jr z, .done_return
-	call MoveCardFromHandToTopOfDeck
-	jr .loop_return_deck
-
-; then draw 7 cards from the deck.
-.done_return
-	call ShuffleCardsInDeck
-	ld a, 7
-	call DrawNCards_NoCardDetails
-	jp SwapTurn
-
-
 ; reveals each player's hand to their opponent and then shuffles any Trainer cards
 ; in a player's hand into that player's deck.
 ; assumes the effect is coming from a Trainer card which needs to be removed
@@ -8946,81 +8975,126 @@ LassEffect:
 ; first discard the Trainer card being played from the turn holder's hand
 	ldh a, [hTempCardIndex_ff9f]
 	call MoveCardFromHandToDiscardPile
+	
+LassEffectReal:
+; Player cards section ; NOTE: PROGRAM LASS EFFECT FOR AI SUCH THAT IT ONLY CAN USE IF CARDS<5. CODING THIS IS NOW EASIER
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	cp 5 + 1
+	jr nc, .BottomCards
+; draw cards section
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	ld b, a
+	ld a, 5
+	sub b
+	call DrawNCards_ShowCardDetails
+	jr .Done
 
-	ldtx hl, PleaseCheckTheOpponentsHandText
-	call DrawWideTextBox_WaitForInput
+.BottomCards
+	call IsPlayerTurn
+	jr nc, .AISelect
+; Player can select cards
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	sub 5
 
-	call .DisplayLinkOrCPUHand
-	; do the opponent's hand first
+.PlayerBottomACardLoop
+	;ld b, a ; b is now the number of times PutCardOnBottomDeckEffect must be selected.
+	call PutCardOnBottomDeckEffect
+	;ld a, b
+	;sub 1
+	;cp 0
+	;jr nc, .PlayerBottomACardLoop
+	jr .Done
+
+.AISelect ; AI will select cards randomly. 
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	sub 5
+.AIBottomACardLoop
+	ld b, a ; b is now the number of times PutCardOnBottomDeckEffect must be selected.
+	call PutCardOnBottomDeck_AIEffect
+	ld a, b
+	sub 1
+	cp 0
+	jr nc, .AIBottomACardLoop
+.Done
+	ret
+
+LassEffect2: ; Opponent now does the same thing.
 	rst SwapTurn
-	call .ShuffleDuelistHandTrainerCardsInDeck
+	call LassEffectReal
 	rst SwapTurn
-	; then do the turn holder's hand, fallthrough
+	ret
 
-.ShuffleDuelistHandTrainerCardsInDeck
-	call CreateHandCardList
-	call SortCardsInDuelTempListByID
-	xor a
-	ldh [hCurSelectionItem], a
-	ld hl, wDuelTempList
+	
 
+
+;.ShuffleDuelistHandTrainerCardsInDeck ; OLD LASS EFFECT, PRESERVED JUST IN CASE
+;	call CreateHandCardList
+;	call SortCardsInDuelTempListByID
+;	xor a
+;	ldh [hCurSelectionItem], a
+;	ld hl, wDuelTempList
+;
 ; go through every card in the hand and any Trainer card is returned to the deck.
-.loop_hand
-	ld a, [hli]
-	ldh [hTempCardIndex_ff98], a
-	cp $ff
-	jr z, .done
-	call GetCardTypeFromDeckIndex_SaveDE
-	cp TYPE_TRAINER  ; OATS support trainer subtypes
-	jr c, .loop_hand
-	ldh a, [hTempCardIndex_ff98]
-	call MoveCardFromHandToTopOfDeck
-	push hl
-	ld hl, hCurSelectionItem
-	inc [hl]
-	pop hl
-	jr .loop_hand
-.done
+;.loop_hand
+;	ld a, [hli]
+;	ldh [hTempCardIndex_ff98], a
+;	cp $ff
+;	jr z, .done
+;	call GetCardTypeFromDeckIndex_SaveDE
+;	cp TYPE_TRAINER  ; OATS support trainer subtypes
+;	jr c, .loop_hand
+;	ldh a, [hTempCardIndex_ff98]
+;	call MoveCardFromHandToTopOfDeck
+;	push hl
+;	ld hl, hCurSelectionItem
+;	inc [hl]
+;	pop hl
+;	jr .loop_hand
+;.done
 ; show card list
-	ldh a, [hCurSelectionItem]
-	or a
-	jp nz, ShuffleCardsInDeck ; only shuffle if there were any Trainer cards
-	ret
+;	ldh a, [hCurSelectionItem]
+;	or a
+;	jp nz, ShuffleCardsInDeck ; only shuffle if there were any Trainer cards
+;	ret
 
-.DisplayLinkOrCPUHand
-	ld a, [wDuelType]
-	or a
-	jr z, .cpu_opp
-
+;.DisplayLinkOrCPUHand
+;	ld a, [wDuelType]
+;	or a
+;	jr z, .cpu_opp
+;
 ; link duel
-	ldh a, [hWhoseTurn]
-	push af
-	ld a, OPPONENT_TURN
-	ldh [hWhoseTurn], a
-	call .DisplayOppHand
-	pop af
-	ldh [hWhoseTurn], a
-	ret
+;	ldh a, [hWhoseTurn]
+;	push af
+;	ld a, OPPONENT_TURN
+;	ldh [hWhoseTurn], a
+;	call .DisplayOppHand
+;	pop af
+;	ldh [hWhoseTurn], a
+;	ret
 
-.cpu_opp
-	rst SwapTurn
-	call .DisplayOppHand
-	jp SwapTurn
+;.cpu_opp
+;	rst SwapTurn
+;	call .DisplayOppHand
+;	jp SwapTurn
 
-.DisplayOppHand
-	call CreateHandCardList
-	jr c, .no_cards
-	bank1call InitAndDrawCardListScreenLayout
-	ldtx hl, ChooseTheCardYouWishToExamineText
-	ldtx de, DuelistHandText
-	call SetCardListHeaderText
-	ld a, PAD_A | PAD_START
-	ld [wNoItemSelectionMenuKeys], a
-	bank1call DisplayCardList
-	ret
-.no_cards
-	ldtx hl, DuelistHasNoCardsInHandText
-	jp DrawWideTextBox_WaitForInput
+;.DisplayOppHand
+;	call CreateHandCardList
+;	jr c, .no_cards
+;	bank1call InitAndDrawCardListScreenLayout
+;	ldtx hl, ChooseTheCardYouWishToExamineText
+;	ldtx de, DuelistHandText
+;	call SetCardListHeaderText
+;	ld a, PAD_A | PAD_START
+;	ld [wNoItemSelectionMenuKeys], a
+;	bank1call DisplayCardList
+;	ret
+;.no_cards
+;	ldtx hl, DuelistHasNoCardsInHandText
+;	jp DrawWideTextBox_WaitForInput
 
 
 ; output:

@@ -855,16 +855,16 @@ LeekSlapName:
 	done
 
 LeekSlapDescription:
-	text "Flip a coin. If tails, this attack"
-	line "does nothing. Either way, you can't"
-	line "use this attack again as long as"
-	line "Farfetch'd stays in play (even"
+	text "Flip a coin. If heads, this attack"
+	line "does 20 more damage. Either way, you"
+	line "can't use this attack again as long"
+	line "as Farfetch'd stays in play (even"
 	line "putting Farfetch'd on the Bench"
 	line "won't let you use it again)."
 	done
 
 PotSmashName:
-	text "Pot Smash"
+	text "Fly"
 	done
 
 WildDuckName:
@@ -1214,9 +1214,9 @@ ProfessorOakName:
 	done
 
 ProfessorOakDescription:
-	text "         Discard your hand"
-	line ""
-	line "         and draw 7 cards."
+	text "     Draw 5 cards, then put 3"
+	line "     cards from your hand to "
+	line "     the bottom of your deck."
 	done
 
 ImposterProfessorOakName:
@@ -1224,11 +1224,9 @@ ImposterProfessorOakName:
 	done
 
 ImposterProfessorOakDescription:
-	text "  Your opponent shuffles his or"
-	line ""
-	line "  her hand into his or her deck,"
-	line ""
-	line "  then draws 7 cards."
+	text "  Put all cards from your hand"
+	line "  on the bottom of your deck in"
+	line "  any order, then draw 6 cards."
 	done
 
 BillName:
@@ -1237,7 +1235,7 @@ BillName:
 
 BillDescription:
 	text ""
-	line "            Draw 2 cards."
+	line "            Draw 3 cards."
 	done
 
 MrFujiName:
@@ -1257,10 +1255,10 @@ LassName:
 	done
 
 LassDescription:
-	text " You and your opponent show each"
-	line " other your hands, then shuffle all"
-	line " the Trainer cards from your hands"
-	line " into your decks."
+	text "Each player either draws cards or"
+	line "puts cards from thier hand on the "
+	line "bottom of thier deck until they"
+	line "have 5 cards in thier hand."
 	done
 
 ImakuniName:
@@ -1393,16 +1391,13 @@ EnergyRemovalDescription:
 	done
 
 SuperEnergyRemovalName:
-	text "Super Energy Removal"
+	text "Cooltrainer"
 	done
 
 SuperEnergyRemovalDescription:
-	text "   Discard 1 Energy card attached"
-	line "   to 1 of your own Pokémon in"
-	line "   order to choose 1 of your"
-	line "   opponent's Pokémon and up to"
-	line "   2 Energy cards attached to it."
-	line "   Discard those Energy cards."
+	text "   Attach a basic energy card from"
+	line "   your hand to 1 of your benched"
+	line "   Pokémon." 	
 	done
 
 ;	ds $9

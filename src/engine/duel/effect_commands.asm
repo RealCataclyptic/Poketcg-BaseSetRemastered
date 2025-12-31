@@ -150,8 +150,9 @@ IfDFPDamagedMoreDamageEffectCommands:
 
 SearchCardAndShuffleSelfEffectCommands:
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, ComputerSearchCheck
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Switch_PlayerSelection
 	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, AddCardToHandEffect
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ShuffleSelfIntoDeckEffect
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, ShuffleSelfIntoDeckEffect
 	db  $00
 
 Bottom1Draw2EffectCommands:
@@ -189,9 +190,23 @@ EnergyRainbowDamageOrHealEffectCommands:
 	db  $00
 
 DrawUntil3InHandEffectCommands:
-	; dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, CheckNumberHandCards2OrLess
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, CheckNumberHandCards2OrLess
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DrawUntil3Effect
 	db  $00
+
+ReturnSelfToHandEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, BenchedPokemonCheck
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Switch_PlayerSelection
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, ReturnSelfToHandEffect
+	db  $00
+
+
+UltravisionEffectCommands: ; Selects X cards from top of deck and adds 1 to hand, then bottoms the rest. 
+  	; dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckDeckIsNotEmpty
+  	;dbw EFFECTCMDTYPE_AFTER_DAMAGE, SelectedCard_AddToHandFromDeckEffect
+  	;dbw EFFECTCMDTYPE_REQUIRE_SELECTION, Ultravision_PlayerSelectEffect
+  	;dbw EFFECTCMDTYPE_AI_SELECTION, Ultravision_AISelectEffect
+  	db  $00
 
 ;------------------------------------------------------------------------------------------------------
 
@@ -317,8 +332,7 @@ EnergyAbsorptionEffectCommands:
 	db  $00
 
 SwitchAfterAttackEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, BenchedPokemonCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, SwitchAfterAttack_PlayerSelection
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, AlsoSwitchAfterAttack_PlayerSelection
 	dbw EFFECTCMDTYPE_AI_SELECTION, SwitchAfterAttack_AISelection
 	dbw EFFECTCMDTYPE_AFTER_DAMAGE, SwitchAfterAttack_SwitchEffect
 	db  $00
@@ -674,8 +688,8 @@ EachNidoking20MoreDamageEffectCommands:
 LeekSlapEffectCommands:
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, LeekSlap_OncePerDuelCheck
 	dbw EFFECTCMDTYPE_DISCARD_ENERGY, LeekSlap_SetUsedThisDuelFlag
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, NoDamage50PercentEffect
-	dbw EFFECTCMDTYPE_AI, FlipFor30_AIEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, FlipForPlus20_DamageBoostEffect
+	dbw EFFECTCMDTYPE_AI, Plus20From10_AIEffect
 	db  $00
 
 FlipFor30EffectCommands:
@@ -1108,7 +1122,7 @@ DiscardTrainerPokemonEffectCommands:
 	db  $00
 
 BillEffectCommands:
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Draw2CardsFromDeck
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Draw3CardsFromDeck
 	db  $00
 
 ComputerSearchEffectCommands:
@@ -1178,7 +1192,9 @@ ItemFinderEffectCommands:
 	db  $00
 
 LassEffectCommands:
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, LassEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, PutCardOnBottomDeckEffect
+	;dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, LassEffect
+	; dbw EFFECTCMDTYPE_BEFORE_DAMAGE, LassEffect2
 	db  $00
 
 MaintenanceEffectCommands:
@@ -1262,9 +1278,10 @@ ScoopUpEffectCommands:
 	db  $00
 
 SuperEnergyRemovalEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, SuperEnergyRemoval_EnergyCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, SuperEnergyRemoval_PlayerSelection
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, SuperEnergyRemoval_DiscardEffect
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, CheckBasicEnergyInHandAndBenchedPKMNEffect
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, Attach1BasicEnergyFromHandToBenchPokemonEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, AttachBasicEnergyFromHand_AISelection
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AttachBasicEnergyFromHand_AttachEffect
 	db  $00
 
 SuperEnergyRetrievalEffectCommands:

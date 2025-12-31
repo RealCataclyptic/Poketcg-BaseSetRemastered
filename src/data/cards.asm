@@ -212,7 +212,7 @@ CardPointers::
 	dw SuperEnergyRetrievalCard
 	dw EnergySearchCard
 	dw EnergyRemovalCard
-	dw SuperEnergyRemovalCard
+	dw CooltrainerCard
 	dw SwitchCard
 	dw PokemonCenterCard
 	dw PokeBallCard
@@ -8211,19 +8211,19 @@ RattataCard:
 	db 0
 	db ATK_ANIM_HIT ; animation
 
-	; attack 2 USE ULTRAVISION CODE FOR THIS
-	energy 0 ; energies
-	dw NONE ; name
-	dw NONE ; description
+	; attack 2 
+	energy COLORLESS, 1 ; energies
+	tx StealName ; name
+	tx LookAtTop2Get1Desc ; description
 	dw NONE ; description (cont)
 	db 0 ; damage
-	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	db RESIDUAL ; category
+	dw UltravisionEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
-	db NONE ; flags 3
+	db SPECIAL_AI_HANDLING ; flags 3
 	db 0
-	db ATK_ANIM_NONE ; animation
+	db ATK_ANIM_GLOW_EFFECT ; animation
 
 	db 0 ; retreat cost
 	db WR_FIGHTING ; weakness
@@ -8248,21 +8248,21 @@ RaticateCard:
 	tx RattataName ; pre-evo name
 
 	; attack 1
-	energy COLORLESS, 1 ; energies
-	tx BiteName ; name
-	dw NONE ; description
+	energy COLORLESS, 2 ; energies
+	tx QuickAttackName ; name
+	tx TeleportDescription ; description
 	dw NONE ; description (cont)
-	db 20 ; damage
+	db 30 ; damage
 	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	dw SwitchAfterAttackEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
-	db NONE ; flags 3
+	db SPECIAL_AI_HANDLING ; flags 3
 	db 0
-	db ATK_ANIM_HIT ; animation
+	db ATK_ANIM_QUICK_ATTACK ; animation
 
 	; attack 2
-	energy COLORLESS, 3 ; energies
+	energy COLORLESS, 2 ; energies
 	tx SuperFangName ; name
 	tx SuperFangDescription ; description
 	dw NONE ; description (cont)
@@ -8854,8 +8854,8 @@ FarfetchdCard:
 	tx LeekSlapName ; name
 	tx LeekSlapDescription ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
-	db DAMAGE_NORMAL ; category
+	db 10 ; damage
+	db DAMAGE_PLUS ; category
 	dw LeekSlapEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
@@ -8864,18 +8864,18 @@ FarfetchdCard:
 	db ATK_ANIM_WHIP ; animation
 
 	; attack 2
-	energy COLORLESS, 3 ; energies
+	energy COLORLESS, 1 ; energies
 	tx PotSmashName ; name
-	dw NONE ; description
+	tx ReturnSelfToHandDesc ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
+	db 20 ; damage
 	db DAMAGE_NORMAL ; category
-	dw NONE ; effect commands
+	dw ReturnSelfToHandEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
 	db 0
-	db ATK_ANIM_POT_SMASH ; animation
+	db ATK_ANIM_QUICK_ATTACK ; animation
 
 	db 1 ; retreat cost
 	db WR_LIGHTNING ; weakness
@@ -9665,7 +9665,7 @@ DoubleColorlessEnergyCard:
 	tx DoubleColorlessEnergyDescription ; description
 	dw NONE ; description (cont)
 
-ProfessorOakCard:
+ProfessorOakCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ProfessorOakCardGfx ; gfx
 	tx ProfessorOakName ; name
@@ -9676,7 +9676,7 @@ ProfessorOakCard:
 	tx ProfessorOakDescription ; description
 	dw NONE ; description (cont)
 
-ImposterProfessorOakCard:
+ImposterProfessorOakCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ImposterProfessorOakCardGfx ; gfx
 	tx ImposterProfessorOakName ; name
@@ -9687,7 +9687,7 @@ ImposterProfessorOakCard:
 	tx ImposterProfessorOakDescription ; description
 	dw NONE ; description (cont)
 
-BillCard:
+BillCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx BillCardGfx ; gfx
 	tx BillName ; name
@@ -9698,7 +9698,7 @@ BillCard:
 	tx BillDescription ; description
 	dw NONE ; description (cont)
 
-MrFujiCard:
+MrFujiCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx MrFujiCardGfx ; gfx
 	tx MrFujiName ; name
@@ -9709,7 +9709,7 @@ MrFujiCard:
 	tx MrFujiDescription ; description
 	dw NONE ; description (cont)
 
-LassCard:
+LassCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx LassCardGfx ; gfx
 	tx LassName ; name
@@ -9720,7 +9720,7 @@ LassCard:
 	tx LassDescription ; description
 	dw NONE ; description (cont)
 
-ImakuniCard:
+ImakuniCard: ; OUT
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ImakuniCardGfx ; gfx
 	tx ImakuniName ; name
@@ -9731,7 +9731,7 @@ ImakuniCard:
 	tx ImakuniDescription ; description
 	dw NONE ; description (cont)
 
-PokemonTraderCard:
+PokemonTraderCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx PokemonTraderCardGfx ; gfx
 	tx PokemonTraderName ; name
@@ -9742,7 +9742,7 @@ PokemonTraderCard:
 	tx PokemonTraderDescription ; description
 	dw NONE ; description (cont)
 
-PokemonBreederCard:
+PokemonBreederCard: ; = RARE CANDY
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx PokemonBreederCardGfx ; gfx
 	tx PokemonBreederName ; name
@@ -9753,7 +9753,7 @@ PokemonBreederCard:
 	tx PokemonBreederDescription ; description
 	dw NONE ; description (cont)
 
-ClefairyDollCard:
+ClefairyDollCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx ClefairyDollCardGfx ; gfx
 	tx ClefairyDollName ; name
@@ -9764,7 +9764,7 @@ ClefairyDollCard:
 	tx ClefairyDollDescription ; description
 	tx ClefairyDollDescriptionCont ; description (cont)
 
-MysteriousFossilCard:
+MysteriousFossilCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx MysteriousFossilCardGfx ; gfx
 	tx MysteriousFossilName ; name
@@ -9775,7 +9775,7 @@ MysteriousFossilCard:
 	tx MysteriousFossilDescription ; description
 	tx MysteriousFossilDescriptionCont ; description (cont)
 
-EnergyRetrievalCard:
+EnergyRetrievalCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx EnergyRetrievalCardGfx ; gfx
 	tx EnergyRetrievalName ; name
@@ -9786,7 +9786,7 @@ EnergyRetrievalCard:
 	tx EnergyRetrievalDescription ; description
 	dw NONE ; description (cont)
 
-SuperEnergyRetrievalCard:
+SuperEnergyRetrievalCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx SuperEnergyRetrievalCardGfx ; gfx
 	tx SuperEnergyRetrievalName ; name
@@ -9797,7 +9797,7 @@ SuperEnergyRetrievalCard:
 	tx SuperEnergyRetrievalDescription ; description
 	dw NONE ; description (cont)
 
-EnergySearchCard:
+EnergySearchCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx EnergySearchCardGfx ; gfx
 	tx EnergySearchName ; name
@@ -9808,7 +9808,7 @@ EnergySearchCard:
 	tx EnergySearchDescription ; description
 	dw NONE ; description (cont)
 
-EnergyRemovalCard:
+EnergyRemovalCard: ; OUT
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx EnergyRemovalCardGfx ; gfx
 	tx EnergyRemovalName ; name
@@ -9819,18 +9819,18 @@ EnergyRemovalCard:
 	tx EnergyRemovalDescription ; description
 	dw NONE ; description (cont)
 
-SuperEnergyRemovalCard:
+CooltrainerCard:
 	db TYPE_TRAINER_SUPPORTER ; type
-	gfx SuperEnergyRemovalCardGfx ; gfx
+	gfx CooltrainerCardGfx ; gfx
 	tx SuperEnergyRemovalName ; name
-	db STAR ; rarity
+	db DIAMOND ; rarity
 	db LABORATORY | NONE ; sets
 	db SUPER_ENERGY_REMOVAL
 	dw SuperEnergyRemovalEffectCommands ; effect commands
 	tx SuperEnergyRemovalDescription ; description
 	dw NONE ; description (cont)
 
-SwitchCard:
+SwitchCard: ; = RETREAT AID
 	db TYPE_TRAINER ; type
 	gfx SwitchCardGfx ; gfx
 	tx SwitchName ; name
@@ -9841,7 +9841,7 @@ SwitchCard:
 	tx SwitchDescription ; description
 	dw NONE ; description (cont)
 
-PokemonCenterCard:
+PokemonCenterCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx PokemonCenterCardGfx ; gfx
 	tx PokemonCenterName ; name
@@ -9852,7 +9852,7 @@ PokemonCenterCard:
 	tx PokemonCenterDescription ; description
 	dw NONE ; description (cont)
 
-PokeBallCard:
+PokeBallCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx PokeBallCardGfx ; gfx
 	tx PokeBallName ; name
@@ -9863,18 +9863,18 @@ PokeBallCard:
 	tx PokeBallDescription ; description
 	dw NONE ; description (cont)
 
-ScoopUpCard:
+ScoopUpCard: ; = BUG CATCHER
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ScoopUpCardGfx ; gfx
 	tx ScoopUpName ; name
-	db STAR ; rarity
+	db DIAMOND ; rarity
 	db COLOSSEUM | NONE ; sets
 	db SCOOP_UP
 	dw ScoopUpEffectCommands ; effect commands
 	tx ScoopUpDescription ; description
 	dw NONE ; description (cont)
 
-ComputerSearchCard:
+ComputerSearchCard: ; IN
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx ComputerSearchCardGfx ; gfx
 	tx ComputerSearchName ; name
@@ -9885,7 +9885,7 @@ ComputerSearchCard:
 	tx ComputerSearchDescription ; description
 	dw NONE ; description (cont)
 
-PokedexCard:
+PokedexCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx PokedexCardGfx ; gfx
 	tx PokedexName ; name
@@ -9896,7 +9896,7 @@ PokedexCard:
 	tx PokedexDescription ; description
 	dw NONE ; description (cont)
 
-PlusPowerCard:
+PlusPowerCard: ; = X ATTACK
 	db TYPE_TRAINER ; type
 	gfx PlusPowerCardGfx ; gfx
 	tx PlusPowerName ; name
@@ -9907,7 +9907,7 @@ PlusPowerCard:
 	tx PlusPowerDescription ; description
 	dw NONE ; description (cont)
 
-DefenderCard:
+DefenderCard: ; = X DEFENSE
 	db TYPE_TRAINER ; type
 	gfx DefenderCardGfx ; gfx
 	tx DefenderName ; name
@@ -9918,7 +9918,7 @@ DefenderCard:
 	tx DefenderDescription ; description
 	dw NONE ; description (cont)
 
-ItemFinderCard:
+ItemFinderCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx ItemFinderCardGfx ; gfx
 	tx ItemFinderName ; name
@@ -9929,7 +9929,7 @@ ItemFinderCard:
 	tx ItemFinderDescription ; description
 	dw NONE ; description (cont)
 
-GustOfWindCard:
+GustOfWindCard: ; = RIVAL
 	db TYPE_TRAINER_SUPPORTER ; type
 	gfx GustOfWindCardGfx ; gfx
 	tx GustOfWindName ; name
@@ -9940,7 +9940,7 @@ GustOfWindCard:
 	tx GustOfWindDescription ; description
 	dw NONE ; description (cont)
 
-DevolutionSprayCard:
+DevolutionSprayCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx DevolutionSprayCardGfx ; gfx
 	tx DevolutionSprayName ; name
@@ -9951,7 +9951,7 @@ DevolutionSprayCard:
 	tx DevolutionSprayDescription ; description
 	tx DevolutionSprayDescriptionCont ; description (cont)
 
-PotionCard:
+PotionCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx PotionCardGfx ; gfx
 	tx PotionName ; name
@@ -9962,7 +9962,7 @@ PotionCard:
 	tx PotionDescription ; description
 	dw NONE ; description (cont)
 
-SuperPotionCard:
+SuperPotionCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx SuperPotionCardGfx ; gfx
 	tx SuperPotionName ; name
@@ -9973,7 +9973,7 @@ SuperPotionCard:
 	tx SuperPotionDescription ; description
 	dw NONE ; description (cont)
 
-FullHealCard:
+FullHealCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx FullHealCardGfx ; gfx
 	tx FullHealName ; name
@@ -9984,7 +9984,7 @@ FullHealCard:
 	tx FullHealDescription ; description
 	dw NONE ; description (cont)
 
-ReviveCard:
+ReviveCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx ReviveCardGfx ; gfx
 	tx ReviveName ; name
@@ -9995,7 +9995,7 @@ ReviveCard:
 	tx ReviveDescription ; description
 	dw NONE ; description (cont)
 
-MaintenanceCard:
+MaintenanceCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx MaintenanceCardGfx ; gfx
 	tx MaintenanceName ; name
@@ -10006,7 +10006,7 @@ MaintenanceCard:
 	tx MaintenanceDescription ; description
 	dw NONE ; description (cont)
 
-PokemonFluteCard:
+PokemonFluteCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx PokemonFluteCardGfx ; gfx
 	tx PokemonFluteName ; name
@@ -10017,7 +10017,7 @@ PokemonFluteCard:
 	tx PokemonFluteDescription ; description
 	dw NONE ; description (cont)
 
-GamblerCard:
+GamblerCard: ;  = GAMBLE
 	db TYPE_TRAINER ; type
 	gfx GamblerCardGfx ; gfx
 	tx GamblerName ; name
@@ -10028,7 +10028,7 @@ GamblerCard:
 	tx GamblerDescription ; description
 	dw NONE ; description (cont)
 
-RecycleCard:
+RecycleCard: ; IN
 	db TYPE_TRAINER ; type
 	gfx RecycleCardGfx ; gfx
 	tx RecycleName ; name

@@ -625,8 +625,8 @@ TeleportName:
 	done
 
 TeleportDescription:
-	text "Switch Exeggutor with 1 of your"
-	line "Benched Pokémon."
+	text "Switch this Pokémon with 1 of"
+	line "your Benched Pokémon."
 	done
 
 BigEggsplosionName:

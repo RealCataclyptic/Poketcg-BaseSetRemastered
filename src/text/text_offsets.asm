@@ -3056,3 +3056,8 @@ TextOffsets::
 	textpointer EnergyMailDesc
 	textpointer DataLoadName
 	textpointer DrawUntil3Desc
+	textpointer NotLessThan3Text
+	textpointer ReturnSelfToHandDesc
+	textpointer StealName
+	textpointer LookAtTop2Get1Desc
+	textpointer Bottom3CardsText
