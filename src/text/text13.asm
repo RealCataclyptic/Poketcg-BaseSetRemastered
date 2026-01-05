@@ -1,11 +1,10 @@
 SwitchName:
-	text "Switch"
+	text "Retreat Aid"
 	done
 
 SwitchDescription:
-	text "  Switch 1 of your Benched Pokémon"
-	line ""
-	line "  with your Active Pokémon."
+	text "  The next retreat you perform"
+	line "  this turn costs <COLORLESS> less."
 	done
 
 PokemonCenterName:
@@ -531,4 +530,9 @@ LookAtTop2Get1Desc:
 Bottom3CardsText:
 	text "Put 3 cards from your hand"
 	line "on the bottom of your deck."
+	done
+
+Choose3BasicEnergyCardsFromDiscardPileText:
+	text "Choose up to 3 basic energy cards"
+	line "to shuffle back into the deck."
 	done

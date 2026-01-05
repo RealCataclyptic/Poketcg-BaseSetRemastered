@@ -1,14 +1,14 @@
 List of cards that are incomplete and need to be edited.
 
 Current Set: Yaginku's Base Set
-Currently on: Dratini
+Currently on: Retreat Aid
 
-CHECK ALL RARITIES SOME ARENT ACCURATE TO YAGINKUS
+CHECK ALL RARITIES AT THE END SOME ARENT ACCURATE TO YAGINKUS
 
 =====================================================================================================================================================
 
 KAKUNA AND METAPOD's STIFFEN
---- Both have the same problem: I have no idea how to code in the Stiffen effect: 
+--- Both have the same problem: I have no idea how to code in the Stiffen effect.
 "Flip a coin until you flip tails twice. During your opponent's next turn, any damage done to Kakuna/Metapod by attacks is reduced by 10 times the number of heads."
 ^^^ I created a code to flip until 2 tails but I have no idea how to translate that into damage reduction. 
 
@@ -81,7 +81,8 @@ IMPOSTER PROFESSOR OAK
 BUG CATCHER
 --- That's way too many selections for me, I'm not even going to try X/
 
-
+LASS
+--- Cannot proceed further because the bottom card function doesn't work.
 
 =====================================================================================================================================================
 
@@ -93,4 +94,7 @@ MACHOKE'S SUBMISSION
 
 ALL EFFECTS THAT THE AI USES TO ATTACH ENERGY FROM HAND TO FIELD
 --- Pretty sure they work. Includes Wartortle, Dratini. 
+
+SUPER ENERGY RETRIEVAL
+--- should be good
 

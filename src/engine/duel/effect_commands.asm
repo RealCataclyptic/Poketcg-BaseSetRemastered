@@ -1150,10 +1150,9 @@ EnergyRemovalEffectCommands:
 	db  $00
 
 EnergyRetrievalEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, EnergyRetrievalCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, EnergyRetrieval_PlayerHandSelection
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, EnergyRetrievalNewCheck
 	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, EnergyRetrieval_PlayerDiscardPileSelection
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, EnergyRetrieval_DiscardAndAddToHandEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, EnergyRetrieval_ShuffleIntoDeckEffect
 	db  $00
 
 EnergySearchEffectCommands:
@@ -1285,10 +1284,10 @@ SuperEnergyRemovalEffectCommands:
 	db  $00
 
 SuperEnergyRetrievalEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, SuperEnergyRetrieval_HandEnergyCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Discard2Cards_PlayerSelection
-	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, SuperEnergyRetrieval_PlayerDiscardPileSelection
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, SuperEnergyRetrieval_DiscardAndAddToHandEffect
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, EnergyRetrievalCheck
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, EnergyRetrieval_PlayerHandSelection
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, EnergyRetrieval_PlayerDiscardPileSelection
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, EnergyRetrieval_DiscardAndAddToHandEffect
 	db  $00
 
 SuperPotionEffectCommands:

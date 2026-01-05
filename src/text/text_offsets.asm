@@ -3061,3 +3061,4 @@ TextOffsets::
 	textpointer StealName
 	textpointer LookAtTop2Get1Desc
 	textpointer Bottom3CardsText
+	textpointer Choose3BasicEnergyCardsFromDiscardPileText

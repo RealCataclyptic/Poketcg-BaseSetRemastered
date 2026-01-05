@@ -1279,12 +1279,12 @@ PokemonTraderName:
 	done
 
 PokemonTraderDescription:
-	text "  Trade 1 of the Basic Pokémon or"
-	line "  Evolution cards in your hand for"
-	line "  1 of the Basic Pokémon or"
-	line "  Evolution cards from your deck."
-	line "  Show both cards to your opponent."
-	line "  Shuffle your deck afterward."
+	text "  Reveal a Pokémon card from your"
+	line "  hand and put it into your deck."
+	line "  Then, search your deck for a"
+	line "  Pokémon card, reveal it, and put"
+	line "  it into your hand. Shuffle your"
+	line "  deck afterward."
 	done
 
 PokemonBreederName:
@@ -1348,11 +1348,9 @@ EnergyRetrievalName:
 	done
 
 EnergyRetrievalDescription:
-	text " Trade 1 of the other cards in your"
-	line ""
-	line " hand for up to 2 Basic Energy"
-	line ""
-	line " cards from your discard pile."
+	text "    Shuffle up to 3 basic energy"
+	line "    cards from your discard"
+	line "    pile into your deck."    
 	done
 
 SuperEnergyRetrievalName:
@@ -1360,11 +1358,11 @@ SuperEnergyRetrievalName:
 	done
 
 SuperEnergyRetrievalDescription:
-	text " Trade 2 of the other cards in your"
-	line ""
-	line " hand for up to 4 Basic Energy"
-	line ""
-	line " cards from your discard pile."
+	text "  Put a card from your hand on"
+	line "  the bottom of your deck. Choose"
+	line "  up to 2 basic Energy cards from"
+	line "  your discard pile and put them"
+	line "  into your hand."
 	done
 
 EnergySearchName:

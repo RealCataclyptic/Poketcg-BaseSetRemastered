@@ -1267,7 +1267,7 @@ PutCardOnBottomDeckEffect:
 	bank1call DisplayCardList
 	ldh [hTemp_ffa0], a ; store chosen card
 	jr c, .loop_input 		; must choose, B button can't be used to exit
-	ldh a, [hTemp_ffa0]
+	ldh a, [hTemp_ffa0] ; GOOD
 	jp ReturnCardToBottomOfDeck
 
 PutCardOnBottomDeck_AIEffect: ; AI just selects randomly
@@ -8689,6 +8689,9 @@ EnergyRetrievalCheck:
 	ldtx hl, NotEnoughCardsInHandText
 	cp 2
 	ret c ; return if this is the only card in the hand
+	;fallthrough
+
+EnergyRetrievalNewCheck: ;For modified versions of the energy retrieval check
 	call CreateEnergyCardListFromDiscardPile_OnlyBasic
 	ldtx hl, NoBasicEnergyCardsInDiscardPileText
 	ret
@@ -8700,8 +8703,8 @@ EnergyRetrievalCheck:
 ; output:
 ;	carry = set:  if the operation was cancelled by the Player (with B button)
 ;	[hTempList] = deck index of the chosen card from the turn holder's hand (0-59)
-EnergyRetrieval_PlayerHandSelection:
-	ldtx hl, ChooseCardToDiscardFromHandText
+EnergyRetrieval_PlayerHandSelection: 			
+	ldtx hl, Bottom1CardText
 	call DrawWideTextBox_WaitForInput
 
 ; create a list of cards in the turn holder's hand and then
@@ -8713,7 +8716,7 @@ EnergyRetrieval_PlayerHandSelection:
 ; display the list on screen and have the player select 1 of the cards
 	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
 	bank1call DisplayCardList
-;	ret c ; exit if the B button was pressed
+	ret c ; exit if the B button was pressed
 	ldh [hTempList], a
 	ret
 
@@ -8726,11 +8729,9 @@ EnergyRetrieval_PlayerDiscardPileSelection:
 	; Check flag here
 	; jr c, .done
 
-
-
 	ld a, 1 ; start at 1 to ignore the card being discarded from the hand
 	ldh [hCurSelectionItem], a
-	ldtx hl, Choose2BasicEnergyCardsFromDiscardPileText
+	ldtx hl, Choose3BasicEnergyCardsFromDiscardPileText
 	call DrawWideTextBox_WaitForInput
 	call CreateEnergyCardListFromDiscardPile_OnlyBasic
 
@@ -8742,7 +8743,7 @@ EnergyRetrieval_PlayerDiscardPileSelection:
 	bank1call DisplayCardList
 	jr nc, .selected
 	; B button was pressed
-	ld a, 2 + 1 ; includes the card selected from the hand
+	ld a, 3 + 1 ; includes the card selected from the hand
 	call AskWhetherToQuitSelectingCards
 	jr c, .select_card ; player selected No
 	jr .done
@@ -8754,7 +8755,7 @@ EnergyRetrieval_PlayerDiscardPileSelection:
 	call RemoveCardFromDuelTempList
 	jr c, .done ; exit if there are no more Energy cards to select
 	ldh a, [hCurSelectionItem]
-	cp 2 + 1 ; includes the card selected from the hand
+	cp 3 + 1 ; includes the card selected from the hand
 	jr c, .select_card
 
 .done
@@ -8772,7 +8773,7 @@ EnergyRetrieval_DiscardAndAddToHandEffect:
 	ld hl, hTempList
 .discard
 	ld a, [hli]
-	call MoveCardFromHandToDiscardPile
+	call PutCardOnBottomDeckEffect
 	ld de, wDuelTempList
 .loop
 	ld a, [hli]
@@ -8790,17 +8791,30 @@ EnergyRetrieval_DiscardAndAddToHandEffect:
 	bank1call DisplayCardListDetails
 	ret
 
+EnergyRetrieval_ShuffleIntoDeckEffect:
+	ld hl, hTempList ; discards energy retrieval
+.discard
+	ld a, [hli]
+	call MoveCardFromHandToDiscardPile
+	ld de, wDuelTempList
+.loop
+	ld a, [hli]
+	ld [de], a
+	inc de
+	cp $ff
+	jr z, .done
+	call MoveCardFromDiscardPileToHand
+	call MoveCardFromHandToTopOfDeck
+	jr .loop
 
-; output:
-;	hl = ID for notification text
-;	carry = set:  if there aren't at least 2 other cards in the turn holder's hand or
-;	              if there are no Basic Energy cards in the turn holder's discard pile
-SuperEnergyRetrieval_HandEnergyCheck:
-	call OtherCardsInHandCheck
-	ret c ; return if not enough cards in hand
-	call CreateEnergyCardListFromDiscardPile_OnlyBasic
-	ldtx hl, NoBasicEnergyCardsInDiscardPileText
-	ret
+; show the selected cards on the screen if this effect wasn't initiated by the Player
+.done
+	call IsPlayerTurn
+	jr .Done ; return if it's the Player's turn
+	bank1call DisplayCardListDetails
+.Done
+	jp ShuffleCardsInDeck
+
 
 
 ; handles the Player's selection for choosing a number of Basic Energy cards
@@ -8819,7 +8833,7 @@ SuperEnergyRetrieval_PlayerDiscardPileSelection:
 	bank1call DisplayCardList
 	jr nc, .store_selected_card
 	; B button was pressed
-	ld a, 4 + 2 ; includes the cards selected from the hand
+	ld a, 2 + 1 ; includes the cards selected from the hand
 	call AskWhetherToQuitSelectingCards
 	jr c, .loop_discard_pile_selection ; player selected to continue
 	jr .done
@@ -8831,7 +8845,7 @@ SuperEnergyRetrieval_PlayerDiscardPileSelection:
 	call RemoveCardFromDuelTempList
 	jr c, .done ; exit if there are no more Energy cards to select
 	ldh a, [hCurSelectionItem]
-	cp 4 + 2 ; includes the cards selected from the hand
+	cp 2 + 1 ; includes the cards selected from the hand
 	jr c, .loop_discard_pile_selection
 
 .done
@@ -8839,18 +8853,6 @@ SuperEnergyRetrieval_PlayerDiscardPileSelection:
 	ld [hl], $ff ; terminating byte
 	or a
 	ret
-
-
-; discards 2 given cards from the turn holder's hand and
-; moves 1 or more given cards from their discard pile to their hand
-; input:
-;	hTempList = $ff-terminated list with deck indices of previously selected cards
-SuperEnergyRetrieval_DiscardAndAddToHandEffect:
-; discard 2 cards selected from the hand
-	ld hl, hTempList
-	ld a, [hli]
-	call MoveCardFromHandToDiscardPile
-	jr EnergyRetrieval_DiscardAndAddToHandEffect.discard
 
 
 ; shuffles the turn holder's hand into their deck and flips a coin.
