@@ -537,23 +537,25 @@ PlayAreaSelectionMenuParameters:
 ReturnCardToBottomOfDeck:
 	push hl
 	push af
+; decrement number of cards not in deck (a card is being added to the deck)
 	ld a, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
-	call GetTurnDuelistVariable
+	get_turn_duelist_var
+	ld c, a
 	dec a
-	ld [hl], a  ; decrement number of cards not in deck
-	ld a, DECK_SIZE
-	sub [hl]
-	dec a    ; how many cards there were in the deck before
-	ld b, a  ; how many cards to shift position
-	or a
-	jr z, .done_shift
-	ld a, [hl]
+	ld [hl], a
+; point DE to the new top deck position
 	add DUELVARS_DECK_CARDS
-	ld l, a  ; point to the new top deck position
-	ld e, l
+	ld e, a
 	ld d, h
-	inc hl   ; point to the actual top deck card
+; point HL to the actual/previous top deck card
+	inc a
+	ld l, a
+; calculate how many cards need to be shifted up
+	ld a, DECK_SIZE
+	sub c  ; how many cards there were in the deck before
+	ld b, a  ; how many cards to shift position
 ; shift all cards up to make space at the bottom
+	jr z, .done_shift  ; was the deck empty?
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -562,11 +564,9 @@ ReturnCardToBottomOfDeck:
 	jr nz, .loop
 .done_shift
 	pop af
-	ld l, DUELVARS_DECK_CARDS + DECK_SIZE - 1  ; last card
-	ld [hl], a ; set the last deck card
+	ld [de], a ; set the last deck card
 	ld l, a
 	ld [hl], CARD_LOCATION_DECK
-	ld a, l
 	pop hl
 	ret
 
@@ -840,7 +840,7 @@ AI_Flip20xPerEnergyTails10xEffect: ; DOES THIS EVEN WORK?
 
 CountAllEnergyInTurnHolderPlayArea:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
-	call GetTurnDuelistVariable
+	get_turn_duelist_var
 	ld d, a  ; store the number of Pokémon in the turn holder's play area in the d register (this will let us know when we are done counting)
 	ld e, PLAY_AREA_ARENA  ; store the first play area location to check in the e register
 .loop_play_area
@@ -1267,13 +1267,14 @@ PutCardOnBottomDeckEffect:
 	bank1call DisplayCardList
 	ldh [hTemp_ffa0], a ; store chosen card
 	jr c, .loop_input 		; must choose, B button can't be used to exit
-	ldh a, [hTemp_ffa0] ; GOOD
+	call RemoveCardFromHand
 	jp ReturnCardToBottomOfDeck
 
 PutCardOnBottomDeck_AIEffect: ; AI just selects randomly
 	call CreateHandCardList
 	ld hl, wDuelTempList
 	ldh [hTemp_ffa0], a
+	call RemoveCardFromHand
 	jp ReturnCardToBottomOfDeck
 
 
