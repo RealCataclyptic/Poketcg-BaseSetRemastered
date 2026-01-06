@@ -41,8 +41,11 @@ _AIProcessHandTrainerCards:
 	cp TYPE_TRAINER_ITEM
 	jr nz, .check_supporter
 ; skip if an effect such as Headache is preventing Item cards from being played.
+	push hl
 	call CheckCantUseItemsThisTurn
+	pop hl
 	jr c, .next_hand_card
+	jr .other_card_type
 
 .check_supporter
 	cp TYPE_TRAINER_SUPPORTER
