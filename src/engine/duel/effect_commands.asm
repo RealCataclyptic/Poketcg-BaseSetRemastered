@@ -145,7 +145,8 @@ Do10ToSelfThenDrawCardsEffectCommands:
 	db  $00
 
 IfDFPDamagedMoreDamageEffectCommands:
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DoPlus20IfDFPDamagedEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, DoPlus20IfDFPDamaged_DamageBoostEffect
+	dbw EFFECTCMDTYPE_AI, DoPlus20IfDFPDamaged_AIEffect
 	db  $00
 
 SearchCardAndShuffleSelfEffectCommands:

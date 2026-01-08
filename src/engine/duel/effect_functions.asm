@@ -1154,21 +1154,22 @@ DamageDrawCardsEffect:
 	;DIVISION GOES HERE
 
 	jp DrawNCards_ShowCardDetails
-	ret
-	
 
-DoPlus20IfDFPDamagedEffect:
+
+DoPlus20IfDFPDamaged_DamageBoostEffect:
 	rst SwapTurn
 	ld e, PLAY_AREA_ARENA
 	call GetCardDamageAndMaxHP
-	cp 1
-	jr z, .NoDamage
 	rst SwapTurn
+	or a
+	ret z
 	ld a, 20
 	jp AddToDamage
-.NoDamage
-	jp SwapTurn
-	
+
+DoPlus20IfDFPDamaged_AIEffect:
+	call DoPlus20IfDFPDamaged_DamageBoostEffect
+	jp SetDefiniteAIDamage
+
 
 Deal10DamageToOppBenchEffect:
 	rst SwapTurn
