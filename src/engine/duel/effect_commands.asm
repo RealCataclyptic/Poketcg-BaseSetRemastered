@@ -156,8 +156,8 @@ SearchCardAndShuffleSelfEffectCommands:
 	db  $00
 
 Bottom1Draw2EffectCommands:
-	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, PutCardOnBottomDeckEffect
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Draw2CardsFromDeck
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, PutCardOnBottomDeck_PlayerSelectEffect
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, Bottom1CardDraw2CardsEffect
 	db  $00
 
 Do10xCardsInHandEffectCommands:

@@ -1265,10 +1265,24 @@ PutCardOnBottomDeckEffect:
 	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
 .loop_input
 	bank1call DisplayCardList
+	jr c, .loop_input  ; must choose, B button can't be used to exit
 	ldh [hTemp_ffa0], a ; store chosen card
-	jr c, .loop_input 		; must choose, B button can't be used to exit
 	call RemoveCardFromHand
 	jp ReturnCardToBottomOfDeck
+
+PutCardOnBottomDeck_PlayerSelectEffect:
+	ld a, $ff
+	ldh [hTemp_ffa0], a
+	call CreateHandCardList
+	ret c  ; no cards in hand
+	ldtx hl, Bottom1CardText
+	call DrawWideTextBox_WaitForInput
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+.loop_input
+	bank1call DisplayCardList
+	jr c, .loop_input  ; must choose, B button can't be used to exit
+	ldh [hTemp_ffa0], a  ; store chosen card
+	ret
 
 PutCardOnBottomDeck_AIEffect: ; AI just selects randomly
 	call CreateHandCardList
@@ -1639,6 +1653,17 @@ DrawNCards_ShowCardDetails:
 	dec c
 	jr nz, .loop_draw
 	ret
+
+
+Bottom1CardDraw2CardsEffect:
+	ldh a, [hTemp_ffa0]
+	cp $ff
+	ret z
+; if a card was chosen, draw 2 cards from the deck
+	call RemoveCardFromHand
+	call ReturnCardToBottomOfDeck
+	jp Draw2CardsEffect
+
 
 ; You can replace the question marks (?) in the following functions
 ; with whatever number of cards that you want to have the player draw.
