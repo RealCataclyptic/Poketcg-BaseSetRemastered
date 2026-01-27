@@ -1270,8 +1270,8 @@ ReviveEffectCommands:
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Revive_PlaceInPlayAreaEffect
 	db  $00
 
-ScoopUpEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, BenchedPokemonCheck
+ScoopUpEffectCommands: ; BUG CATCHER
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, BenchedPokemonCheck ; keep this to have it work
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, ScoopUp_PlayerSelection
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ScoopUp_ReturnToHandEffect
 	db  $00

@@ -7204,7 +7204,7 @@ SlowbroCard:
 	dw NONE ; description (cont)
 	db 0 ; damage
 	db POKEMON_POWER ; category
-	dw SlowbroStrangeBehaviorEffectCommands ; effect commands
+	dw AlakazamDamageSwapEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3

@@ -1,7 +1,7 @@
 List of cards that are incomplete and need to be edited.
 
 Current Set: Yaginku's Base Set
-Currently on: Retreat Aid
+Currently on: Retreat Aid (trainer)
 
 CHECK ALL RARITIES AT THE END SOME ARENT ACCURATE TO YAGINKUS
 
@@ -79,7 +79,7 @@ IMPOSTER PROFESSOR OAK
 --- Nearly done, the one thing left is to somehow let the player order the cards in their hand to put on the bottom of the deck. Maybe some sort of Prophecy shenanigans can do it?
 
 BUG CATCHER
---- That's way too many selections for me, I'm not even going to try X/
+--- That's way too many selections for me, I'm not even going to try X/. EDIT: Yaginku says you can put more damage counters on a pokémon even if its HP reaches the negatives. How to program negative HP? For the damage, probably have to use Alakazam's damage dwap combined with Slowbro's exclusivity clause and then Gengars Curse to ignore HP values.  
 
 LASS
 --- Nearly works. The AI will never discard cards, but all other functions work. 
