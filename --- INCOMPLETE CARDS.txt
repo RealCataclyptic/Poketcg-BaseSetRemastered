@@ -82,7 +82,7 @@ BUG CATCHER
 --- That's way too many selections for me, I'm not even going to try X/
 
 LASS
---- Cannot proceed further because the bottom card function doesn't work.
+--- Nearly works. The AI will never discard cards, but all other functions work. 
 
 =====================================================================================================================================================
 

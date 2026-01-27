@@ -8996,10 +8996,6 @@ ImakuniEffect:
 	jp DrawWideTextBox_WaitForInput
 
 
-; reveals each player's hand to their opponent and then shuffles any Trainer cards
-; in a player's hand into that player's deck.
-; assumes the effect is coming from a Trainer card which needs to be removed
-; from the hand before it is revealed to the opponent.
 LassEffect:
 ; first discard the Trainer card being played from the turn holder's hand
 	ldh a, [hTempCardIndex_ff9f]
@@ -9009,45 +9005,46 @@ LassEffectReal:
 ; Player cards section ; NOTE: PROGRAM LASS EFFECT FOR AI SUCH THAT IT ONLY CAN USE IF CARDS<5. CODING THIS IS NOW EASIER
 	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
 	get_turn_duelist_var
+	cp 5 ; if player has exactly 5 cards in hand after using Lass, do nothing. 
+	jr z, .Done
 	cp 5 + 1
-	jr nc, .BottomCards
-; draw cards section
-	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
-	get_turn_duelist_var
+	jp nc, .LassBottomCards ; if more than 5 cards, go to the bottom cards section
+
+; draw cards section			; a is still number of cards in hand
 	ld b, a
 	ld a, 5
 	sub b
 	call DrawNCards_ShowCardDetails
-	jr .Done
+	jr .Done 			
 
-.BottomCards
+.LassBottomCards
 	call IsPlayerTurn
-	jr nc, .AISelect
-; Player can select cards
+	jr nc, .AILassSelect
+
+; Player will select cards
 	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
 	get_turn_duelist_var
-	sub 5
-
+	sub 5 			; subtract 5 from a
+	ld b, a 		; b is now the number of times PutCardOnBottomDeckEffect must be selected.
 .PlayerBottomACardLoop
-	;ld b, a ; b is now the number of times PutCardOnBottomDeckEffect must be selected.
+	push bc
 	call PutCardOnBottomDeckEffect
-	;ld a, b
-	;sub 1
-	;cp 0
-	;jr nc, .PlayerBottomACardLoop
-	jr .Done
+	pop bc
+	dec b
+	jr nz, .PlayerBottomACardLoop
+	ret
 
-.AISelect ; AI will select cards randomly. 
+.AILassSelect ; AI will select cards randomly. 
 	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
 	get_turn_duelist_var
 	sub 5
+	ld b, a
 .AIBottomACardLoop
-	ld b, a ; b is now the number of times PutCardOnBottomDeckEffect must be selected.
+	push bc
 	call PutCardOnBottomDeck_AIEffect
-	ld a, b
-	sub 1
-	cp 0
-	jr nc, .AIBottomACardLoop
+	pop bc
+	dec b
+	jr nz, .AIBottomACardLoop
 .Done
 	ret
 

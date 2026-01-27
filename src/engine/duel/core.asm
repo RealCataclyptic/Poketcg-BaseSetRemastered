@@ -556,6 +556,7 @@ DuelMenu_Retreat:
 	; when the Play Area screen is shown to select the Pokemon to switch to. The reason why
 	; AttemptRetreat is responsible for discarding the Energy cards is because, if the
 	; Pokemon is Confused, it may not be able to retreat, so they cannot be discarded earlier.
+
 	call DisplayRetreatScreen
 	jr c, .exit
 	call DiscardRetreatCostCards
@@ -1121,6 +1122,10 @@ CheckIfEnoughEnergiesToRetreat:
 	ld e, a
 	call GetPlayAreaCardRetreatCost
 	ld [wEnergyCardsRequiredToRetreat], a
+
+; CODE HERE FOR RETREAT AID
+
+
 	ld c, a
 	call GetPlayAreaCardAttachedEnergies
 	cp c

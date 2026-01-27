@@ -1192,9 +1192,8 @@ ItemFinderEffectCommands:
 	db  $00
 
 LassEffectCommands:
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, PutCardOnBottomDeckEffect
-	;dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, LassEffect
-	; dbw EFFECTCMDTYPE_BEFORE_DAMAGE, LassEffect2
+	 dbw EFFECTCMDTYPE_AI_SELECTION, PutCardOnBottomDeck_AIEffect
+	;dbw EFFECTCMDTYPE_BEFORE_DAMAGE, LassEffect2
 	db  $00
 
 MaintenanceEffectCommands:
