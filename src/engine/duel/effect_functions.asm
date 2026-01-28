@@ -9234,16 +9234,12 @@ PlusPowerEffect:
 	inc [hl]
 	ret
 
+; increases the number of RetreatAid effects in the Arena by 1
+; preserves bc, de
 RetreatAidTrainerEffect:
-	; attach this card to the Active Pokemon
-	;ld e, PLAY_AREA_ARENA
-	;ldh a, [hTempCardIndex_ff9f]
-	;call PutHandCardInPlayArea
-
-; increase number of PlusPower cards in this location by 1
-	;ld a, DUELVARS_ARENA_CARD_ATTACHED_RETREAT_AID
-	;get_turn_duelist_var
-	;inc [hl]
+	ld a, DUELVARS_ARENA_CARD_RETREAT_AID
+	get_turn_duelist_var
+	inc [hl]
 	ret
 
 

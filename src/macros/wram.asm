@@ -176,7 +176,7 @@ MACRO duel_vars
 \1Bench4CardAttachedPluspower::  ds $1
 \1Bench5CardAttachedPluspower::  ds $1
 
-	ds $1
+\1ArenaCardRetreatAid::          ds $1
 
 \1ArenaCardSubstatus1::          ds $1
 \1ArenaCardSubstatus2::          ds $1

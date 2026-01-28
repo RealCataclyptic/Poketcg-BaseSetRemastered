@@ -1219,6 +1219,10 @@ AttemptRetreat:
 	ldh a, [hTempPlayAreaLocation_ffa1]
 	ld e, a
 	call SwapArenaWithBenchPokemon ; resets carry flag
+	ld a, DUELVARS_ARENA_CARD_RETREAT_AID
+	get_turn_duelist_var
+	xor a
+	ld [hl], a
 	ld hl, wOncePerTurnFlags
 	res UNABLE_TO_RETREAT_THIS_TURN_F, [hl]
 	ret
@@ -7401,6 +7405,8 @@ UpdateSubstatusConditions_EndOfTurn::
 	ld a, DUELVARS_ARENA_CARD_SUBSTATUS2
 	get_turn_duelist_var
 	xor a
+	ld [hl], a
+	ld l, DUELVARS_ARENA_CARD_RETREAT_AID
 	ld [hl], a
 	ld a, DUELVARS_ARENA_CARD_SUBSTATUS1
 	get_turn_duelist_var

@@ -78,9 +78,7 @@ DEF DUELVARS_BENCH2_CARD_ATTACHED_PLUSPOWER   EQUS "LOW(wPlayerBench2CardAttache
 DEF DUELVARS_BENCH3_CARD_ATTACHED_PLUSPOWER   EQUS "LOW(wPlayerBench3CardAttachedPluspower)" ; e3
 DEF DUELVARS_BENCH4_CARD_ATTACHED_PLUSPOWER   EQUS "LOW(wPlayerBench4CardAttachedPluspower)" ; e4
 DEF DUELVARS_BENCH5_CARD_ATTACHED_PLUSPOWER   EQUS "LOW(wPlayerBench5CardAttachedPluspower)" ; e5
-
-; DEF DUELVARS_ARENA_CARD_ATTACHED_RETREAT_AID  EQUS "LOW(wPlayerArenaCardAttachedRetreatAid)"
-
+DEF DUELVARS_ARENA_CARD_RETREAT_AID           EQUS "LOW(wPlayerArenaCardRetreatAid)"         ; e6
 DEF DUELVARS_ARENA_CARD_SUBSTATUS1            EQUS "LOW(wPlayerArenaCardSubstatus1)"         ; e7
 DEF DUELVARS_ARENA_CARD_SUBSTATUS2            EQUS "LOW(wPlayerArenaCardSubstatus2)"         ; e8
 DEF DUELVARS_ARENA_CARD_CHANGED_WEAKNESS      EQUS "LOW(wPlayerArenaCardChangedWeakness)"    ; e9

@@ -1450,17 +1450,16 @@ GetLoadedCard1RetreatCost::
 .NoDodrio
 	ld c, 0
 .CheckRetreatAidUse
-;	ld a, DUELVARS_ARENA_CARD_ATTACHED_RETREAT_AID
-;	get_turn_duelist_var
-;	or a
-;	ld a, [hl] ; number of attached Retreat Aid
-;	ld d, a
+	ld a, DUELVARS_ARENA_CARD_RETREAT_AID
+	get_turn_duelist_var
+;	a = number of Retreat Aid trainers used this turn
+	add c
+	ld c, a
 
 .CalculateRC
 	ld a, [wLoadedCard1RetreatCost]
 	add b 		; add whatever number e is for the RC increase
-	sub c 		; subtract 1 if Dodrio is on your field
-	;sub d		; Subtract 1 for each retreat aid trainer used this turn
+	sub c 		; subtract all Retreat Aids on your field
 	ret nc 		; return if the Pokémon's Retreat Cost isn't a negative number
 	xor a 		; otherwise set the Pokémon's Retreat Cost to 0
 	ret
