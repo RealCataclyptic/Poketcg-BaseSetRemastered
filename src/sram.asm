@@ -346,7 +346,7 @@ SECTION "SRAM2", SRAM
 sBackupGeneralSaveData:: ; b800
 	ds $bb
 
-	ds $43
+	ds $42
 
 ; byte 1 = total number of cards collected
 ; byte 2 = total number of cards to collect
@@ -364,6 +364,6 @@ sCurrentDuel:: ; bc00
 sCurrentDuelChecksum:: ; bc01
 	ds $2
 sCurrentDuelData:: ; bc04
-	ds $33b
+	ds $33c
 
 SECTION "SRAM3", SRAM
