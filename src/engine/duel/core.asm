@@ -1122,10 +1122,6 @@ CheckIfEnoughEnergiesToRetreat:
 	ld e, a
 	call GetPlayAreaCardRetreatCost
 	ld [wEnergyCardsRequiredToRetreat], a
-
-; CODE HERE FOR RETREAT AID
-
-
 	ld c, a
 	call GetPlayAreaCardAttachedEnergies
 	cp c

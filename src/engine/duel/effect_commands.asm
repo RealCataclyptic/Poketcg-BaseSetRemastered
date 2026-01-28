@@ -1297,9 +1297,7 @@ SuperPotionEffectCommands:
 	db  $00
 
 SwitchEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, BenchedPokemonCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Switch_PlayerSelection
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, SwitchEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, RetreatAidTrainerEffect
 	db  $00
 
 

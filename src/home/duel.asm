@@ -1430,50 +1430,39 @@ GetLoadedCard1RetreatCost::
 	or a
 	cp SUBSTATUS2_RC_INCREASED_2
 	jr nz, .SecondCheck
-	call IncreaseRCby2
-	jp .CheckDodrio
+	ld b, 2
+	jr .CheckDodrio
 .SecondCheck
 	cp SUBSTATUS2_RC_INCREASED_1
-	jr nz, .CheckDodrio
-	call IncreaseRCby1
-
+	jr nz, .NoSubstatus
+	ld b, 1
+	jr .CheckDodrio
+.NoSubstatus
+	ld b, 0
 .CheckDodrio
-	ld c, 0 ; Dodrio counter
-	ld a, DUELVARS_BENCH
-	get_turn_duelist_var
-.check_bench_loop
-	ld a, [hli]
-	cp -1 ; empty play area slot?
-	jr z, .no_more_bench
-	call _GetCardIDFromDeckIndex
-	cp DODRIO
-	jr nz, .check_bench_loop
-	inc c
-	jr .check_bench_loop
-
-.no_more_bench
-	ld a, c ; c is #dodrio found
-	or a
-	jr nz, .dodrio_found
-	ld a, [wLoadedCard1RetreatCost]
-	add e
-	ret
-
-.dodrio_found
 	call CheckIfPkmnPowersAreCurrentlyDisabled
-	ret c ; return with normal Retreat Cost if Pokémon Powers are currently disabled
-	add e ; add whatever number e is for the RC increase
-	sub c ; subtract 1 for each Dodrio on the turn holder's Bench (because of Retreat Aid)
-	ret nc ; return if the Pokémon's Retreat Cost isn't a negative number
-	xor a ; set the Pokémon's Retreat Cost to 0
-	ret
+	jr z, .NoDodrio
+	ld a, DODRIO
+	call CountTurnDuelistPokemonWithActivePkmnPower
+	jr nz, .NoDodrio
+	ld c, 1
+	jr .CheckRetreatAidUse
+.NoDodrio
+	ld c, 0
+.CheckRetreatAidUse
+;	ld a, DUELVARS_ARENA_CARD_ATTACHED_RETREAT_AID
+;	get_turn_duelist_var
+;	or a
+;	ld a, [hl] ; number of attached Retreat Aid
+;	ld d, a
 
-IncreaseRCby1:
-	ld e, 1
-	ret
-
-IncreaseRCby2:
-	ld e, 2
+.CalculateRC
+	ld a, [wLoadedCard1RetreatCost]
+	add b 		; add whatever number e is for the RC increase
+	sub c 		; subtract 1 if Dodrio is on your field
+	;sub d		; Subtract 1 for each retreat aid trainer used this turn
+	ret nc 		; return if the Pokémon's Retreat Cost isn't a negative number
+	xor a 		; otherwise set the Pokémon's Retreat Cost to 0
 	ret
 
 ; preserves bc and de

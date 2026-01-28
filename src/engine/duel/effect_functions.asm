@@ -1731,14 +1731,20 @@ ProfessorOakEffect:
 	ret
 
 ImposterProfessorOakEffect:
+	ldh a, [hTempCardIndex_ff9f]
+	call MoveCardFromHandToDiscardPile ; move imposter to discard
+
 	call CreateHandCardList
 	ld hl, wDuelTempList
-.discard_loop
+.Imposter_loop
 	ld a, [hli]
 	cp $ff
 	jr z, .draw_cards
+	push bc
+	call RemoveCardFromHand
 	call ReturnCardToBottomOfDeck
-	jr .discard_loop
+	pop bc
+	jr .Imposter_loop
 .draw_cards
 	ld a, 6
 	; fallthrough
@@ -9226,6 +9232,18 @@ PlusPowerEffect:
 	ld a, DUELVARS_ARENA_CARD_ATTACHED_PLUSPOWER
 	get_turn_duelist_var
 	inc [hl]
+	ret
+
+RetreatAidTrainerEffect:
+	; attach this card to the Active Pokemon
+	;ld e, PLAY_AREA_ARENA
+	;ldh a, [hTempCardIndex_ff9f]
+	;call PutHandCardInPlayArea
+
+; increase number of PlusPower cards in this location by 1
+	;ld a, DUELVARS_ARENA_CARD_ATTACHED_RETREAT_AID
+	;get_turn_duelist_var
+	;inc [hl]
 	ret
 
 
