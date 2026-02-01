@@ -194,11 +194,10 @@ MaintenanceName:
 	done
 
 MaintenanceDescription:
-	text " Shuffle 2 of the other cards from"
-	line ""
-	line " your hand into your deck in order"
-	line ""
-	line " to draw a card."
+	text " Place any number of your other"
+	line " cards from your hand to the bottom"
+	line " of your deck in any order, then draw"
+	line " that many cards."
 	done
 
 PokemonFluteName:
@@ -535,4 +534,9 @@ Bottom3CardsText:
 Choose3BasicEnergyCardsFromDiscardPileText:
 	text "Choose up to 3 basic energy cards"
 	line "to shuffle back into the deck."
+	done
+
+ChooseAnyCardsToPutBackText:
+	text "Choose any number of cards to"
+	line "put on the bottom of your deck."
 	done

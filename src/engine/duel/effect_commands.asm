@@ -1197,7 +1197,7 @@ LassEffectCommands:
 	db  $00
 
 MaintenanceEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, OtherCardsInHandCheck
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, OneOtherCardInHandCheck
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Maintenance_PlayerSelection
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Maintenance_ReturnToDeckAndDrawEffect
 	db  $00

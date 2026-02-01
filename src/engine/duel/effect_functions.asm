@@ -40,6 +40,13 @@ OtherCardsInHandCheck:
 	cp 3
 	ret
 
+OneOtherCardInHandCheck: ; check if there is at least 1 other card in hand.
+	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
+	get_turn_duelist_var
+	ldtx hl, NotEnoughCardsInHandText
+	cp 2
+	ret
+
 
 ; preserves bc and de
 ; output:
@@ -1723,10 +1730,13 @@ ProfessorOakEffect:
 	jr c, .loop ; is selection over?
 	ld hl, hTempList
 	ld a, [hli]
+	call RemoveCardFromHand
 	call ReturnCardToBottomOfDeck
 	ld a, [hli]
+	call RemoveCardFromHand
 	call ReturnCardToBottomOfDeck
 	ld a, [hli]
+	call RemoveCardFromHand
 	call ReturnCardToBottomOfDeck
 	ret
 
@@ -9134,35 +9144,45 @@ LassEffect2: ; Opponent now does the same thing.
 ;	[hTempList] = deck index of the first card that was selected from the hand (0-59)
 ;	[hTempList + 1] = deck index of the second card that was selected from the hand (0-59)
 Maintenance_PlayerSelection:
-	ldtx hl, Choose2HandCardsFromHandToReturnToDeckText
-	ldtx de, ChooseTheCardToPutBackText
-	jp HandlePlayerSelection2HandCards
-
-
-; shuffles 2 given cards from the turn holder's hand into their deck
-; and then, that player draws 1 card.
-; input:
-;	[hTempList] = deck index of the first card to remove from the hand (0-59)
-;	[hTempList + 1] = deck index of the second card to remove from the hand (0-59)
-Maintenance_ReturnToDeckAndDrawEffect:
-; return both selected cards to the deck
-	ldh a, [hTempList]
-	call MoveCardFromHandToTopOfDeck
-	ldh a, [hTempList + 1]
-	call MoveCardFromHandToTopOfDeck
-	call ShuffleCardsInDeck
-
-; draw one card
-	bank1call DisplayDrawOneCardScreen
-	call DrawCardFromDeck
-	ldh [hTempCardIndex_ff98], a
-	call AddCardToHand
-
-; show the drawn card on the screen if this effect was initiated by the Player
-	call IsPlayerTurn
-	ret nc ; return if it isn't the Player's turn
-	bank1call DisplayPlayerDrawCardScreen
+	ldh a, [hTempCardIndex_ff9f]
+	call MoveCardFromHandToDiscardPile ; move maintenance to discard first
 	ret
+
+Maintenance_ReturnToDeckAndDrawEffect:	
+	ldtx hl, ChooseAnyCardsToPutBackText
+    	call DrawWideTextBox_WaitForInput
+   	ld b, 0
+    	push bc
+.PlayerBottomACardLoop
+    	call CreateHandCardList
+    	jr c, .ended_selection ; no more cards
+
+    	call Bottom1CardButCanExitEffect
+    	jr c, .ended_selection ; b was pressed
+   	pop bc
+    	inc b
+    	push bc
+    	jr .PlayerBottomACardLoop
+
+.ended_selection
+    	pop bc
+    	ld a, b
+    	or a ; were any cards selected?
+    	ret z ; no, exit
+    	jp DrawNCards_NoCardDetails 
+
+	
+
+Bottom1CardButCanExitEffect:
+	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
+.loop_input
+	bank1call DisplayCardList
+	ret c
+	ldh [hTemp_ffa0], a  ; store chosen card
+	call RemoveCardFromHand
+	jp ReturnCardToBottomOfDeck
+	ret
+
 
 
 ; shuffles a given Benched Pokemon and all of its attached cards into the deck
