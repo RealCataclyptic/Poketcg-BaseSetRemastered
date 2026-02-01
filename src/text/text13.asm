@@ -103,10 +103,12 @@ ItemFinderName:
 	done
 
 ItemFinderDescription:
-	text "    Discard 2 of the other cards"
-	line "    from your hand in order to"
-	line "    put a Trainer card from your"
-	line "    discard pile into your hand."
+	text "Put a card from your hand on the"
+	line "bottom of your deck. If you do,"
+	line "search your deck for a Trainer card"
+	line "that isn't a Supporter, reveal it,"
+	line "and put it into your hand. Shuffle"
+	line "your deck afterwards."
 	done
 
 GustOfWindName:

@@ -9754,7 +9754,7 @@ PokemonBreederCard: ; = RARE CANDY
 	dw NONE ; description (cont)
 
 ClefairyDollCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx ClefairyDollCardGfx ; gfx
 	tx ClefairyDollName ; name
 	db STAR ; rarity
@@ -9765,7 +9765,7 @@ ClefairyDollCard: ; IN
 	tx ClefairyDollDescriptionCont ; description (cont)
 
 MysteriousFossilCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx MysteriousFossilCardGfx ; gfx
 	tx MysteriousFossilName ; name
 	db CIRCLE ; rarity
@@ -9776,7 +9776,7 @@ MysteriousFossilCard: ; IN
 	tx MysteriousFossilDescriptionCont ; description (cont)
 
 EnergyRetrievalCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx EnergyRetrievalCardGfx ; gfx
 	tx EnergyRetrievalName ; name
 	db DIAMOND ; rarity
@@ -9787,7 +9787,7 @@ EnergyRetrievalCard: ; IN
 	dw NONE ; description (cont)
 
 SuperEnergyRetrievalCard: ; IN
-	db TYPE_TRAINER_SUPPORTER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx SuperEnergyRetrievalCardGfx ; gfx
 	tx SuperEnergyRetrievalName ; name
 	db PROMOSTAR ; rarity
@@ -9798,7 +9798,7 @@ SuperEnergyRetrievalCard: ; IN
 	dw NONE ; description (cont)
 
 EnergySearchCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx EnergySearchCardGfx ; gfx
 	tx EnergySearchName ; name
 	db CIRCLE ; rarity
@@ -9831,7 +9831,7 @@ CooltrainerCard:
 	dw NONE ; description (cont)
 
 SwitchCard: ; = RETREAT AID
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx SwitchCardGfx ; gfx
 	tx SwitchName ; name
 	db CIRCLE ; rarity
@@ -9842,7 +9842,7 @@ SwitchCard: ; = RETREAT AID
 	dw NONE ; description (cont)
 
 PokemonCenterCard: ; IN
-	db TYPE_TRAINER_SUPPORTER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx PokemonCenterCardGfx ; gfx
 	tx PokemonCenterName ; name
 	db DIAMOND ; rarity
@@ -9853,7 +9853,7 @@ PokemonCenterCard: ; IN
 	dw NONE ; description (cont)
 
 PokeBallCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx PokeBallCardGfx ; gfx
 	tx PokeBallName ; name
 	db CIRCLE ; rarity
@@ -9875,7 +9875,7 @@ ScoopUpCard: ; = BUG CATCHER
 	dw NONE ; description (cont)
 
 ComputerSearchCard: ; IN
-	db TYPE_TRAINER_SUPPORTER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx ComputerSearchCardGfx ; gfx
 	tx ComputerSearchName ; name
 	db STAR ; rarity
@@ -9886,7 +9886,7 @@ ComputerSearchCard: ; IN
 	dw NONE ; description (cont)
 
 PokedexCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx PokedexCardGfx ; gfx
 	tx PokedexName ; name
 	db DIAMOND ; rarity
@@ -9897,7 +9897,7 @@ PokedexCard: ; IN
 	dw NONE ; description (cont)
 
 PlusPowerCard: ; = X ATTACK
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx PlusPowerCardGfx ; gfx
 	tx PlusPowerName ; name
 	db DIAMOND ; rarity
@@ -9908,7 +9908,7 @@ PlusPowerCard: ; = X ATTACK
 	dw NONE ; description (cont)
 
 DefenderCard: ; = X DEFENSE
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx DefenderCardGfx ; gfx
 	tx DefenderName ; name
 	db DIAMOND ; rarity
@@ -9919,7 +9919,7 @@ DefenderCard: ; = X DEFENSE
 	dw NONE ; description (cont)
 
 ItemFinderCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx ItemFinderCardGfx ; gfx
 	tx ItemFinderName ; name
 	db STAR ; rarity
@@ -9941,7 +9941,7 @@ GustOfWindCard: ; = RIVAL
 	dw NONE ; description (cont)
 
 DevolutionSprayCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx DevolutionSprayCardGfx ; gfx
 	tx DevolutionSprayName ; name
 	db STAR ; rarity
@@ -9952,7 +9952,7 @@ DevolutionSprayCard: ; IN
 	tx DevolutionSprayDescriptionCont ; description (cont)
 
 PotionCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx PotionCardGfx ; gfx
 	tx PotionName ; name
 	db CIRCLE ; rarity
@@ -9963,7 +9963,7 @@ PotionCard: ; IN
 	dw NONE ; description (cont)
 
 SuperPotionCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx SuperPotionCardGfx ; gfx
 	tx SuperPotionName ; name
 	db DIAMOND ; rarity
@@ -9974,7 +9974,7 @@ SuperPotionCard: ; IN
 	dw NONE ; description (cont)
 
 FullHealCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx FullHealCardGfx ; gfx
 	tx FullHealName ; name
 	db DIAMOND ; rarity
@@ -9985,7 +9985,7 @@ FullHealCard: ; IN
 	dw NONE ; description (cont)
 
 ReviveCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx ReviveCardGfx ; gfx
 	tx ReviveName ; name
 	db DIAMOND ; rarity
@@ -9996,7 +9996,7 @@ ReviveCard: ; IN
 	dw NONE ; description (cont)
 
 MaintenanceCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx MaintenanceCardGfx ; gfx
 	tx MaintenanceName ; name
 	db DIAMOND ; rarity
@@ -10007,7 +10007,7 @@ MaintenanceCard: ; IN
 	dw NONE ; description (cont)
 
 PokemonFluteCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx PokemonFluteCardGfx ; gfx
 	tx PokemonFluteName ; name
 	db DIAMOND ; rarity
@@ -10018,7 +10018,7 @@ PokemonFluteCard: ; IN
 	dw NONE ; description (cont)
 
 GamblerCard: ;  = GAMBLE
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx GamblerCardGfx ; gfx
 	tx GamblerName ; name
 	db CIRCLE ; rarity
@@ -10029,7 +10029,7 @@ GamblerCard: ;  = GAMBLE
 	dw NONE ; description (cont)
 
 RecycleCard: ; IN
-	db TYPE_TRAINER ; type
+	db TYPE_TRAINER_ITEM ; type
 	gfx RecycleCardGfx ; gfx
 	tx RecycleName ; name
 	db CIRCLE ; rarity

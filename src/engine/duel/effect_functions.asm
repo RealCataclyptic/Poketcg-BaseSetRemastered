@@ -8746,7 +8746,7 @@ EnergyRetrievalNewCheck: ;For modified versions of the energy retrieval check
 ; output:
 ;	carry = set:  if the operation was cancelled by the Player (with B button)
 ;	[hTempList] = deck index of the chosen card from the turn holder's hand (0-59)
-EnergyRetrieval_PlayerHandSelection: 			
+Bottom1Card_PlayerHandSelection: 			
 	ldtx hl, Bottom1CardText
 	call DrawWideTextBox_WaitForInput
 
@@ -8762,7 +8762,6 @@ EnergyRetrieval_PlayerHandSelection:
 	ret c ; exit if the B button was pressed
 	ldh [hTempList], a
 	ret
-
 
 ; handles the Player's selection of up to 2 Basic Energy cards from their discard pile
 ; output:
@@ -8813,6 +8812,12 @@ EnergyRetrieval_PlayerDiscardPileSelection:
 ; input:
 ;	hTempList = $ff-terminated list with deck indices of previously selected cards
 EnergyRetrieval_DiscardAndAddToHandEffect:
+
+;	ldh a, [hTempList] 		; first return the selected card to the deck
+;	call RemoveCardFromHand
+;	call ReturnCardToBottomOfDeck
+
+
 	ld hl, hTempList
 .discard
 	ld a, [hli]
@@ -8936,56 +8941,15 @@ GamblerEffect:
 	ld a, c
 	jp DrawNCards_NoCardDetails
 
+ItemFinder_AddToHandEffect:
+	ldh a, [hTempList] 		; first return the selected card to the deck
+	call RemoveCardFromHand
+	call ReturnCardToBottomOfDeck 
 
-; handles the Player's selection for choosing 2 cards to discard from their hand
-; and then choosing a Trainer card from their discard pile to add to their hand
-;output:
-;	carry = set:  if the operation was cancelled by the Player (with B button)
-;	[hTempList] = deck index of the first card that was selected from the hand (0-59)
-;	[hTempList + 1] = deck index of the second card that was selected from the hand (0-59)
-;	[hTempList + 2] = deck index of the Trainer card that was selected from the discard pile (0-59)
-ItemFinder_PlayerSelection:
-	call Discard2Cards_PlayerSelection
-	ret c ; exit if the B button was pressed
-
-; cards were selected to discard from the hand.
-; now to choose a Trainer card from the discard pile.
-	call CreateTrainerCardListFromDiscardPile
-	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
-	ldtx hl, ChooseCardToPlaceInHandText
-	ldtx de, YourDiscardPileText
-	call SetCardListHeaderText
-	bank1call DisplayCardList
-;	ret c ; exit if the B button was pressed
-	ldh [hTempList + 2], a ; placed after the 2 cards selected to discard
+	farcall FindTrainer
+	call AddCardFromDeckToHandEffect
 	ret
 
-
-; discards 2 given cards from the turn holder's hand and moves another given card
-; from the turn holder's discard pile to their hand
-; input:
-;	[hTempList] = deck index of the first card to discard from the hand (0-59)
-;	[hTempList + 1] = deck index of the second card to discard from the hand (0-59)
-;	[hTempList + 2] = deck index of the card to move from the discard pile to the hand (0-59)
-ItemFinder_DiscardAddToHandEffect:
-; discard cards from the hand
-	ld hl, hTempList
-	ld a, [hli]
-	call MoveCardFromHandToDiscardPile
-	ld a, [hli]
-	call MoveCardFromHandToDiscardPile
-
-; place the card from the discard pile into the hand
-	ld a, [hl]
-	call MoveCardFromDiscardPileToHand
-
-; show the selected card on the screen if this effect wasn't initiated by the Player
-	call IsPlayerTurn
-	ret c ; return if it's the Player's turn
-	ldh a, [hTempList + 2]
-	ldtx hl, WasPlacedInTheHandText
-	bank1call DisplayCardDetailScreen
-	ret
 
 
 ; tries to make the turn holder's Active Pokemon Confused

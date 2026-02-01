@@ -444,7 +444,7 @@ FindTrainer:
 	jr c, .attempt_to_cancel ; the B button was pressed
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	cp TYPE_TRAINER_ITEM  ; OATS support trainer subtypes
 	jr c, .play_sfx ; not a Trainer card
 
 ; a Trainer card was selected

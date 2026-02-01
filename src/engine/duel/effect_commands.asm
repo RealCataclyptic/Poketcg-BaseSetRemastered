@@ -1186,14 +1186,14 @@ ImposterProfessorOakEffectCommands:
 	db  $00
 
 ItemFinderEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, ItemFinderCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, ItemFinder_PlayerSelection
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ItemFinder_DiscardAddToHandEffect
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, OneOtherCardInHandCheck
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Bottom1Card_PlayerHandSelection
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ItemFinder_AddToHandEffect
 	db  $00
 
 LassEffectCommands:
-	 dbw EFFECTCMDTYPE_AI_SELECTION, PutCardOnBottomDeck_AIEffect
-	;dbw EFFECTCMDTYPE_BEFORE_DAMAGE, LassEffect2
+	dbw EFFECTCMDTYPE_AI_SELECTION, PutCardOnBottomDeck_AIEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, LassEffect2
 	db  $00
 
 MaintenanceEffectCommands:
@@ -1285,7 +1285,7 @@ SuperEnergyRemovalEffectCommands:
 
 SuperEnergyRetrievalEffectCommands:
 	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, EnergyRetrievalCheck
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, EnergyRetrieval_PlayerHandSelection
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, Bottom1Card_PlayerHandSelection
 	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, EnergyRetrieval_PlayerDiscardPileSelection
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, EnergyRetrieval_DiscardAndAddToHandEffect
 	db  $00
