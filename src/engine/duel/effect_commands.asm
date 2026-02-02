@@ -1162,9 +1162,12 @@ EnergySearchEffectCommands:
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, AddCardFromDeckToHandEffect
 	db  $00
 
+; Clears the status, all substatuses, and temporary duelvars
+; of the turn holder's Arena Pokémon.
 FullHealEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, ActivePokemon_StatusCheck
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, RemoveSpecialConditionsEffect
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, FullHeal_CheckPlayAreaStatus
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, FullHeal_PlayerSelection
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, FullHeal_ClearStatusEffect
 	db  $00
 
 GamblerEffectCommands:

@@ -188,6 +188,11 @@ IsCuredOfParalysisText:
 	line "no longer Paralyzed."
 	done
 
+IsCuredOfStatusAndEffectsText:
+	text "<RAMTEXT> is cured of"
+	line "Special Conditions and effects."
+	done
+
 BetweenTurnsText:
 	text "Between Turns."
 	done

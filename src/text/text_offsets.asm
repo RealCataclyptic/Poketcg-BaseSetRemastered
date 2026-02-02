@@ -47,6 +47,7 @@ TextOffsets::
 	textpointer IsStillAsleepText                                  ; 0x0029
 	textpointer IsCuredOfSleepText                                 ; 0x002a
 	textpointer IsCuredOfParalysisText                             ; 0x002b
+	textpointer IsCuredOfStatusAndEffectsText
 	textpointer BetweenTurnsText                                   ; 0x002c
 	textpointer UnableToUseItText                                  ; 0x002d
 	textpointer NoEnergyCardsAttachedText                          ; 0x002e

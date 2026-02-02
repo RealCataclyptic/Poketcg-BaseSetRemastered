@@ -7649,6 +7649,76 @@ RedrawTurnDuelistsDuelHUD:
 	jp SwapTurn
 
 
+; input:
+;   a: ATK_ANIM_* to play
+;   b: PLAY_AREA_* of the target
+;   de: damage to show (if applicable)
+; preserves: de (maybe hl, bc)
+PlayAdhocAnimationOnPlayAreaLocation_Weakness:
+	ld c, WEAKNESS
+	jr PlayAdhocAnimationOnPlayAreaLocation
+
+; input:
+;   a: ATK_ANIM_* to play
+;   de: damage to show (if applicable)
+; preserves: de (maybe hl, bc)
+PlayAdhocAnimationOnPlayAreaArena_NoEffectiveness:
+	ld b, PLAY_AREA_ARENA
+	; fallthrough
+
+; input:
+;   a: ATK_ANIM_* to play
+;   b: PLAY_AREA_* of the target
+;   de: damage to show (if applicable)
+; preserves: de (maybe hl, bc)
+PlayAdhocAnimationOnPlayAreaLocation_NoEffectiveness:
+	ld c, $00
+	; jr PlayAdhocAnimationOnPlayAreaLocation
+	; fallthrough
+
+; input:
+;   a: ATK_ANIM_* to play
+;   b: PLAY_AREA_* of the target
+;   c: wDamageEffectiveness constant
+;   de: damage to show (if applicable)
+; preserves: de (maybe hl, bc)
+PlayAdhocAnimationOnPlayAreaLocation:
+	ld [wLoadedAttackAnimation], a
+	; call ResetAttackAnimationIsPlaying
+	xor a
+	ld [wAttackAnimationIsPlaying], a
+	jr PlayAdhocAnimationOnDuelScene.got_animation
+
+
+; input:
+;   a: ATK_ANIM_* to play
+;   b: PLAY_AREA_* of the target
+;   de: damage to show (if applicable)
+; preserves: de (maybe hl, bc)
+PlayAdhocAnimationOnDuelScene_NoEffectiveness:
+	ld c, $00
+	; jr PlayAdhocAnimationOnDuelScene
+	; fallthrough
+
+; input:
+;   a: ATK_ANIM_* to play
+;   b: PLAY_AREA_* of the target
+;   c: wDamageEffectiveness constant
+;   de: damage to show (if applicable)
+; preserves: de (maybe hl, bc)
+PlayAdhocAnimationOnDuelScene:
+	ld [wLoadedAttackAnimation], a
+.got_animation
+	; ldh a, [hTempPlayAreaLocation_ffa1]
+	; ld b, a
+	; ld c, $00
+	ldh a, [hWhoseTurn]
+	ld h, a
+	call PlayAttackAnimation  ; preserves hl, bc, de
+	jp WaitAttackAnimation    ; preserves de, (hl, bc)?
+
+
+
 ; inserts the name of the card at wTempNonTurnDuelistCardID into the text
 ; with ID at hl and then prints it in a text box at the bottom of the screen
 ; input:
