@@ -419,13 +419,21 @@ DuelMenuFunctionTable:
 
 ; triggered by selecting the "Attack" item in the duel menu
 DuelMenu_Attack:
+	ld a, [wDuelTurns]
+	or a
+	jr nz, .check_unable_to_attack
+	ldtx hl, YouCannotAttackDuringTheFirstTurnIfUsedSupporterText
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	jr nz, .print_text_and_return
+.check_unable_to_attack
 	call CheckUnableToAttackDueToEffect
 	jr nc, .can_attack
 	; unable to attack
 .print_text_and_return
 	call DrawWideTextBox_WaitForInput
 .return
-	jr PrintDuelMenuAndHandleInput
+	jp PrintDuelMenuAndHandleInput
 
 .can_attack
 	xor a
@@ -1000,6 +1008,8 @@ PlayPokemonCard:
 PlayTrainerCard:
 	; call CheckCantUseItemsThisTurn
 	; jr c, PlayPokemonCard.print_text_and_return_carry
+	ld a, [wOncePerTurnFlags]
+	ld [wOncePerTurnFlagsBackup], a
 	ldh a, [hTempCardIndex_ff98]
 	ldh [hTempCardIndex_ff9f], a
 	call LoadNonPokemonCardEffectCommands
@@ -1015,10 +1025,10 @@ PlayTrainerCard:
 	and PLAYED_SUPPORTER_THIS_TURN
 	jp nz, DrawWideTextBox_WaitForInput_ReturnCarry
 
-	ldtx hl, YouCannotUseSupporterCardsDuringTheFirstTurnText
-	ld a, [wDuelTurns]
-	or a
-	jp z, DrawWideTextBox_WaitForInput_ReturnCarry
+	; ldtx hl, YouCannotUseSupporterCardsDuringTheFirstTurnText
+	; ld a, [wDuelTurns]
+	; or a
+	; jp z, DrawWideTextBox_WaitForInput_ReturnCarry
 
 	ld a, PLAYED_SUPPORTER_THIS_TURN
 	or b
@@ -1044,6 +1054,9 @@ PlayTrainerCard:
 .item_card
 	call CheckCantUseItemsThisTurn
 	jp c, DrawWideTextBox_WaitForInput_ReturnCarry
+	; ld a, [wOncePerTurnFlags]
+	; or PLAYED_ITEM_THIS_TURN
+	; ld [wOncePerTurnFlagsBackup], a
 
 .play_card
 	ld a, EFFECTCMDTYPE_INITIAL_EFFECT_1
@@ -7125,6 +7138,14 @@ OppAction_BeginUseAttack:
 	ld a, 30 ; frames to delay
 	call WaitAFrames_AllowSkipDelay
 
+	ld a, [wDuelTurns]
+	or a
+	jr nz, .not_first_turn
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	jr nz, .attack_failed
+
+.not_first_turn
 	ldh a, [hTempCardIndex_ff9f]
 	ld d, a
 	ldh a, [hTemp_ffa0]
@@ -7148,8 +7169,9 @@ OppAction_BeginUseAttack:
 	call ExchangeRNG
 	call HandleSmokescreenSubstatus
 	ret nc ; return if attack is successful (won the coin toss)
+.attack_failed
 	call ClearNonTurnTemporaryDuelvars
-	; end the turn if the attack fails
+; end the turn if the attack fails
 	ld a, TRUE
 	ld [wOpponentTurnEnded], a
 	ret

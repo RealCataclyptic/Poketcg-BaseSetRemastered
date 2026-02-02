@@ -393,7 +393,7 @@ TextOffsets::
 	textpointer ThereWasNoEffectFromPoisonConfusionText            ; 0x0183
 	textpointer RearrangedCardsInDuelistsDeckText                  ; 0x0184
 	textpointer MayOnlyUseOneSupporterCardText
-	textpointer YouCannotUseSupporterCardsDuringTheFirstTurnText
+	textpointer YouCannotAttackDuringTheFirstTurnIfUsedSupporterText
 	textpointer PrizesCardsText                                    ; 0x0186
 	textpointer ChooseTheNumberOfPrizesText                        ; 0x0187
 	textpointer PleaseWaitDecidingNumberOfPrizesText               ; 0x0188

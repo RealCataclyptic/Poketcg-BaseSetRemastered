@@ -646,7 +646,15 @@ AIPlay_Pluspower:
 ;	a = attack index for the attack that should be used with PlusPower (0 = first attack, 1 = second attack)
 ;	carry = set:  if the AI decided to play PlusPower
 AIDecide_Pluspower_Phase13:
+	ld a, [wDuelTurns]
+	or a
+	jr nz, .not_first_turn
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	ret nz  ; don't attack
+
 ; don't play PlusPower if the AI's Active Pokémon can already KO the Defending Pokémon this turn.
+.not_first_turn
 	farcall CheckIfActiveWillNotBeAbleToKODefending
 	ret nc
 
@@ -729,7 +737,15 @@ AIDecide_Pluspower_Phase13:
 ; output:
 ;	carry = set:  if the AI decided to play PlusPower
 AIDecide_Pluspower_Phase14:
+	ld a, [wDuelTurns]
+	or a
+	jr nz, .not_first_turn
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	ret nz  ; don't attack
+
 ; don't play PlusPower if the selected attack isn't usable.
+.not_first_turn
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
 	farcall CheckIfSelectedAttackIsUnusable

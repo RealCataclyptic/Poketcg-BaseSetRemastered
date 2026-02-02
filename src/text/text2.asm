@@ -3,9 +3,9 @@ MayOnlyUseOneSupporterCardText:
 	line "per turn."
 	done
 
-YouCannotUseSupporterCardsDuringTheFirstTurnText:
-	text "You can't use Supporter cards during"
-	line "the first turn of the game."
+YouCannotAttackDuringTheFirstTurnIfUsedSupporterText:
+	text "You can't attack during the first"
+	line "turn, if you used a Supporter card."
 	done
 
 PrizesCardsText:
