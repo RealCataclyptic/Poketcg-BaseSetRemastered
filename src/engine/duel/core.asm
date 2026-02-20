@@ -7101,10 +7101,6 @@ OppAction_PlayTrainerCard:
 	jp ExchangeRNG
 
 .supporter_card
-	ld a, [wDuelTurns]
-	or a
-	ret z  ; unable to play during the first turn
-
 	ld a, [wOncePerTurnFlags]
 	or PLAYED_SUPPORTER_THIS_TURN
 	ld [wOncePerTurnFlags], a
