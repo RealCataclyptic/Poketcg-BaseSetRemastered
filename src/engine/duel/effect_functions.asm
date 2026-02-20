@@ -907,60 +907,6 @@ CheckBasicEnergyInHand:
     	scf
     	ret
 
-AttachBasicEnergyCardFromHandToPkmn_PowerEffect:
-	ldh a, [hTemp_ffa0]
-	add DUELVARS_ARENA_CARD_FLAGS
-	get_turn_duelist_var
-	set USED_PKMN_POWER_THIS_TURN_F, [hl]
-	ldh a, [hAIPkmnPowerEffectParam]
-	or a
-	;fallthrough
-
-AttachBasicEnergyCardFromHandToPkmnEffect:
-	call CreateHandCardList
-; display the list on screen and have the player select 1 of the cards
-	bank1call InitAndDrawCardListScreenLayout_WithSelectCheckMenu
-	ldtx hl, ChooseABasicEnergyToAttachText
-	ldtx de, ChooseABasicEnergyText
-	bank1call DisplayCardList
-	ldh [hTempList], a
-	ret ; test
-
-
-.check_card
-	ld a, [hl]
-	call LoadCardDataToBuffer2_FromDeckIndex
-	ld a, [wLoadedCard2Type]
-	and TYPE_ENERGY
-	jr z, .next_card ; skip if not an Energy card
-	push bc
-	ld a, [wEnergyCardListFilter]
-	ld b, a
-	ld a, [wLoadedCard2Type]
-	cp b
-	pop bc
-	jr nc, .next_card
-	; write this card's deck index to wDuelTempList
-	ld a, [hl]
-	ld [de], a
-	inc de
-	inc c
-.next_card
-	dec l ; goes through the discard pile list in descending order
-	dec b
-	jr nz, .check_card
-
-.terminate_list
-	ld a, $ff ; list is $ff-terminated
-	ld [de], a ; add terminating byte to wDuelTempList
-	ld a, c
-	or a
-	ret nz ; return no carry if there's at least one card in the list
-	; list is empty, so return carry
-	scf
-	ret
-
-
 Do20xPerDifferentEnergyEffect:
 	rst SwapTurn
 	ld e, PLAY_AREA_ARENA
@@ -1375,6 +1321,15 @@ SleepAndHealEffect:
 	call SleepEffect
 	jp SwapTurn
 	
+
+AttachBasicEnergyCardFromHandToPkmn_PowerEffect:
+	ldh a, [hTemp_ffa0]
+	add DUELVARS_ARENA_CARD_FLAGS
+	get_turn_duelist_var
+	set USED_PKMN_POWER_THIS_TURN_F, [hl]
+	ldh a, [hAIPkmnPowerEffectParam]
+	or a
+	;fallthrough
 
 Attach1BasicEnergyFromHandToPokemonEffect:
 	farcall FindBasicEnergyInHandToAttach
@@ -1872,7 +1827,7 @@ AttachBasicEnergyFromDeck_AttachEffect:
 	jr ShuffleCardsInDeck
 
 AttachBasicEnergyFromHand_AttachEffect:
-	;ldh a, [hTemp_ffa0] ; pretty sure can delete because the checks prevent no card from being selected?
+	;ldh a, [hTemp_ffa0] ; pretty sure can delete because the checks prevent no card from being selected? Just in case, kept
 	;cp -1
 	;jr z, ShuffleCardsInDeck ; shuffle and return if no card was selected
 
