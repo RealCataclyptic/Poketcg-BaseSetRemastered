@@ -196,6 +196,149 @@ ActivePokemon_StatusCheck:
 	ret
 
 
+FullHeal_CheckPlayAreaStatus:
+	ld a, DUELVARS_ARENA_CARD_SUBSTATUS2
+	call GetTurnDuelistVariable
+	or a
+	ret nz  ; substatus found
+	jr CheckIfPlayAreaHasAnyStatus
+
+; select the Pokémon with status to heal
+FullHeal_PlayerSelection:
+	call InitPlayAreaScreenVars
+.read_input
+	bank1call OpenPlayAreaScreenForSelection
+	ret c ; exit is B was pressed
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	ldh [hTemp_ffa0], a
+
+	add DUELVARS_ARENA_CARD_STATUS
+	call GetTurnDuelistVariable
+	or a
+	ret nz  ; Pokémon has status
+
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	or a  ; arena Pokémon?
+	jr nz, .read_input ; not arena, loop back to start
+
+	ld l, DUELVARS_ARENA_CARD_SUBSTATUS2
+	ld a, [hl]
+	or a
+	jr z, .read_input ; no status, loop back to start
+	ret
+
+FullHeal_ClearStatusEffect:
+	ldh a, [hTemp_ffa0]
+	call ClearStatusAndEffectsFromTargetEffect
+	bank1call DrawDuelHUDs
+	ret
+
+
+; Loop over turn holder's Pokemon and return whether any have status conditions.
+; Returns:
+;    a: first status condition found or zero if none found
+;    hl: first Pokémon status variable with status conditions or error text
+;    carry: set if no Pokémon have status conditions
+CheckIfPlayAreaHasAnyStatus:
+	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
+	call GetTurnDuelistVariable
+	or a
+	jr z, .set_carry  ; no Pokémon in play area
+
+	ld b, a  ; loop counter
+	ld l, DUELVARS_ARENA_CARD_STATUS
+.loop_play_area
+	ld a, [hl]
+	or a
+	ret nz  ; found status
+	inc hl
+	dec b
+	jr nz, .loop_play_area
+.set_carry
+	ldtx hl, NotAffectedBySpecialConditionsText
+	scf
+	ret
+
+
+; plays a healing animation for the arena Pokémon
+; preserves: de
+PlayStatusClearAnimation_ArenaPokemon:
+	ld bc, $00
+	ld a, ATK_ANIM_FULL_HEAL
+	jr _PlayStatusClearAnimation
+
+; plays a healing animation for a play area Pokémon
+; input:
+;   [hTempPlayAreaLocation_ff9d]: PLAY_AREA_* offset of card to heal
+; preserves: de
+PlayStatusClearAnimation_PlayAreaPokemon:
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	ld b, a
+	ld c, WEAKNESS
+	xor a
+	; ld a, ATK_ANIM_GLOW_PLAY_AREA
+	; jr _PlayStatusClearAnimation
+	; fallthrough
+
+_PlayStatusClearAnimation:
+	push de
+	bank1call PlayAdhocAnimationOnPlayAreaLocation
+; print Pokemon card name
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	add DUELVARS_ARENA_CARD
+	call LoadCardNameToTxRam2
+	ldtx hl, IsCuredOfStatusAndEffectsText
+	call DrawWideTextBox_WaitForInput
+	pop de
+	ret
+
+
+; Removes status conditions from turn holder's target.
+; Input:
+;    a: [0, 5] (PLAY_AREA_* offsets)
+; Affects hl.
+ClearStatusAndEffectsFromTargetEffect:
+	ldh [hTempPlayAreaLocation_ff9d], a
+	call ClearStatusFromTarget
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	or a
+	jr nz, PlayStatusClearAnimation_PlayAreaPokemon
+; arena Pokémon additionally clears all substatus effects from attacks
+	; call ClearAllArenaEffectsAndSubstatus
+	call ClearSubstatus2FromArenaPokemon
+	jr PlayStatusClearAnimation_ArenaPokemon
+
+; Removes status conditions from turn holder's target.
+; Input:
+;    a: [0, 5] (PLAY_AREA_* offsets)
+; Affects hl.
+ClearStatusFromTarget_NoAnim:
+	push af
+	call ClearStatusFromTarget
+	pop af
+	or a
+	ret nz
+	; arena Pokémon additionally clears all substatus effects from attacks
+	; call ClearAllArenaEffectsAndSubstatus
+	jr ClearSubstatus2FromArenaPokemon
+
+
+; clears SUBSTATUS2 effects (harmful) from arena Pokémon
+ClearSubstatus2FromArenaPokemon:
+	ld a, DUELVARS_ARENA_CARD_SUBSTATUS2
+	call GetTurnDuelistVariable
+	xor a
+	ld [hl], a
+	; ld l, DUELVARS_ARENA_CARD_CHANGED_WEAKNESS
+	; ld [hl], a
+	; ld l, DUELVARS_ARENA_CARD_CHANGED_RESISTANCE
+	; ld [hl], a
+	; ld l, DUELVARS_ARENA_CARD_CHANGED_TYPE
+	; ld [hl], a
+	ret
+
+
+
 ; checks if any of the turn holder's in-play Pokemon have any Energy attached to them
 ; preserves bc and de
 ; output:

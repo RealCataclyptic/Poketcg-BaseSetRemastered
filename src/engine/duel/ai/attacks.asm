@@ -33,7 +33,15 @@ AIProcessAndTryToUseAttack:
 ;	[wAIExecuteProcessedAttack] == 0:  try to execute the chosen attack
 ;	[wAIExecuteProcessedAttack] != 0:  return after choosing an attack
 AIProcessAttacks:
+	ld a, [wDuelTurns]
+	or a
+	jr nz, .not_first_turn
+	ld a, [wOncePerTurnFlags]
+	and PLAYED_SUPPORTER_THIS_TURN
+	jr nz, .dont_attack
+
 ; if AI used Pluspower, load its attack index.
+.not_first_turn
 	ld a, [wPreviousAIFlags]
 	and AI_FLAG_USED_PLUSPOWER
 	jr z, .no_pluspower

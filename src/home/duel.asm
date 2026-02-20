@@ -1042,6 +1042,72 @@ ClearAllStatusConditions::
 	ret
 
 
+; Does not reset Headache, since it targets a player rather than a Pokémon.
+; preserves: bc, de
+ClearAllArenaStatusAndEffects::
+	xor a  ; PLAY_AREA_ARENA
+	call ClearStatusFromTarget
+	jr ClearAllArenaEffectsAndSubstatus
+
+
+; Clears the status, all substatuses, and temporary duelvars
+; of the turn holder's Pokémon at location a.
+; Does not reset Headache, since it targets a player rather than a Pokémon.
+; input:
+;   a: PLAY_AREA_* offset of the target Pokémon
+; preserves: bc, de
+ClearAllStatusAndEffectsFromTarget::
+	push af
+	call ClearStatusFromTarget
+	pop af
+	or a
+	ret nz
+	; fallthrough
+
+; preserves: hl, bc, de
+ClearAllArenaEffectsAndSubstatus::
+	push hl
+	ldh a, [hWhoseTurn]
+	ld h, a
+	xor a
+	ld l, DUELVARS_ARENA_CARD_SUBSTATUS1
+	ld [hl], a
+	ld l, DUELVARS_ARENA_CARD_SUBSTATUS2
+	ld [hl], a
+	ld l, DUELVARS_ARENA_CARD_CHANGED_WEAKNESS
+	ld [hl], a
+	ld l, DUELVARS_ARENA_CARD_CHANGED_RESISTANCE
+	ld [hl], a
+	ld l, DUELVARS_ARENA_CARD_SUBSTATUS3
+	res SUBSTATUS3_THIS_TURN_DOUBLE_DAMAGE_F, [hl]
+	; res SUBSTATUS3_THIS_TURN_CANNOT_ATTACK_F, [hl]
+	ld l, DUELVARS_ARENA_CARD_DISABLED_ATTACK_INDEX
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	; ld [hli], a
+	; ld [hli], a
+	ld [hl], a
+	pop hl
+	ret
+
+
+; Removes status conditions from the turn holder's Pokémon.
+; input:
+;    a: PLAY_AREA_* offset of the target Pokémon
+; preserves: bc, de
+ClearStatusFromTarget::
+	add DUELVARS_ARENA_CARD_STATUS
+	ld l, a
+	ldh a, [hWhoseTurn]
+	ld h, a
+	xor a
+	ld [hl], a ; NO_STATUS
+	ret
+
+
 ; Removes a Pokémon from the hand and places it in the Arena or else
 ; the first available Bench slot. If the Pokémon is placed in the Arena,
 ; then the status conditions affecting the player's Active Pokémon are cleared.
