@@ -542,3 +542,8 @@ ChooseAnyCardsToPutBackText:
 	text "Choose any number of cards to"
 	line "put on the bottom of your deck."
 	done
+
+ChooseNonSupporterCardFromDeckText:
+	text "Choose a non-Supporter card from"
+	line "your deck to add to your hand."
+	done

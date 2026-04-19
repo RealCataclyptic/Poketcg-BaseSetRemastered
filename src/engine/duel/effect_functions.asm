@@ -1551,6 +1551,8 @@ DrawUntil3Effect:
 	or a
 	ret
 
+
+
 ;Ultravision_PlayerSelectEffect:
   	;ld b, 2
   	;call CreateDeckCardListTopNCards
@@ -2006,7 +2008,7 @@ AttachBasicEnergyFromHand_AttachEffect:
 ; output:
 ;	[hTemp_ffa0] = deck index of a Trainer card in the Player's deck (0-59, -1 if none)
 TrainerSearch_PlayerSelection:
-	farcall FindTrainer
+	farcall FindNonSupporter
 	ret
 
 
@@ -2014,7 +2016,7 @@ TrainerSearch_PlayerSelection:
 ; output:
 ;	[hTemp_ffa0] = deck index of a Trainer card in the AI's deck (0-59, -1 if none)
 TrainerSearch_AISelection:
-	farcall AIFindTrainer
+	farcall AIFindNonSupporter
 	ret
 
 
@@ -9043,8 +9045,7 @@ ItemFinder_AddToHandEffect:
 	ldh a, [hTempList] 		; first return the selected card to the deck
 	call RemoveCardFromHand
 	call ReturnCardToBottomOfDeck 
-
-	farcall FindTrainer
+	farcall FindNonSupporter
 	call AddCardFromDeckToHandEffect
 	ret
 

@@ -3064,3 +3064,4 @@ TextOffsets::
 	textpointer Bottom3CardsText
 	textpointer Choose3BasicEnergyCardsFromDiscardPileText
 	textpointer ChooseAnyCardsToPutBackText
+	textpointer ChooseNonSupporterCardFromDeckText

@@ -430,7 +430,7 @@ IsClairvoyanceActive::
 	call CheckIfPkmnPowersAreCurrentlyDisabled
 	ccf
 	ret nc ; return no carry if Pokémon Powers can't be used
-	ld a, GASTLY_LV8
+	ld a, MACHOP
 ;	fallthrough
 
 ; checks the turn holder's play area for a specific Pokemon, but the Active Pokemon

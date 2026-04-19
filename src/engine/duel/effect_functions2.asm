@@ -425,9 +425,9 @@ AIFindBasicEnergyInHandToAttach:
 ; prompts the Player to choose a Trainer card from their deck
 ; output:
 ;	[hTemp_ffa0] = deck index of a Trainer card in the turn holder's deck (0-59, -1 if none)
-FindTrainer:
+FindNonSupporter: ; CAN ONLY FIND ITEMS NOW
 	call CreateDeckCardList
-	ldtx hl, ChooseTrainerCardFromDeckText
+	ldtx hl, ChooseNonSupporterCardFromDeckText ; non supporter
 	ldtx bc, TrainerCardText
 	lb de, SEARCHEFFECT_TRAINER, 0
 	call LookForCardsInDeck
@@ -463,7 +463,7 @@ FindTrainer:
 	jr z, .exit
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	cp TYPE_TRAINER_ITEM  ; OATS support trainer subtypes
 	jr c, .next_card
 	; found a Trainer card, so play SFX and return to selection process
 .play_sfx
@@ -481,7 +481,7 @@ FindTrainer:
 ; finds the first Trainer card in the deck
 ; output:
 ;	[hTemp_ffa0] = deck index of a Trainer card in the turn holder's deck (0-59, -1 if none)
-AIFindTrainer:
+AIFindNonSupporter:
 	call CreateDeckCardList
 	ld hl, wDuelTempList
 .loop_deck
@@ -491,7 +491,7 @@ AIFindTrainer:
 	ret z ; reached the end of the list
 	call GetCardIDFromDeckIndex
 	call GetCardType
-	cp TYPE_TRAINER  ; OATS support trainer subtypes
+	cp TYPE_TRAINER_ITEM  ; OATS support trainer subtypes
 	jr c, .loop_deck ; card isn't a Trainer card
 	ret ; Trainer card found
 
