@@ -2935,7 +2935,7 @@ TextOffsets::
 	textpointer MrFujiDescription                                  ; 0x0b6f
 	textpointer LassName                                           ; 0x0b70
 	textpointer LassDescription                                    ; 0x0b71
-	textpointer ImakuniName                                        ; 0x0b72
+	textpointer GymBadgeName                                        ; 0x0b72
 	textpointer ImakuniDescription                                 ; 0x0b73
 	textpointer PokemonTraderName                                  ; 0x0b74
 	textpointer PokemonTraderDescription                           ; 0x0b75
@@ -3065,3 +3065,4 @@ TextOffsets::
 	textpointer Choose3BasicEnergyCardsFromDiscardPileText
 	textpointer ChooseAnyCardsToPutBackText
 	textpointer ChooseNonSupporterCardFromDeckText
+	textpointer Choose1BasicEnergyCardFromDiscardPileText

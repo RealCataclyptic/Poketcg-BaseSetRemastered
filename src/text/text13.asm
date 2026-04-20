@@ -12,11 +12,8 @@ PokemonCenterName:
 	done
 
 PokemonCenterDescription:
-	text "   Remove all damage counters from"
-	line "   all of your own Pokémon with"
-	line "   any damage counters on them,"
-	line "   then discard all Energy cards"
-	line "   attached to those Pokémon."
+	text "   Heal 10 damage from"
+	line "   all of your own Pokémon."
 	done
 
 PokeBallName:
@@ -183,12 +180,8 @@ ReviveName:
 	done
 
 ReviveDescription:
-	text "Put 1 Basic Pokémon card from your"
+	text "Put a Basic Pokémon card from your"
 	line "discard pile onto your Bench."
-	line "Put damage counters on that Pokémon"
-	line "equal to half its HP (rounded down"
-	line "to the nearest 10). (You can't play"
-	line "Revive if your Bench is full.)"
 	done
 
 MaintenanceName:
@@ -546,4 +539,9 @@ ChooseAnyCardsToPutBackText:
 ChooseNonSupporterCardFromDeckText:
 	text "Choose a non-Supporter card from"
 	line "your deck to add to your hand."
+	done
+
+Choose1BasicEnergyCardFromDiscardPileText:
+	text "Choose 1 Basic Energy card"
+	line "from the discard pile."
 	done

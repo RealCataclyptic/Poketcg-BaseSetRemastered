@@ -1261,17 +1261,16 @@ LassDescription:
 	line "have 5 cards in thier hand."
 	done
 
-ImakuniName:
-	text "Imakuni?"
+GymBadgeName:
+	text "Gym Badge"
 	done
 
 ImakuniDescription:
-	text "Your Active Pokémon is now Confused."
-	line "Imakuni wants you to play him as a"
-	line "Basic Pokémon, but you can't."
-	line "A mysterious creature not listed in"
-	line "the Pokédex. He asks kids around the"
-	line "world,”Who is cuter-Pikachu or me?”"
+	text "Choose 1 basic energy card in your"
+	line "discard pile and 1 of your benched"
+	line "Pokémon that does not share a type"
+	line "with it. Attach that energy to that"
+	line "Pokémon."
 	done
 
 PokemonTraderName:

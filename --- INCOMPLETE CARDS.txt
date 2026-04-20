@@ -1,7 +1,7 @@
 List of cards that are incomplete and need to be edited.
 
 Current Set: Yaginku's Base Set
-Currently on: Item finder
+Currently on: Pokémon Flute (Note to self, need new substatus for this card)
 
 CHECK ALL RARITIES AT THE END SOME ARENT ACCURATE TO YAGINKUS
 
@@ -86,6 +86,17 @@ LASS
 
 ITEMFINDER
 --- Nearly works, but searches both items and supporters. Some sort of glitch in the item/supporter card distinction maybe. 
+
+FULL HEAL
+--- Cannot do because it first requires an overhaul of the status conditions. 
+
+POKEMON CENTER
+--- Works but I'd like to put an anim on it, which I can't for some reason.
+
+GYM BADGE
+--- Correctly works, except it attaches any basic energy to any benched pokémon. No idea how to work the logic for attaching to a pokémon that doesn't share the color with it. Should probably give the player the option to press B and return the game state to before the gym badge was played just in case they made a mistake. 
+
+
 
 =====================================================================================================================================================
 

@@ -9720,10 +9720,10 @@ LassCard: ; IN
 	tx LassDescription ; description
 	dw NONE ; description (cont)
 
-ImakuniCard: ; OUT
-	db TYPE_TRAINER_SUPPORTER ; type
+ImakuniCard: ; =Gym Badge
+	db TYPE_TRAINER_ITEM ; type
 	gfx ImakuniCardGfx ; gfx
-	tx ImakuniName ; name
+	tx GymBadgeName ; name
 	db PROMOSTAR ; rarity
 	db PROMOTIONAL | PRO ; sets
 	db IMAKUNI_CARD

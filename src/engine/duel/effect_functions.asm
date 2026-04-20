@@ -1551,6 +1551,48 @@ DrawUntil3Effect:
 	or a
 	ret
 
+GymBadgeMegaCheck:
+	call BenchedPokemonCheck
+	ret c
+	jp EnergyRetrievalNewCheck
+
+GymBadge_SelectEffect:
+	xor a
+    	ldh [hCurSelectionItem], a
+    	ldtx hl, Choose1BasicEnergyCardFromDiscardPileText
+    	call DrawWideTextBox_WaitForInput
+    	call CreateEnergyCardListFromDiscardPile_OnlyBasic
+    	
+.select_card
+; draws the discard pile screen and textbox,
+; and handles Player input
+    	bank1call InitAndDrawCardListScreenLayout
+    	ldtx hl, PleaseSelectCardText
+    	ldtx de, YourDiscardPileText
+    	call SetCardListHeaderText
+    	bank1call DisplayCardList
+    	jr nc, .selected
+
+.selected
+    	call GetNextPositionInTempList
+    	ldh [hTemp_ffa0], a
+       	call RemoveCardFromDiscardPile
+    	or a
+    	ret
+
+GymBadge_AttachEffect:
+
+
+; now to choose an in-play Pokemon to attach it to
+	call EmptyScreen
+	ldtx hl, ChoosePokemonToAttachEnergyCardText
+	call DrawWideTextBox_WaitForInput
+	call InitPlayAreaScreenVars
+.loop_inputPKMN
+	bank1call InitVarsAndOpenPlayAreaScreenForSelection_OnlyBench
+	jr c, .loop_inputPKMN ; must choose, B button can't be used to exit
+	ldh [hTempPlayAreaLocation_ffa1], a
+	jp AttachBasicEnergyFromHand_AttachEffect
 
 
 ;Ultravision_PlayerSelectEffect:
@@ -9578,49 +9620,42 @@ PokemonCenter_HealDiscardEnergyEffect:
 	get_turn_duelist_var
 	ld d, a
 	ld e, PLAY_AREA_ARENA
-
-; go through every Pokemon in the play area to look for damage
 .loop_play_area
-; check its damage
+	push de
 	ld a, e
 	ldh [hTempPlayAreaLocation_ff9d], a
 	call GetCardDamageAndMaxHP
 	or a
-	jr z, .next_pkmn ; skip the Pokemon if it doesn't have any damage
-
-; heal all of its damage
-	push de
-	call HealPlayAreaCardHP
-
-; loop all cards in the deck and discard all Energy cards
-; that are attached to this Play Area location's Pokemon.
-	ldh a, [hTempPlayAreaLocation_ff9d]
-	or CARD_LOCATION_PLAY_AREA
-	ld e, a
-	ld l, DUELVARS_CARD_LOCATIONS + DECK_SIZE
-.loop_deck
-	dec l ; go through deck indices in reverse order
-	ld a, [hl]
+	jr z, .next_pkmn ; skip if no damage
+	ld de, 10
 	cp e
-	jr nz, .next_card_deck ; skip if not attached to any card
-	ld a, l
-	call GetCardTypeFromDeckIndex_SaveDE
-	and TYPE_ENERGY
-	jr z, .next_card_deck ; skip if not an Energy
-	ld a, l
-	call PutCardInDiscardPile
-.next_card_deck
-	ld a, l
-	or a
-	jr nz, .loop_deck
+	jr nc, .heal
+	ld e, a
 
-	pop de
+.heal
+; add HP to this card
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	add DUELVARS_ARENA_CARD_HP
+	get_turn_duelist_var
+	add e
+	ld [hl], a
+
+; play heal animation ; doesn't work for some reason
+	ldh a, [hWhoseTurn]
+	ld h, a
+	call PlayAttackAnimation
+	call WaitAttackAnimation
 .next_pkmn
+	pop de
 	inc e
 	dec d
 	jr nz, .loop_play_area
 	ret
 
+
+; heal all play area damage code
+;	push de
+;	call HealPlayAreaCardHP
 
 ; output:
 ;	hl = ID for notification text
@@ -9991,12 +10026,7 @@ Revive_PlaceInPlayAreaEffect:
 	call MoveCardFromDiscardPileToHand
 	call PutHandPokemonCardInPlayArea
 
-; set HP to half, rounded up
-	add DUELVARS_ARENA_CARD_HP
-	get_turn_duelist_var
-	call HalfARoundedUp
-	ld [hl], a
-	call IsPlayerTurn
+;	call IsPlayerTurn
 	ret c ; return if it's the Player's turn
 
 ; otherwise, show the selected Pokemon on the screen

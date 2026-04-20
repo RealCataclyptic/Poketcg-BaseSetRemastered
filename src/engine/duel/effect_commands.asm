@@ -1181,7 +1181,9 @@ GustOfWindEffectCommands:
 	db  $00
 
 ImakuniEffectCommands:
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ImakuniEffect
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_1, GymBadgeMegaCheck
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, GymBadge_SelectEffect
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, GymBadge_AttachEffect
 	db  $00
 
 ImposterProfessorOakEffectCommands:

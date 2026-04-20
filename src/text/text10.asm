@@ -1200,10 +1200,11 @@ WithdrawName:
 	done
 
 SquirtlesWithdrawDescription:
-	text "Flip a coin. If heads, Squirtle takes"
-	line "30 less damage from attacks during"
-	line "your opponent's next turn. If tails,"
-	line "it takes 10 less damage instead."
+	text "Flip a coin. If heads, Squirtle"
+	line "takes 30 less damage from attacks"
+	line "during your opponent's next turn"
+	line "If tails, it takes 10 less damage"
+	line "instead."
 	done
 
 TinyTurtleName:
