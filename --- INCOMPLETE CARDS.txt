@@ -30,11 +30,11 @@ ARCANINE'S SWIFT
 
 
 WARTORTLE'S RAIN DANCE
---- Very nearly done. There is some sort of glitch where you can exit the pokepower menu with B and it will mark the power as completed. Also, using the power lets you select non energy cards, which will do nothing, and then cause you to lose that power for the turn due to the once per turn clause. 
+--- Fixed? Need a double check.
 
 
 ELECTRODE'S BUZZAP
---- This was too hard to do for the actual developers so I'm not even going to attempt it. 
+--- This was too hard to do for the actual developers so I'm not even going to attempt it. Oats says he can do it, let him do it.
 
 
 MAGNEMITE LV12 AND MAGNETONLV28'S SELF DESTRUCT
@@ -42,7 +42,7 @@ MAGNEMITE LV12 AND MAGNETONLV28'S SELF DESTRUCT
 
 
 ZAPDOS LV64'S THUNDER
---- It attaches a L energy from discard to itself. I made a code that attaches 1 of any energy from discard to itself, don't know how to make it lightning specific. Also, don't know how to make the attack go through if no L in discard. 
+--- It attaches a L energy from discard to itself. I made a code that attaches 1 of any energy from discard to itself, don't know how to make it lightning specific (Maybe get card type, cp LIGHTNING?). Also, don't know how to make the attack go through if no L in discard. 
 
 
 PIKACHU LV12'S BATTERY
@@ -52,13 +52,13 @@ RAICHU LV40'S AGILITY
 --- Requires the mod for tracking if a pokémon became active this turn in order to function.
 
 MACHOKE'S KARATE CHOP
---- Somehow requires the ability to add 20 more damage but only to self. Maybe I do this on my own with a flag?
+--- Somehow requires the ability to add 20 more damage but only to self. Probably I do this on my own with a flag for both Machoke's attacks.
 
 DIGLETT AND DUGTRIO'S DIG
 --- I have no idea how to code this effect. How do you do damage on the beginning of the turn?
 
 ONIX'S HARDEN
---- This is another attack that reduces damage to a pokémon dependent on a variable. I don't know how that operates.
+--- This is another attack that reduces damage to a pokémon dependent on a variable. I don't know how that operates (See Stiffen)
 
 KADABRA'S DAMAGE SWAP
 --- Requires a limit of 2 damage counters to be moved and can only be used once- no idea how to code that in the menus. 
@@ -67,34 +67,34 @@ HAUNTER LV 22'S DREAM EATER POWER
 --- Requires the implementation of permanent status effects before this can be done.
 
 CLEFAIRY'S LUCKY FLIP POKEMON POWER
---- Yeah I'm not even going to try with this one. IDK even how to do it.
+--- Idea: on every coinflip end function, check for clefairy and check for tails, if so, heal 10 from a thing if damaged on the field. 
 
 PIDGEOTTO'S ENERGY MAIL
---- No idea how to code this ability
+--- No idea how to code this ability. Maybe an on ko effect while checking for pidgeot, before the energy is sent to discard?
 
 PORYGON'S CONVERSION STRTIKE
---- No idea how to make it last until the end of your next turn.
+--- No idea how to make it last until the end of your next turn. Substatus maybe?
 
 IMPOSTER PROFESSOR OAK
---- Nearly works. Only thing left is to somehow let the player order the cards in their hand to put on the bottom of the deck. Maybe some sort of Prophecy shenanigans can do it? 
+--- Half works. Only thing left is to somehow let the player order the cards in their hand to put on the bottom of the deck. AI is a mess, the player picks the cards from the AI's hand right now, need it to be random somehow.
 
 BUG CATCHER
 --- That's way too many selections for me, I'm not even going to try X/. EDIT: Yaginku says you can put more damage counters on a pokémon even if its HP reaches the negatives. How to program negative HP? For the damage, probably have to use Alakazam's damage swap combined with Slowbro's exclusivity clause and then Gengars Curse to ignore HP values.  
 
 LASS
---- Nearly works. The AI will never discard cards, but all other functions work. 
+--- Nearly works. The AI will never discard cards because it doesn't know how, but all other functions work. 
 
 ITEMFINDER
---- Nearly works, but searches both items and supporters. Some sort of glitch in the item/supporter card distinction maybe. 
+--- Nearly works, but searches both items and supporters. Some sort of glitch in the item/supporter card distinction maybe. EDIT Did Oats fix this? Test.
 
 FULL HEAL
 --- Cannot do because it first requires an overhaul of the status conditions. 
 
 POKEMON CENTER
---- Works but I'd like to put an anim on it, which I can't for some reason.
+--- Works as intended, but I'd like to put an anim on it, which I can't for some reason.
 
 GYM BADGE
---- Correctly works, except it attaches any basic energy to any benched pokémon. No idea how to work the logic for attaching to a pokémon that doesn't share the color with it. Should probably give the player the option to press B and return the game state to before the gym badge was played just in case they made a mistake. 
+--- Correctly works, except it attaches any basic energy to any benched pokémon. Need to store energy type as a variable somehow and compare to a bench type (that's in card data at least). Should probably give the player the option to press B and return the game state to before the gym badge was played just in case they made a mistake. 
 
 
 
