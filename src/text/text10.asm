@@ -1247,18 +1247,15 @@ RainDanceName:
 	done
 
 RainDanceDescription:
-	text "As often as you like during your"
-	line "turn (before your attack), you may"
-	line "attach 1 <WATER> Energy card to 1 of"
-	line "your <WATER> Pokémon. (This doesn't use"
-	line "up your 1 Energy card attachment"
-	line "for the turn.)"
+	text "Once during your turn (before you"
+	line "attack), if you have fewer total"
+	line "energy cards in play than your"
+	line "opponent, you may attach 1 basic"
+	line "energy card from your hand to 1"
+	line "of your benched Pokémon."
 	done
 
 RainDanceDescriptionCont:
-	text "This power can't be used if"
-	line "Blastoise is Asleep, Confused, or"
-	line "Paralyzed."
 	done
 
 HydroPumpName:

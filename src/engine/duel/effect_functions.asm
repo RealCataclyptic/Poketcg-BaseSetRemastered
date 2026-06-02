@@ -988,11 +988,12 @@ AI_Flip20xPerEnergyTails10xEffect: ; DOES THIS EVEN WORK?
 .nocap
 	ret
 
+; Returns total energy in a
 CountAllEnergyInTurnHolderPlayArea:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	get_turn_duelist_var
-	ld d, a  ; store the number of Pokémon in the turn holder's play area in the d register (this will let us know when we are done counting)
-	ld e, PLAY_AREA_ARENA  ; store the first play area location to check in the e register
+	ld d, a  		; store the number of Pokémon in the turn holder's play area in the d register (this will let us know when we are done counting)
+	ld e, PLAY_AREA_ARENA   ; store the first play area location to check in the e register
 .loop_play_area
 	call GetPlayAreaCardAttachedEnergies
 	; a = [wTotalAttachedEnergies], or the total amount of Energy attached to the Pokémon in the location from e
@@ -1001,6 +1002,7 @@ CountAllEnergyInTurnHolderPlayArea:
 	inc e                  ; move on to the next play area location
 	dec d                  ; decrease the number of Pokémon that we need to check by 1
 	jr nz, .loop_play_area ; only exit the loop if d = 0 (i.e. there are no more Pokémon to check), otherwise start over with the next Pokémon
+	ld a, c
 	ret
 
 CheckBasicEnergyInHandAndBenchedPKMNEffect:
@@ -1015,20 +1017,20 @@ CheckBasicEnergyInHandPower:
 	call OncePerTurnPokePowerCheck 	;checks both if used already or if toxic gas is active
 	ret c ; can't use due to status or Toxic Gas
 
-	ld c, 0 	; this function counts if player has less total energy in play than opp.
-	rst SwapTurn
-	call CountAllEnergyInTurnHolderPlayArea 	;opp energies
-	ld b, a
-	rst SwapTurn
-
+; this function counts if player has less total energy in play than opp.
+	ld c, 0 	
+	call CountAllEnergyInTurnHolderPlayArea 	; users energies in a
+	ld b, a						; store in b temporarily
 	ld c, 0
-	call CountAllEnergyInTurnHolderPlayArea		; users energies
-	sub b
-
-	ldtx hl, YouDontHaveFewerEnergyText
-	cp 1
+	rst SwapTurn
+	call CountAllEnergyInTurnHolderPlayArea		; opps energies in a
+	rst SwapTurn
+	sub b						; subtracts your energies
+	cp 1						; is it 1 or more?
+	ldtx hl, YouDontHaveFewerEnergyText		; if no, display message and return
 	ret c
 	; otherwise fallthrough
+
 
 
 CheckBasicEnergyInHand:
@@ -1474,13 +1476,14 @@ AttachBasicEnergyCardFromHandToPkmn_PowerEffect:
 	or a
 	;fallthrough
 
+Attach1BasicEnergyFromHandToBenchPokemonEffect:
+	farcall FindBasicEnergyInHandToAttach_BenchOnly
+	ret
+
 Attach1BasicEnergyFromHandToPokemonEffect:
 	farcall FindBasicEnergyInHandToAttach
 	ret
 
-Attach1BasicEnergyFromHandToBenchPokemonEffect:
-	farcall FindBasicEnergyInHandToAttach_BenchOnly
-	ret
 
 EnergyRainbow_DamageBoostEffect:
   	xor a  ; PLAY_AREA_ARENA
