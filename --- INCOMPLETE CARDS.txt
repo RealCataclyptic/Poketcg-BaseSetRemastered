@@ -29,10 +29,6 @@ ARCANINE'S SWIFT
 --- Don't know how to make it unaffected by all effects in an easy way. Can brute force it if need be. 
 
 
-WARTORTLE'S RAIN DANCE
---- Fixed? Need a double check.
-
-
 ELECTRODE'S BUZZAP
 --- This was too hard to do for the actual developers so I'm not even going to attempt it. Oats says he can do it, let him do it.
 

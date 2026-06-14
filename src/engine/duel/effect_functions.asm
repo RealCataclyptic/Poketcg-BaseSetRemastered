@@ -1025,12 +1025,12 @@ CheckBasicEnergyInHandPower:
 	rst SwapTurn
 	call CountAllEnergyInTurnHolderPlayArea		; opps energies in a
 	rst SwapTurn
-	sub b						; subtracts your energies
-	cp 1						; is it 1 or more?
 	ldtx hl, YouDontHaveFewerEnergyText		; if no, display message and return
+	sub b	
+	ret c					        ; subtracts your energies
+	cp 1						; is it 1 or more?
 	ret c
 	; otherwise fallthrough
-
 
 
 CheckBasicEnergyInHand:
