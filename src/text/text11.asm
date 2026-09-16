@@ -394,13 +394,10 @@ GrowlName:
 	done
 
 GrowlDescription:
-	text "If the Defending Pokémon attacks"
-	line "during your opponent's next turn,"
-	line "any damage done by the attack is"
-	line "reduced by 10 (after applying"
-	line "Weakness and Resistance). "
-	line "(Benching or evolving either Pokémon"
-	line "ends this effect.)"
+	text "The Defending Pokémon's attacks"
+	line "do 10 less damage during your"
+	line "opponent's next turn (after"
+	line "applying Weakness and Resistance)."
 	done
 
 ThundershockName:

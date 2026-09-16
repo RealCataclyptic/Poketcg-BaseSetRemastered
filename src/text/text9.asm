@@ -1242,7 +1242,7 @@ LeechSeedName:
 	text "Leech Seed"
 	done
 
-BulbasaursLeechSeedDescription:
+LeechSeedDescription:
 	text "If this attack does damage, heal 10"
 	line "damage from this Pokémon."
 	done

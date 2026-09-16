@@ -2065,7 +2065,7 @@ TextOffsets::
 	textpointer DoubleColorlessEnergyDescription                   ; 0x0809
 	textpointer BulbasaurName                                      ; 0x080a
 	textpointer LeechSeedName                                      ; 0x080b
-	textpointer BulbasaursLeechSeedDescription                     ; 0x080c
+	textpointer LeechSeedDescription
 	textpointer SeedName                                           ; 0x080d
 	textpointer BulbasaurDescription                               ; 0x080e
 	textpointer IvysaurName                                        ; 0x080f
