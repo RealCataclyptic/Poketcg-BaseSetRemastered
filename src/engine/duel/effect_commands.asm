@@ -48,8 +48,8 @@ PoisonAndSleepEffectCommands:
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, PSNandSLPEffect
 	db $00
 
-ReduceByX0EffectCommands:
-	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, ReduceByX0Effect
+StiffenEffectCommands:
+	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, StiffenEffect
 	db  $00
 
 IncreaseRCby1EffectCommands: ; does ai understand this!?

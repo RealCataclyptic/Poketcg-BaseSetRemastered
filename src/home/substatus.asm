@@ -35,43 +35,22 @@ HandleDamageReduction::
 	call GetNonTurnDuelistVariable
 	or a
 	ret z
-	cp SUBSTATUS2_REDUCE_BY_30
-	jr z, ReduceDamageBy30
-	cp SUBSTATUS2_REDUCE_BY_20
-	jr z, ReduceDamageBy20
+
 	cp SUBSTATUS2_REDUCE_BY_10
-	jr z, ReduceDamageBy10
-	cp SUBSTATUS2_REDUCE_BY_X0
-	ret nz
-;	fallthrough
+	ret c
+	cp SUBSTATUS2_REDUCE_BY_250 + 1
+	ret nc
+; convert substatus to a number to reduce the damage by
+	sub SUBSTATUS2_REDUCE_BY_10 - 1
+	ld l, a
+	ld h, -10
+	call HtimesL
+	; jp ReduceDamagebyX0
+	; fallthrough
 
+; input:
+;   hl = how much to reduce the damage by
 ReduceDamagebyX0::
-	ld hl, hTemp_ffa0
-	add hl, de
-	ld e, l
-	ld d, h
-	ret
-
-; output:
-;	de -= 10
-ReduceDamageBy10::
-	ld hl, -10
-	add hl, de
-	ld e, l
-	ld d, h
-	ret
-
-; output:
-;	de -= 20
-ReduceDamageBy20::
-	ld hl, -20
-	add hl, de
-	ld e, l
-	ld d, h
-	ret
-
-ReduceDamageBy30::
-	ld hl, -30
 	add hl, de
 	ld e, l
 	ld d, h
@@ -123,14 +102,21 @@ HandleDamageReductionExceptSubstatus2::
 
 	cp SUBSTATUS1_NO_DAMAGE
 	jr z, PreventAllDamage
-	cp SUBSTATUS1_REDUCE_BY_10
-	jr z, ReduceDamageBy10
-	cp SUBSTATUS1_REDUCE_BY_20
-	jr z, ReduceDamageBy20
 	cp SUBSTATUS1_HARDEN
 	jr z, PreventAllDamage_IfLessThan40
 	cp SUBSTATUS1_HALVE_DAMAGE
 	jr z, HalveDamage_RoundedDown
+
+	cp SUBSTATUS1_REDUCE_BY_10
+	jr c, .not_affected_by_substatus1
+	cp SUBSTATUS1_REDUCE_BY_250 + 1
+	jr nc, .not_affected_by_substatus1
+; convert substatus to a number to reduce the damage by
+	sub SUBSTATUS1_REDUCE_BY_10 - 1
+	ld l, a
+	ld h, -10
+	call HtimesL
+	jr ReduceDamagebyX0
 
 .not_affected_by_substatus1
 	call CheckIsIncapableOfUsingPkmnPower_ArenaCard

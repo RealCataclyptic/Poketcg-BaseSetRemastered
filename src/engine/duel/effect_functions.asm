@@ -744,42 +744,47 @@ PSNandSLPEffect:
 	call PoisonEffect
 	jp SleepEffect
 
-ReduceByX0Effect:
-	; flips coins until a tails appears and sets attack damage to 10 times the number of heads
+
+; flips coins until tails appears twice
+; and sets damage reduction to 10 times the number of heads
 ; output:
 ;	[hTemp_ffa0] = number of flipped heads
+StifffenEffect:
 	xor a
 	ldh [hTemp_ffa0], a
 .loop_coin_toss
 	ldtx de, FlipUntil2TailsText
 	xor a
 	call TossCoinATimes
-	jr nc, .tails1
-	inc [hl] ; increase heads count
+	jr nc, .tails
+; heads
+	ldh a, [hTemp_ffa0]
+	inc a  ; increase heads count
+	ldh [hTemp_ffa0], a
+	and $1f
+	cp 25  ; hard cap on 250 damage
+	jr nc, .done
 	jr .loop_coin_toss
 
-.tails1
-.loop_coin_toss2
-	ldtx de, FlipUntil2TailsText
-	xor a
-	call TossCoinATimes
-	jr nc, .tails2
-	ld hl, hTemp_ffa0
-	inc [hl] ; increase heads count
-	jr .loop_coin_toss2
-.tails2
-; store result
+; uses the highest bit to track whether the first tails was seen
+.tails
 	ldh a, [hTemp_ffa0]
-	ld l, a
-	ld h, -10
-	call HtimesL
-	ld de, wDamage
-	ld a, l
-	ld [de], a
-	inc de
-	ld a, h
-	ld [de], a
-	ret
+	bit 7, a
+	jr nz, .done
+	set 7, a
+	ldh [hTemp_ffa0], a
+	jr .loop_coin_toss
+
+.cap
+	ld a, 25  ; hard cap on 250 damage
+	; ldh [hTemp_ffa0], a
+.done
+; store result
+	and $1f
+	ret z
+	add SUBSTATUS1_REDUCE_BY_10 - 1
+	jp ApplySubstatus1ToDefendingCard
+
 
 IncreaseRCBy1Effect:
 	ld a, SUBSTATUS2_RC_INCREASED_1

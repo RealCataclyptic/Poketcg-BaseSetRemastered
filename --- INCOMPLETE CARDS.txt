@@ -7,12 +7,6 @@ CHECK ALL RARITIES AT THE END SOME ARENT ACCURATE TO YAGINKUS
 
 =====================================================================================================================================================
 
-KAKUNA AND METAPOD's STIFFEN
---- Both have the same problem: I have no idea how to code in the Stiffen effect.
-"Flip a coin until you flip tails twice. During your opponent's next turn, any damage done to Kakuna/Metapod by attacks is reduced by 10 times the number of heads."
-^^^ I created a code to flip until 2 tails but I have no idea how to translate that into damage reduction. 
-
-
 BEEDRILL's TWINEEDLE
 --- Currently cannot be done because it requires an overhaul of the status mechanics. 
 

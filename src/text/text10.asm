@@ -3,10 +3,11 @@ KakunaName:
 	done
 
 KakunasStiffenDescription:
-	text "Flip a coin. If heads, prevent all"
-	line "damage done to Kakuna during your"
-	line "opponent's next turn. (Any other"
-	line "effects of attacks still happen.)"
+	text "Flip a coin until you flip tails"
+	line "twice. During your opponent's next"
+	line "turn, any damage done to this"
+	line "Pokémon by attacks is reduced by 10"
+	line "for each heads."
 	done
 
 KakunaDescription:
