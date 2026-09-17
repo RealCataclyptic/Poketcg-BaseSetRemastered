@@ -969,8 +969,8 @@ VenusaurSolarPowerEffectCommands:
 	db  $00
 
 ; also handled in engine/duel/ai/pkmn_powers.asm
-VileplumeHealEffectCommands:
-	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, HealCheck
+HealingPowderEffectCommands:
+	dbw EFFECTCMDTYPE_INITIAL_EFFECT_2, HealingPowderCheck
 	dbw EFFECTCMDTYPE_BEFORE_DAMAGE, Heal_RemoveDamageEffect
 	db  $00
 

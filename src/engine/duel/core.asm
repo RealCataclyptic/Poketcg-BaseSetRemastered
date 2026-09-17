@@ -7405,7 +7405,10 @@ SetAllPlayAreaPokemonCanEvolve:
 ; initializes variables that last for a single player's turn
 ; preserves all registers except af
 InitVariablesToBeginTurn:
+	ld a, DUELVARS_ONCE_PER_TURN_POWER_USED
+	get_turn_duelist_var
 	xor a
+	ld [hl], a
 	ld [wOncePerTurnFlags], a
 	ld [wGotHeadsFromSmokescreenCheck], a
 	ldh a, [hWhoseTurn]

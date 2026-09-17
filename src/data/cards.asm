@@ -298,12 +298,12 @@ IvysaurCard:
 
 	; attack 1
 	energy 0 ; energies
-	tx HealName ; name ; maybe add healing anim?
-	tx HealDescription ; description
+	tx HealingPowderName ; name
+	tx HealingPowderDescription ; description
 	dw NONE ; description (cont)
 	db 0 ; damage
 	db POKEMON_POWER ; category
-	dw VileplumeHealEffectCommands ; effect commands
+	dw HealingPowderEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3
@@ -1348,12 +1348,12 @@ VileplumeCard:
 
 	; attack 1
 	energy 0 ; energies
-	tx HealName ; name
-	tx HealDescription ; description
+	tx HealingPowderName ; name
+	tx HealingPowderDescription ; description
 	dw NONE ; description (cont)
 	db 0 ; damage
 	db POKEMON_POWER ; category
-	dw VileplumeHealEffectCommands ; effect commands
+	dw HealingPowderEffectCommands ; effect commands
 	db NONE ; flags 1
 	db NONE ; flags 2
 	db NONE ; flags 3

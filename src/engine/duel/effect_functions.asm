@@ -539,6 +539,21 @@ SetCarryEF:
 	ret
 
 
+; input:
+;   a = which flag to check
+UniquePokePowerPerTurnCheck:
+	push af
+	ld a, DUELVARS_ONCE_PER_TURN_POWER_USED
+	get_turn_duelist_var
+	pop af
+	and [hl]
+	ret z
+; already used
+	ldtx hl, OnlyOncePerTurnText
+	scf
+	ret
+
+
 ;---------------------------------------------------------------------------------
 ; (2) NEXT ARE SOME FUNCTIONS THAT ARE FREQUENTLY CALLED BY OTHER FUNCTIONS
 ;---------------------------------------------------------------------------------
@@ -7515,9 +7530,12 @@ SolarPower_RemoveStatusEffect:
 ;	carry = set:  if Heal cannot be used or if none of the turn holder's
 ;	              Pokemon have any damage counters on them
 ;	[hTemp_ffa0] = play area location offset of the user (PLAY_AREA_* constant)
-HealCheck:
+HealingPowderCheck:
 	call OncePerTurnPokePowerCheck
 	ret c ; already used power or can't use due to status or Toxic Gas
+	ld a, USED_HEALING_POWDER_THIS_TURN
+	call UniquePokePowerPerTurnCheck
+	ret c ; already used power this turn
 	jp YourPokemon_DamageCheck
 
 
@@ -7563,6 +7581,8 @@ Heal_RemoveDamageEffect:
 	add DUELVARS_ARENA_CARD_FLAGS
 	get_turn_duelist_var
 	set USED_PKMN_POWER_THIS_TURN_F, [hl]
+	ld l, DUELVARS_ONCE_PER_TURN_POWER_USED
+	set USED_HEALING_POWDER_THIS_TURN_F, [hl]
 	ldh a, [hAIPkmnPowerEffectParam]
 	or a
 

@@ -2177,8 +2177,8 @@ TextOffsets::
 	textpointer FoulOdorDescription                                ; 0x0879
 	textpointer GloomDescription                                   ; 0x087a
 	textpointer VileplumeName                                      ; 0x087b
-	textpointer HealName                                           ; 0x087c
-	textpointer HealDescription                                    ; 0x087d
+	textpointer HealingPowderName
+	textpointer HealingPowderDescription
 	textpointer PetalDanceName                                     ; 0x087e
 	textpointer PetalDanceDescription                              ; 0x087f
 	textpointer FlowerName                                         ; 0x0880

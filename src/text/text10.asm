@@ -344,13 +344,13 @@ VileplumeName:
 	text "Vileplume"
 	done
 
-HealName:
+HealingPowderName:
 	text "Healing Powder"
 	done
 
-HealDescription:
+HealingPowderDescription:
 	text "Once during your turn (before your"
-	line "attack), remove 1 damage counter"
+	line "attack), you may heal 10 damage"
 	line "from 1 of your Pokémon."
 	done
 

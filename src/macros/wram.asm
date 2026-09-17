@@ -224,5 +224,8 @@ MACRO duel_vars
 ; see LAST_TURN_EFFECT_* constants.
 \1ArenaCardLastTurnEffect::      ds $1
 
-	ds $7
+; flags for Pokemon Powers that can only be used once per turn.
+\1OncePerTurnPowerUsed::        ds $1
+
+	ds $6
 ENDM

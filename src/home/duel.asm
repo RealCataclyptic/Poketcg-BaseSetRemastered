@@ -1036,8 +1036,7 @@ ClearAllStatusConditions::
 	ld [hli], a ; DUELVARS_ARENA_CARD_LAST_TURN_STATUS
 	ld [hli], a ; DUELVARS_ARENA_CARD_LAST_TURN_SUBSTATUS2
 	ld [hli], a ; DUELVARS_ARENA_CARD_LAST_TURN_CHANGE_WEAK
-	ld [hli], a ; DUELVARS_ARENA_CARD_LAST_TURN_EFFECT
-	ld [hl], a  ; ?
+	ld [hl], a ; DUELVARS_ARENA_CARD_LAST_TURN_EFFECT
 	pop hl
 	ret
 
