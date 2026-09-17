@@ -742,8 +742,7 @@ ReturnCardToBottomOfDeck:
 
 PSNandSLPEffect:
 	call PoisonEffect
-	call SleepEffect
-	ret
+	jp SleepEffect
 
 ReduceByX0Effect:
 	; flips coins until a tails appears and sets attack damage to 10 times the number of heads

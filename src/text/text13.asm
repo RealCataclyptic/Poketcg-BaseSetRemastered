@@ -236,8 +236,8 @@ PowderFrenzyName:
 	done
 
 PsnAndSlpDescription:
-	text "The defending Pokémon is now"
-	line "posioned and asleep."
+	text "The Defending Pokémon is now"
+	line "Poisoned and Asleep."
 	done
 
 FlipUntil2TailsText:
