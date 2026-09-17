@@ -661,8 +661,8 @@ FoulGasName:
 
 FoulGasDescription:
 	text "Flip a coin. If heads, the"
-	line "Defending Pokémon is now Poisoned;"
-	line "if tails, it is now Confused."
+	line "Defending Pokémon is now Poisoned."
+	line "If tails, it is now Confused."
 	done
 
 PoisonGasName:

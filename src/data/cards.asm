@@ -1947,7 +1947,7 @@ KoffingCard:
 	dw NONE ; pre-evo name
 
 	; attack 1
-	energy GRASS, 2 ; energies
+	energy GRASS, 1, COLORLESS, 1 ; energies
 	tx FoulGasName ; name
 	tx FoulGasDescription ; description
 	dw NONE ; description (cont)
