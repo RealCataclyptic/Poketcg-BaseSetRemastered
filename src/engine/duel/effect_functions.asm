@@ -749,7 +749,7 @@ PSNandSLPEffect:
 ; and sets damage reduction to 10 times the number of heads
 ; output:
 ;	[hTemp_ffa0] = number of flipped heads
-StifffenEffect:
+StiffenEffect:
 	xor a
 	ldh [hTemp_ffa0], a
 .loop_coin_toss
@@ -762,9 +762,11 @@ StifffenEffect:
 	inc a  ; increase heads count
 	ldh [hTemp_ffa0], a
 	and $1f
-	cp 25  ; hard cap on 250 damage
-	jr nc, .done
-	jr .loop_coin_toss
+	cp 26  ; hard cap on 250 damage
+	jr c, .loop_coin_toss
+; prevent all damage at this point
+	ld a, SUBSTATUS1_NO_DAMAGE
+	jp ApplySubstatus1ToDefendingCard
 
 ; uses the highest bit to track whether the first tails was seen
 .tails
@@ -775,9 +777,6 @@ StifffenEffect:
 	ldh [hTemp_ffa0], a
 	jr .loop_coin_toss
 
-.cap
-	ld a, 25  ; hard cap on 250 damage
-	; ldh [hTemp_ffa0], a
 .done
 ; store result
 	and $1f
